@@ -43,9 +43,9 @@ export const Route = createFileRoute("/checking")({
 });
 
 const actions = [
-  { icon: ArrowLeftRight, label: "Transfer" },
-  { icon: CreditCard, label: "Cards" },
-  { icon: BarChart3, label: "Insights" },
+  { icon: ArrowLeftRight, label: "Transfer", to: null },
+  { icon: CreditCard, label: "Cards", to: "/cards" as const },
+  { icon: BarChart3, label: "Insights", to: "/insights" as const },
 ];
 
 function CheckingScreen() {
