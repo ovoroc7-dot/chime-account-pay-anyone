@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { ChimeLogo } from "@/components/ChimeLogo";
 import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/transfer")({
@@ -92,16 +93,7 @@ const ADD_ROWS = [
 const acct = (id: string) => ACCOUNTS.find((a) => a.id === id)!;
 
 function AccountIcon({ kind, active }: { kind: Account["kind"]; active?: boolean }) {
-  if (kind === "chime")
-    return (
-      <span
-        className={`grid size-8 shrink-0 place-items-center rounded-full text-xs font-bold ${
-          active ? "bg-primary text-primary-foreground" : "bg-primary text-primary-foreground"
-        }`}
-      >
-        C
-      </span>
-    );
+  if (kind === "chime") return <ChimeLogo className="size-8 shrink-0" />;
   if (kind === "card")
     return (
       <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-deep text-primary">
