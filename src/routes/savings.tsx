@@ -39,6 +39,7 @@ export const Route = createFileRoute("/savings")({
 
 function SavingsScreen() {
   const router = useRouter();
+  const goals = useGoals();
   const [banner, setBanner] = useState(true);
   const [apyInfo, setApyInfo] = useState(false);
 
