@@ -248,10 +248,8 @@ function TransferScreen() {
         </div>
 
         <div className="flex flex-1 flex-col justify-between overflow-y-auto">
-          <div className="mt-8 flex items-start justify-center">
-            <span className="mt-3 font-display text-2xl font-bold">$</span>
-            <span className="font-display text-6xl font-extrabold tracking-tight">{amount}</span>
-            <span className="ml-0.5 mt-2 h-12 w-0.5 animate-blink bg-primary" />
+          <div className="mt-8">
+            <AmountField value={amount} onChange={setAmount} symbolClassName="mt-3 font-display text-2xl font-bold" />
           </div>
 
           {(error || helper) && (
