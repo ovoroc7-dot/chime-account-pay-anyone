@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, Check } from "lucide-react";
-import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { useTheme, type ThemeMode } from "@/lib/theme";
 
 export const Route = createFileRoute("/appearance")({
   head: () => ({
@@ -20,10 +20,14 @@ export const Route = createFileRoute("/appearance")({
   component: AppearanceScreen,
 });
 
-const THEMES = ["Light", "Dark", "System"] as const;
+const THEMES: { label: string; value: ThemeMode }[] = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+];
 
 function AppearanceScreen() {
-  const [theme, setTheme] = useState<string>("System");
+  const { theme, setTheme } = useTheme();
 
   return (
     <PhoneFrame>
@@ -37,15 +41,15 @@ function AppearanceScreen() {
 
       <ul className="mt-6 px-6">
         {THEMES.map((t) => (
-          <li key={t}>
+          <li key={t.value}>
             <button
               type="button"
-              aria-pressed={theme === t}
-              onClick={() => setTheme(t)}
+              aria-pressed={theme === t.value}
+              onClick={() => setTheme(t.value)}
               className="flex w-full items-center justify-between py-4 text-left active:opacity-70"
             >
-              <span className="text-[15px]">{t}</span>
-              {theme === t && <Check className="size-5" />}
+              <span className="text-[15px]">{t.label}</span>
+              {theme === t.value && <Check className="size-5 text-primary" />}
             </button>
           </li>
         ))}
