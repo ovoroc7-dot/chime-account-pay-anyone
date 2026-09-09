@@ -393,40 +393,86 @@ function TransferScreen() {
       )}
 
       {reviewing && !done && (
-        <div className="absolute inset-0 z-20 flex flex-col justify-end">
-          <button aria-label="Close" onClick={() => setReviewing(false)} className="absolute inset-0 bg-black/60" />
-          <div className="relative rounded-t-3xl bg-card px-6 pb-10 pt-6">
-            <h2 className="font-display text-2xl font-bold">Review transfer</h2>
-            <div className="mt-5 space-y-3 border-t border-border pt-5 text-sm">
-              {[
-                ["Amount", usd(value)],
-                ["From", from.name],
-                ["To", to.name],
-                ["Arrives", instantOut ? "Instantly" : "In up to 5 business days"],
-                ["Fee", usd(fee)],
-                ["Total", usd(value + fee)],
-              ].map(([k, v]) => (
-                <div key={k} className="flex justify-between gap-4">
-                  <span className="text-muted-foreground">{k}</span>
-                  <span className="text-right font-medium">{v}</span>
-                </div>
-              ))}
+        <div className="absolute inset-0 z-20 flex flex-col bg-background">
+          <div className="relative flex items-center justify-center px-5 pt-5">
+            <button
+              aria-label="Back"
+              onClick={() => setReviewing(false)}
+              className="absolute left-5 active:opacity-60"
+            >
+              <ChevronLeft className="size-7" strokeWidth={2} />
+            </button>
+            <h1 className="text-base font-semibold">Review transfer</h1>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-6">
+            <p className="mt-8 text-center font-display text-4xl font-extrabold">{usd(value)}</p>
+
+            <div className="mt-10 space-y-5 text-sm">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-muted-foreground">From</span>
+                <span className="flex items-center gap-2 font-medium">
+                  <span className="grid size-5 place-items-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
+                    C
+                  </span>
+                  {from.name}
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-muted-foreground">To</span>
+                <span className="flex items-center gap-2 text-right font-medium">
+                  {to.instant && <Zap className="size-3.5 fill-primary text-primary" />}
+                  {to.name}
+                </span>
+              </div>
+
+              {instantOut && (
+                <>
+                  <div className="flex justify-between gap-4 pt-3">
+                    <span className="text-muted-foreground">1.75% fee</span>
+                    <span className="font-medium">{usd(fee)}</span>
+                  </div>
+                  <div className="flex justify-between gap-4">
+                    <span className="text-muted-foreground">Total charge</span>
+                    <span className="font-medium">{usd(total)}</span>
+                  </div>
+                </>
+              )}
+
+              <div className="flex items-center justify-between gap-4 pt-3">
+                <span className="text-muted-foreground">Availability</span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  {instantOut ? (
+                    <>
+                      <Zap className="size-3.5 fill-primary text-primary" />
+                      Instant
+                    </>
+                  ) : (
+                    "1-3 business days"
+                  )}
+                </span>
+              </div>
             </div>
+          </div>
+
+          <div className="px-6 pb-8">
+            {instantOut && (
+              <p className="text-[10px] leading-relaxed text-muted-foreground">
+                By tapping Transfer, I have read and agree to the outbound instant transfer{" "}
+                <span className="underline">terms and conditions</span>. Instant transfers may
+                experience delays due to factors beyond our control, such as network timing issues.
+              </p>
+            )}
             <button
               onClick={() => setDone(true)}
-              className="mt-7 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground active:opacity-80"
+              className="mt-4 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground active:opacity-80"
             >
-              Transfer {usd(value)}
-            </button>
-            <button
-              onClick={() => setReviewing(false)}
-              className="mt-3 w-full py-2 text-sm font-semibold text-muted-foreground active:opacity-60"
-            >
-              Cancel
+              {instantOut ? `Transfer ${usd(value)}` : "Schedule"}
             </button>
           </div>
         </div>
       )}
+
 
       {done && (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-background px-8 text-center">
