@@ -85,14 +85,14 @@ const SOURCES: Acct[] = [
   },
 ];
 
-const GOALS: Acct[] = savingsGoals.map((g) => ({
+const toAcct = (g: { id: string; name: string; emoji: string; amount: number }): Acct => ({
   id: g.id,
   name: g.name,
   sub: usd(g.amount),
   emoji: g.emoji,
   group: "goal",
   instant: true,
-}));
+});
 
 function SavingsMoveScreen() {
   const router = useRouter();
