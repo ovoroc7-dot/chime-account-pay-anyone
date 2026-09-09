@@ -128,7 +128,13 @@ function SplitSheet({
   const [editing, setEditing] = useState(!initial);
   const [active, setActive] = useState<string | null>(null);
 
-  const pool = AVAILABLE.filter((a) => !rows.some((r) => r.id === a.id));
+  const available: Split[] = goals.map((g) => ({
+    id: g.id,
+    name: g.name,
+    emoji: g.emoji,
+    pct: 0,
+  }));
+  const pool = available.filter((a) => !rows.some((r) => r.id === a.id));
   const total = rows.reduce((s, r) => s + r.pct, 0);
 
   const addRow = (a: Split) => {
