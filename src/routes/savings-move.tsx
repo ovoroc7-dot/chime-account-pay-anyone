@@ -6,7 +6,8 @@ import { ChimeLogo } from "@/components/ChimeLogo";
 import { AmountField } from "@/components/AmountField";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
-import { CHECKING_BALANCE, savingsGoals, usd } from "@/lib/chime-data";
+import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
+import { useGoals } from "@/lib/goals-store";
 
 type Search = { dir?: "in" | "out" };
 
