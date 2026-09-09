@@ -19,6 +19,7 @@ import { Route as GoalNewRouteImport } from './routes/goal-new'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as LinkedAccountsRouteImport } from './routes/linked-accounts'
+import { Route as MailCheckRouteImport } from './routes/mail-check'
 import { Route as MoveRouteImport } from './routes/move'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
 import { Route as SavingsRouteImport } from './routes/savings'
@@ -77,6 +78,11 @@ const LinkedAccountsRoute = LinkedAccountsRouteImport.update({
   path: '/linked-accounts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MailCheckRoute = MailCheckRouteImport.update({
+  id: '/mail-check',
+  path: '/mail-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MoveRoute = MoveRouteImport.update({
   id: '/move',
   path: '/move',
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/linked-accounts': typeof LinkedAccountsRoute
+  '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/linked-accounts': typeof LinkedAccountsRoute
+  '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/linked-accounts': typeof LinkedAccountsRoute
+  '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/insights'
     | '/linked-accounts'
+    | '/mail-check'
     | '/move'
     | '/physical-card'
     | '/savings'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/insights'
     | '/linked-accounts'
+    | '/mail-check'
     | '/move'
     | '/physical-card'
     | '/savings'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/insights'
     | '/linked-accounts'
+    | '/mail-check'
     | '/move'
     | '/physical-card'
     | '/savings'
@@ -242,6 +254,7 @@ export interface RootRouteChildren {
   InboxRoute: typeof InboxRoute
   InsightsRoute: typeof InsightsRoute
   LinkedAccountsRoute: typeof LinkedAccountsRoute
+  MailCheckRoute: typeof MailCheckRoute
   MoveRoute: typeof MoveRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
   SavingsRoute: typeof SavingsRoute
@@ -323,6 +336,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LinkedAccountsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mail-check': {
+      id: '/mail-check'
+      path: '/mail-check'
+      fullPath: '/mail-check'
+      preLoaderRoute: typeof MailCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/move': {
       id: '/move'
       path: '/move'
@@ -386,6 +406,7 @@ const rootRouteChildren: RootRouteChildren = {
   InboxRoute: InboxRoute,
   InsightsRoute: InsightsRoute,
   LinkedAccountsRoute: LinkedAccountsRoute,
+  MailCheckRoute: MailCheckRoute,
   MoveRoute: MoveRoute,
   PhysicalCardRoute: PhysicalCardRoute,
   SavingsRoute: SavingsRoute,
