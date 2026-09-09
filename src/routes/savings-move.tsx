@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, ArrowLeftRight, Zap, Check } from "lucide-re
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
+import { AmountField } from "@/components/AmountField";
 import { CHECKING_BALANCE, savingsGoals, usd } from "@/lib/chime-data";
 
 type Search = { dir?: "in" | "out" };
