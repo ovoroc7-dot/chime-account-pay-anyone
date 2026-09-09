@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, Check } from "lucide-react";
-import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { useTheme, type ThemeMode } from "@/lib/theme";
 
 export const Route = createFileRoute("/appearance")({
   head: () => ({
@@ -20,10 +20,14 @@ export const Route = createFileRoute("/appearance")({
   component: AppearanceScreen,
 });
 
-const THEMES = ["Light", "Dark", "System"] as const;
+const THEMES: { label: string; value: ThemeMode }[] = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+];
 
 function AppearanceScreen() {
-  const [theme, setTheme] = useState<string>("System");
+  const { theme, setTheme } = useTheme();
 
   return (
     <PhoneFrame>
