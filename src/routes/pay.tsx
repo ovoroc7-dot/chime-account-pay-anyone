@@ -281,9 +281,37 @@ function PayScreen() {
             )}
           </label>
 
+          {typedRecipient && canSendTyped && (
+            <>
+              <p className="mt-5 text-[12px] text-muted-foreground">Send to</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setContact(typedRecipient);
+                  setSheet("note");
+                }}
+                className="mt-3 flex w-full items-center gap-3 rounded-xl bg-card px-3 py-3 text-left active:opacity-70"
+              >
+                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-[13px] font-bold text-primary-foreground">
+                  {typedRecipient.initials}
+                </span>
+                <span className="min-w-0">
+                  <span className="block truncate text-[15px] font-semibold">
+                    {typedRecipient.name}
+                  </span>
+                  <span className="block text-[12px] text-muted-foreground">
+                    {typedRecipient.tag} · {mode === "Pay" ? "Pay" : "Request"} {shown}
+                  </span>
+                </span>
+              </button>
+            </>
+          )}
 
-          <p className="mt-5 text-[12px] text-muted-foreground">Recents</p>
+          <p className="mt-5 text-[12px] text-muted-foreground">
+            {q ? "Contacts" : "Recents"}
+          </p>
           <ul className="mt-3 space-y-1">
+
             {filtered.map((c) => (
               <li key={c.tag}>
                 <button
