@@ -127,7 +127,7 @@ function AccountRow({
   onSelect,
 }: {
   account: Account;
-  feeLabel?: string;
+  feeLabel?: string | undefined;
   onSelect: () => void;
 }) {
   return (
@@ -365,7 +365,12 @@ function TransferScreen() {
                   <AccountRow
                     key={a.id}
                     account={a}
-                    feeLabel={a.instant && value >= 25 ? `${usd(fee || value * 0.0175)} fee` : undefined}
+                    feeLabel={
+                      a.instant && value >= 25
+                        ? `${usd(Math.round(value * 0.0175 * 100) / 100)} fee`
+                        : undefined
+                    }
+
                     onSelect={() => choose(a.id)}
                   />
                 ))}
