@@ -151,11 +151,11 @@ function SavingsMoveScreen() {
 
       <div className="flex flex-1 flex-col px-5">
         <div className="flex flex-1 flex-col items-center justify-center">
-          <p className="flex items-start font-display text-6xl font-extrabold tracking-tight">
-            <span className="mt-2 text-2xl">$</span>
-            {amount}
-            <span className="ml-0.5 mt-1 h-12 w-0.5 animate-blink bg-primary" />
-          </p>
+          <AmountField
+            value={amount}
+            onChange={setAmount}
+            symbolClassName="mt-2 font-display text-2xl font-extrabold"
+          />
 
           <div className="mt-10 flex w-full items-center justify-around">
             <button onClick={() => setPicker("from")} className="flex flex-col items-center gap-1">
