@@ -54,6 +54,17 @@ function PayScreen() {
   const [note, setNote] = useState("💰");
   const [method, setMethod] = useState(METHODS[0]!);
   const [query, setQuery] = useState("");
+  const [hintIndex, setHintIndex] = useState(0);
+
+  useEffect(() => {
+    if (sheet !== "contacts" || query !== "") return;
+    const id = window.setInterval(
+      () => setHintIndex((i) => (i + 1) % SEARCH_HINTS.length),
+      1800,
+    );
+    return () => window.clearInterval(id);
+  }, [sheet, query]);
+
 
   const value = Number(amount) || 0;
   const shown = value > 0 ? usd(value).replace(/\.00$/, "") : "$0";
