@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, X, Trash2, Menu } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+import { useGoals } from "@/lib/goals-store";
 
 
 export const Route = createFileRoute("/autosave")({
