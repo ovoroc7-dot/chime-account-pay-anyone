@@ -122,6 +122,7 @@ function SplitSheet({
   onDelete: () => void;
 }) {
   const kbInset = useKeyboardInset();
+  const goals = useGoals();
   const [mode, setMode] = useState<"%" | "$">("%");
 
   const [rows, setRows] = useState<Split[]>(initial ?? BASE);
