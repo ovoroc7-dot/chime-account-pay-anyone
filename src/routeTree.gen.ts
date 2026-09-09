@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountDetailsRouteImport } from './routes/account-details'
+import { Route as AppearanceRouteImport } from './routes/appearance'
 import { Route as AutosaveRouteImport } from './routes/autosave'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
+import { Route as DealsRouteImport } from './routes/deals'
 import { Route as DepositCheckRouteImport } from './routes/deposit-check'
 import { Route as DirectDepositRouteImport } from './routes/direct-deposit'
 import { Route as GoalNewRouteImport } from './routes/goal-new'
@@ -22,7 +25,9 @@ import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as LinkedAccountsRouteImport } from './routes/linked-accounts'
 import { Route as MailCheckRouteImport } from './routes/mail-check'
 import { Route as MoveRouteImport } from './routes/move'
+import { Route as PayRouteImport } from './routes/pay'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RecurringRouteImport } from './routes/recurring'
 import { Route as SavingsRouteImport } from './routes/savings'
 import { Route as SavingsMoveRouteImport } from './routes/savings-move'
@@ -33,6 +38,16 @@ import { Route as GoalIdRouteImport } from './routes/goal.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountDetailsRoute = AccountDetailsRouteImport.update({
+  id: '/account-details',
+  path: '/account-details',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppearanceRoute = AppearanceRouteImport.update({
+  id: '/appearance',
+  path: '/appearance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AutosaveRoute = AutosaveRouteImport.update({
@@ -53,6 +68,11 @@ const CheckingRoute = CheckingRouteImport.update({
 const CreditBuilderRoute = CreditBuilderRouteImport.update({
   id: '/credit-builder',
   path: '/credit-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DealsRoute = DealsRouteImport.update({
+  id: '/deals',
+  path: '/deals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DepositCheckRoute = DepositCheckRouteImport.update({
@@ -95,9 +115,19 @@ const MoveRoute = MoveRouteImport.update({
   path: '/move',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PayRoute = PayRouteImport.update({
+  id: '/pay',
+  path: '/pay',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PhysicalCardRoute = PhysicalCardRouteImport.update({
   id: '/physical-card',
   path: '/physical-card',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecurringRoute = RecurringRouteImport.update({
@@ -133,10 +163,13 @@ const GoalIdRoute = GoalIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account-details': typeof AccountDetailsRoute
+  '/appearance': typeof AppearanceRoute
   '/autosave': typeof AutosaveRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/deals': typeof DealsRoute
   '/deposit-check': typeof DepositCheckRoute
   '/direct-deposit': typeof DirectDepositRoute
   '/goal-new': typeof GoalNewRoute
@@ -145,7 +178,9 @@ export interface FileRoutesByFullPath {
   '/linked-accounts': typeof LinkedAccountsRoute
   '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
+  '/pay': typeof PayRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/profile': typeof ProfileRoute
   '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
@@ -155,10 +190,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account-details': typeof AccountDetailsRoute
+  '/appearance': typeof AppearanceRoute
   '/autosave': typeof AutosaveRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/deals': typeof DealsRoute
   '/deposit-check': typeof DepositCheckRoute
   '/direct-deposit': typeof DirectDepositRoute
   '/goal-new': typeof GoalNewRoute
@@ -167,7 +205,9 @@ export interface FileRoutesByTo {
   '/linked-accounts': typeof LinkedAccountsRoute
   '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
+  '/pay': typeof PayRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/profile': typeof ProfileRoute
   '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
@@ -178,10 +218,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account-details': typeof AccountDetailsRoute
+  '/appearance': typeof AppearanceRoute
   '/autosave': typeof AutosaveRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/deals': typeof DealsRoute
   '/deposit-check': typeof DepositCheckRoute
   '/direct-deposit': typeof DirectDepositRoute
   '/goal-new': typeof GoalNewRoute
@@ -190,7 +233,9 @@ export interface FileRoutesById {
   '/linked-accounts': typeof LinkedAccountsRoute
   '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
+  '/pay': typeof PayRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/profile': typeof ProfileRoute
   '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
@@ -202,10 +247,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account-details'
+    | '/appearance'
     | '/autosave'
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/deals'
     | '/deposit-check'
     | '/direct-deposit'
     | '/goal-new'
@@ -214,7 +262,9 @@ export interface FileRouteTypes {
     | '/linked-accounts'
     | '/mail-check'
     | '/move'
+    | '/pay'
     | '/physical-card'
+    | '/profile'
     | '/recurring'
     | '/savings'
     | '/savings-move'
@@ -224,10 +274,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account-details'
+    | '/appearance'
     | '/autosave'
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/deals'
     | '/deposit-check'
     | '/direct-deposit'
     | '/goal-new'
@@ -236,7 +289,9 @@ export interface FileRouteTypes {
     | '/linked-accounts'
     | '/mail-check'
     | '/move'
+    | '/pay'
     | '/physical-card'
+    | '/profile'
     | '/recurring'
     | '/savings'
     | '/savings-move'
@@ -246,10 +301,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/account-details'
+    | '/appearance'
     | '/autosave'
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/deals'
     | '/deposit-check'
     | '/direct-deposit'
     | '/goal-new'
@@ -258,7 +316,9 @@ export interface FileRouteTypes {
     | '/linked-accounts'
     | '/mail-check'
     | '/move'
+    | '/pay'
     | '/physical-card'
+    | '/profile'
     | '/recurring'
     | '/savings'
     | '/savings-move'
@@ -269,10 +329,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountDetailsRoute: typeof AccountDetailsRoute
+  AppearanceRoute: typeof AppearanceRoute
   AutosaveRoute: typeof AutosaveRoute
   CardsRoute: typeof CardsRoute
   CheckingRoute: typeof CheckingRoute
   CreditBuilderRoute: typeof CreditBuilderRoute
+  DealsRoute: typeof DealsRoute
   DepositCheckRoute: typeof DepositCheckRoute
   DirectDepositRoute: typeof DirectDepositRoute
   GoalNewRoute: typeof GoalNewRoute
@@ -281,7 +344,9 @@ export interface RootRouteChildren {
   LinkedAccountsRoute: typeof LinkedAccountsRoute
   MailCheckRoute: typeof MailCheckRoute
   MoveRoute: typeof MoveRoute
+  PayRoute: typeof PayRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
+  ProfileRoute: typeof ProfileRoute
   RecurringRoute: typeof RecurringRoute
   SavingsRoute: typeof SavingsRoute
   SavingsMoveRoute: typeof SavingsMoveRoute
@@ -297,6 +362,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account-details': {
+      id: '/account-details'
+      path: '/account-details'
+      fullPath: '/account-details'
+      preLoaderRoute: typeof AccountDetailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appearance': {
+      id: '/appearance'
+      path: '/appearance'
+      fullPath: '/appearance'
+      preLoaderRoute: typeof AppearanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/autosave': {
@@ -325,6 +404,13 @@ declare module '@tanstack/react-router' {
       path: '/credit-builder'
       fullPath: '/credit-builder'
       preLoaderRoute: typeof CreditBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deals': {
+      id: '/deals'
+      path: '/deals'
+      fullPath: '/deals'
+      preLoaderRoute: typeof DealsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/deposit-check': {
@@ -383,11 +469,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pay': {
+      id: '/pay'
+      path: '/pay'
+      fullPath: '/pay'
+      preLoaderRoute: typeof PayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/physical-card': {
       id: '/physical-card'
       path: '/physical-card'
       fullPath: '/physical-card'
       preLoaderRoute: typeof PhysicalCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recurring': {
@@ -437,10 +537,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountDetailsRoute: AccountDetailsRoute,
+  AppearanceRoute: AppearanceRoute,
   AutosaveRoute: AutosaveRoute,
   CardsRoute: CardsRoute,
   CheckingRoute: CheckingRoute,
   CreditBuilderRoute: CreditBuilderRoute,
+  DealsRoute: DealsRoute,
   DepositCheckRoute: DepositCheckRoute,
   DirectDepositRoute: DirectDepositRoute,
   GoalNewRoute: GoalNewRoute,
@@ -449,7 +552,9 @@ const rootRouteChildren: RootRouteChildren = {
   LinkedAccountsRoute: LinkedAccountsRoute,
   MailCheckRoute: MailCheckRoute,
   MoveRoute: MoveRoute,
+  PayRoute: PayRoute,
   PhysicalCardRoute: PhysicalCardRoute,
+  ProfileRoute: ProfileRoute,
   RecurringRoute: RecurringRoute,
   SavingsRoute: SavingsRoute,
   SavingsMoveRoute: SavingsMoveRoute,
