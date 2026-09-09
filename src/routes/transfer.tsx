@@ -35,14 +35,93 @@ export const Route = createFileRoute("/transfer")({
   component: TransferScreen,
 });
 
-const EXTERNAL = {
-  name: "Sofi Bank  N A Debit card",
-  sub: "Ending in 7109",
+type Account = {
+  id: string;
+  name: string;
+  sub: string;
+  kind: "chime" | "card" | "bank" | "wallet";
+  group: "chime" | "linked";
+  instant?: boolean;
+  disabled?: boolean;
+  detail?: string;
+  chevron?: boolean;
 };
-const CHIME = {
-  name: "Checking",
-  sub: usd(CHECKING_BALANCE),
-};
+
+const ACCOUNTS: Account[] = [
+  { id: "checking", name: "Checking", sub: usd(CHECKING_BALANCE), kind: "chime", group: "chime" },
+  { id: "savings", name: "Savings", sub: "$0.00", kind: "chime", group: "chime", chevron: true },
+  {
+    id: "sofi-debit",
+    name: "Sofi Bank  N A Debit card",
+    sub: "Ending in 7109",
+    kind: "card",
+    group: "linked",
+    instant: true,
+  },
+  {
+    id: "sofi-checking",
+    name: "SoFi Checking",
+    sub: "$716.06 as of 12 minutes ago",
+    kind: "bank",
+    group: "linked",
+    disabled: true,
+    detail: "Details",
+  },
+  {
+    id: "capital-one",
+    name: "Capital One Checking",
+    sub: "$1,038.82 as of over 3 years ago",
+    kind: "bank",
+    group: "linked",
+    disabled: true,
+    detail: "Details",
+  },
+  {
+    id: "apple-pay",
+    name: "Apple Pay",
+    sub: "Non-Chime debit cards only",
+    kind: "wallet",
+    group: "linked",
+    instant: true,
+  },
+];
+
+const ADD_ROWS = [
+  { id: "add-bank", name: "Add a bank account", sub: "Transfer within 1-5 business days" },
+  { id: "add-card", name: "Add a debit card", sub: "Transfer instantly" },
+];
+
+const acct = (id: string) => ACCOUNTS.find((a) => a.id === id)!;
+
+function AccountIcon({ kind, active }: { kind: Account["kind"]; active?: boolean }) {
+  if (kind === "chime")
+    return (
+      <span
+        className={`grid size-8 shrink-0 place-items-center rounded-full text-xs font-bold ${
+          active ? "bg-primary text-primary-foreground" : "bg-primary text-primary-foreground"
+        }`}
+      >
+        C
+      </span>
+    );
+  if (kind === "card")
+    return (
+      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-deep text-primary">
+        <CreditCard className="size-4" />
+      </span>
+    );
+  if (kind === "wallet")
+    return (
+      <span className="grid size-8 shrink-0 place-items-center rounded-md bg-foreground text-background">
+        <Wallet className="size-4" />
+      </span>
+    );
+  return (
+    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-deep text-muted-foreground">
+      <Building2 className="size-4" />
+    </span>
+  );
+}
 
 const keys = [
   ["1", ""],
