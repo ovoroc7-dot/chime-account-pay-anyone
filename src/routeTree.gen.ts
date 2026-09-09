@@ -17,6 +17,7 @@ import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
 import { Route as SavingsRouteImport } from './routes/savings'
+import { Route as SavingsMoveRouteImport } from './routes/savings-move'
 import { Route as SpotmeRouteImport } from './routes/spotme'
 import { Route as TransferRouteImport } from './routes/transfer'
 
@@ -60,6 +61,11 @@ const SavingsRoute = SavingsRouteImport.update({
   path: '/savings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SavingsMoveRoute = SavingsMoveRouteImport.update({
+  id: '/savings-move',
+  path: '/savings-move',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpotmeRoute = SpotmeRouteImport.update({
   id: '/spotme',
   path: '/spotme',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
+  '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
+  '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
+  '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/physical-card'
     | '/savings'
+    | '/savings-move'
     | '/spotme'
     | '/transfer'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/physical-card'
     | '/savings'
+    | '/savings-move'
     | '/spotme'
     | '/transfer'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/physical-card'
     | '/savings'
+    | '/savings-move'
     | '/spotme'
     | '/transfer'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   InsightsRoute: typeof InsightsRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
   SavingsRoute: typeof SavingsRoute
+  SavingsMoveRoute: typeof SavingsMoveRoute
   SpotmeRoute: typeof SpotmeRoute
   TransferRoute: typeof TransferRoute
 }
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SavingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/savings-move': {
+      id: '/savings-move'
+      path: '/savings-move'
+      fullPath: '/savings-move'
+      preLoaderRoute: typeof SavingsMoveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/spotme': {
       id: '/spotme'
       path: '/spotme'
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsightsRoute: InsightsRoute,
   PhysicalCardRoute: PhysicalCardRoute,
   SavingsRoute: SavingsRoute,
+  SavingsMoveRoute: SavingsMoveRoute,
   SpotmeRoute: SpotmeRoute,
   TransferRoute: TransferRoute,
 }

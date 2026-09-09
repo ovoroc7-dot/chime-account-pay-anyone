@@ -102,11 +102,11 @@ function HomeScreen() {
                 Get paid early <ChevronRight className="size-3" />
               </p>
             </div>
-            <div className="rounded-2xl bg-black/25 p-4">
+            <Link to="/savings" className="rounded-2xl bg-black/25 p-4 active:opacity-70">
               <span className="text-sm font-semibold">Savings</span>
               <p className="mt-6 text-2xl font-semibold">$0.00</p>
               <p className="mt-1 text-xs text-muted-foreground">1.00% APY</p>
-            </div>
+            </Link>
           </div>
         </div>
 
