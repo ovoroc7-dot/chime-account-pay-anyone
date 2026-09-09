@@ -41,15 +41,15 @@ function AppearanceScreen() {
 
       <ul className="mt-6 px-6">
         {THEMES.map((t) => (
-          <li key={t}>
+          <li key={t.value}>
             <button
               type="button"
-              aria-pressed={theme === t}
-              onClick={() => setTheme(t)}
+              aria-pressed={theme === t.value}
+              onClick={() => setTheme(t.value)}
               className="flex w-full items-center justify-between py-4 text-left active:opacity-70"
             >
-              <span className="text-[15px]">{t}</span>
-              {theme === t && <Check className="size-5" />}
+              <span className="text-[15px]">{t.label}</span>
+              {theme === t.value && <Check className="size-5 text-primary" />}
             </button>
           </li>
         ))}
