@@ -158,9 +158,9 @@ export function MoveTabBar({ active = "Move" }: { active?: string }) {
   const tabs = [
     { icon: Home, label: "Home", to: "/" },
     { icon: ArrowLeftRight, label: "Move", to: "/move" },
-    { icon: Users, label: "Pay" },
-    { icon: Star, label: "Deals" },
-    { icon: CircleUserRound, label: "Profile" },
+    { icon: Users, label: "Pay", to: "/pay" },
+    { icon: Star, label: "Deals", to: "/deals" },
+    { icon: CircleUserRound, label: "Profile", to: "/profile" },
   ] as const;
   return (
     <nav className="absolute inset-x-0 bottom-0 flex items-center justify-around border-t border-border bg-background/95 px-2 pb-5 pt-3 backdrop-blur">
