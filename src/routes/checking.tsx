@@ -115,14 +115,10 @@ function CheckingScreen() {
                 </>
               );
               const cls = "flex flex-1 flex-col items-center gap-2 active:opacity-70";
-              return a.to ? (
+              return (
                 <Link key={a.label} to={a.to} className={cls}>
                   {inner}
                 </Link>
-              ) : (
-                <button key={a.label} className={cls}>
-                  {inner}
-                </button>
               );
             })}
           </div>
