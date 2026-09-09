@@ -251,7 +251,7 @@ function TransferScreen() {
           <div className="mt-8 flex items-start justify-center">
             <span className="mt-3 font-display text-2xl font-bold">$</span>
             <span className="font-display text-6xl font-extrabold tracking-tight">{amount}</span>
-            <span className="ml-0.5 mt-2 h-12 w-0.5 animate-pulse bg-primary" />
+            <span className="ml-0.5 mt-2 h-12 w-0.5 animate-blink bg-primary" />
           </div>
 
           {(error || helper) && (

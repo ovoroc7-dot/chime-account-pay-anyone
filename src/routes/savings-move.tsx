@@ -154,7 +154,7 @@ function SavingsMoveScreen() {
           <p className="flex items-start font-display text-6xl font-extrabold tracking-tight">
             <span className="mt-2 text-2xl">$</span>
             {amount}
-            <span className="ml-0.5 mt-1 h-12 w-0.5 animate-pulse bg-primary" />
+            <span className="ml-0.5 mt-1 h-12 w-0.5 animate-blink bg-primary" />
           </p>
 
           <div className="mt-10 flex w-full items-center justify-around">

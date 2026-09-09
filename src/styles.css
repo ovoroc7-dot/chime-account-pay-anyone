@@ -147,3 +147,18 @@
     color: var(--color-foreground);
   }
 }
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1.05s step-end infinite;
+}
