@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, ArrowLeftRight, Zap, Check } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { ChimeLogo } from "@/components/ChimeLogo";
 import { CHECKING_BALANCE, savingsGoals, usd } from "@/lib/chime-data";
 
 type Search = { dir?: "in" | "out" };
