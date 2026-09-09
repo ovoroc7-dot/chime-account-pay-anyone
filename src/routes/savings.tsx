@@ -128,7 +128,7 @@ function SavingsScreen() {
               ) : (
                 <ChevronRight className="size-4 text-muted-foreground" />
               )}
-            </button>
+            </Link>
           ))}
         </div>
       </div>
