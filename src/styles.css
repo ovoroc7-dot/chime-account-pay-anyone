@@ -162,3 +162,24 @@
 .animate-blink {
   animation: blink 1.05s step-end infinite;
 }
+
+@keyframes hint-swap {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  12%,
+  88% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.animate-hint-swap {
+  animation: hint-swap 1.8s ease-in-out both;
+}
+
