@@ -61,7 +61,7 @@ function InsightsScreen() {
                 key={m.key}
                 onClick={() => setIndex(i)}
                 aria-label={`${m.monthName} spending`}
-                className="flex flex-1 flex-col items-center justify-end gap-2 active:opacity-70"
+                className="flex h-full flex-1 flex-col items-center justify-end gap-2 active:opacity-70"
               >
                 <span
                   className={`w-full rounded-md transition-all ${
