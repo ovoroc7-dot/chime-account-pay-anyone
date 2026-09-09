@@ -21,6 +21,7 @@ import { Route as SavingsRouteImport } from './routes/savings'
 import { Route as SavingsMoveRouteImport } from './routes/savings-move'
 import { Route as SpotmeRouteImport } from './routes/spotme'
 import { Route as TransferRouteImport } from './routes/transfer'
+import { Route as GoalIdRouteImport } from './routes/goal.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +83,11 @@ const TransferRoute = TransferRouteImport.update({
   path: '/transfer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GoalIdRoute = GoalIdRouteImport.update({
+  id: '/goal/$id',
+  path: '/goal/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
+  '/goal/$id': typeof GoalIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
+  '/goal/$id': typeof GoalIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
+  '/goal/$id': typeof GoalIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/savings-move'
     | '/spotme'
     | '/transfer'
+    | '/goal/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
     | '/savings-move'
     | '/spotme'
     | '/transfer'
+    | '/goal/$id'
   id:
     | '__root__'
     | '/'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/savings-move'
     | '/spotme'
     | '/transfer'
+    | '/goal/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +196,7 @@ export interface RootRouteChildren {
   SavingsMoveRoute: typeof SavingsMoveRoute
   SpotmeRoute: typeof SpotmeRoute
   TransferRoute: typeof TransferRoute
+  GoalIdRoute: typeof GoalIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TransferRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/goal/$id': {
+      id: '/goal/$id'
+      path: '/goal/$id'
+      fullPath: '/goal/$id'
+      preLoaderRoute: typeof GoalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -288,6 +308,7 @@ const rootRouteChildren: RootRouteChildren = {
   SavingsMoveRoute: SavingsMoveRoute,
   SpotmeRoute: SpotmeRoute,
   TransferRoute: TransferRoute,
+  GoalIdRoute: GoalIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
