@@ -1,5 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronLeft, ArrowLeftRight, Delete, CreditCard, Check } from "lucide-react";
+import {
+  ChevronLeft,
+  ArrowLeftRight,
+  Delete,
+  CreditCard,
+  Check,
+  Zap,
+  ChevronRight,
+  Building2,
+  Wallet,
+  Landmark,
+} from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
@@ -24,14 +35,121 @@ export const Route = createFileRoute("/transfer")({
   component: TransferScreen,
 });
 
-const EXTERNAL = {
-  name: "Sofi Bank  N A Debit card",
-  sub: "Ending in 7109",
+type Account = {
+  id: string;
+  name: string;
+  sub: string;
+  kind: "chime" | "card" | "bank" | "wallet";
+  group: "chime" | "linked";
+  instant?: boolean;
+  disabled?: boolean;
+  detail?: string;
+  chevron?: boolean;
 };
-const CHIME = {
-  name: "Checking",
-  sub: usd(CHECKING_BALANCE),
-};
+
+const ACCOUNTS: Account[] = [
+  { id: "checking", name: "Checking", sub: usd(CHECKING_BALANCE), kind: "chime", group: "chime" },
+  { id: "savings", name: "Savings", sub: "$0.00", kind: "chime", group: "chime", chevron: true },
+  {
+    id: "sofi-debit",
+    name: "Sofi Bank  N A Debit card",
+    sub: "Ending in 7109",
+    kind: "card",
+    group: "linked",
+    instant: true,
+  },
+  {
+    id: "sofi-checking",
+    name: "SoFi Checking",
+    sub: "$716.06 as of 12 minutes ago",
+    kind: "bank",
+    group: "linked",
+    disabled: true,
+    detail: "Details",
+  },
+  {
+    id: "capital-one",
+    name: "Capital One Checking",
+    sub: "$1,038.82 as of over 3 years ago",
+    kind: "bank",
+    group: "linked",
+    disabled: true,
+    detail: "Details",
+  },
+  {
+    id: "apple-pay",
+    name: "Apple Pay",
+    sub: "Non-Chime debit cards only",
+    kind: "wallet",
+    group: "linked",
+    instant: true,
+  },
+];
+
+const ADD_ROWS = [
+  { id: "add-bank", name: "Add a bank account", sub: "Transfer within 1-5 business days" },
+  { id: "add-card", name: "Add a debit card", sub: "Transfer instantly" },
+];
+
+const acct = (id: string) => ACCOUNTS.find((a) => a.id === id)!;
+
+function AccountIcon({ kind, active }: { kind: Account["kind"]; active?: boolean }) {
+  if (kind === "chime")
+    return (
+      <span
+        className={`grid size-8 shrink-0 place-items-center rounded-full text-xs font-bold ${
+          active ? "bg-primary text-primary-foreground" : "bg-primary text-primary-foreground"
+        }`}
+      >
+        C
+      </span>
+    );
+  if (kind === "card")
+    return (
+      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-deep text-primary">
+        <CreditCard className="size-4" />
+      </span>
+    );
+  if (kind === "wallet")
+    return (
+      <span className="grid size-8 shrink-0 place-items-center rounded-md bg-foreground text-background">
+        <Wallet className="size-4" />
+      </span>
+    );
+  return (
+    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-deep text-muted-foreground">
+      <Building2 className="size-4" />
+    </span>
+  );
+}
+
+function AccountRow({ account, onSelect }: { account: Account; onSelect: () => void }) {
+  return (
+    <button
+      disabled={account.disabled}
+      onClick={onSelect}
+      className={`flex w-full items-center gap-3 py-3 text-left ${
+        account.disabled ? "opacity-45" : "active:opacity-60"
+      }`}
+    >
+      <AccountIcon kind={account.kind} />
+      <span className="flex-1">
+        <span className="block text-sm font-semibold">{account.name}</span>
+        <span className="block text-[11px] text-muted-foreground">{account.sub}</span>
+      </span>
+      {account.instant && (
+        <span className="flex items-center gap-1 text-[11px] font-semibold text-foreground">
+          <Zap className="size-3 fill-primary text-primary" />
+          Instant
+        </span>
+      )}
+      {account.detail && (
+        <span className="text-[11px] font-semibold text-primary">{account.detail}</span>
+      )}
+      {account.chevron && <ChevronRight className="size-4 text-muted-foreground" />}
+    </button>
+  );
+}
 
 const keys = [
   ["1", ""],
@@ -49,13 +167,31 @@ const keys = [
 
 function TransferScreen() {
   const [amount, setAmount] = useState("0");
-  const [swapped, setSwapped] = useState(false);
+  const [fromId, setFromId] = useState("sofi-debit");
+  const [toId, setToId] = useState("checking");
+  const [picking, setPicking] = useState<null | "From" | "To">(null);
   const [reviewing, setReviewing] = useState(false);
   const [done, setDone] = useState(false);
 
-  const from = swapped ? CHIME : EXTERNAL;
-  const to = swapped ? EXTERNAL : CHIME;
+  const from = acct(fromId);
+  const to = acct(toId);
   const value = parseFloat(amount) || 0;
+
+  const swap = () => {
+    setFromId(toId);
+    setToId(fromId);
+  };
+
+  const choose = (id: string) => {
+    if (picking === "From") {
+      if (id === toId) setToId(fromId);
+      setFromId(id);
+    } else {
+      if (id === fromId) setFromId(toId);
+      setToId(id);
+    }
+    setPicking(null);
+  };
 
   const press = (k: string) => {
     setAmount((a) => {
@@ -90,39 +226,31 @@ function TransferScreen() {
           </div>
 
           <div className="mt-10 grid grid-cols-[1fr_auto_1fr] items-start gap-3 px-6">
-            <div className="text-center">
+            <button onClick={() => setPicking("From")} className="text-center active:opacity-60">
               <p className="text-[11px] font-semibold text-muted-foreground">From</p>
-              <span className="mx-auto mt-2 grid size-8 place-items-center rounded-full bg-surface-deep text-primary">
-                {from === CHIME ? (
-                  <span className="text-xs font-bold">C</span>
-                ) : (
-                  <CreditCard className="size-4" />
-                )}
+              <span className="mx-auto mt-2 block w-fit">
+                <AccountIcon kind={from.kind} />
               </span>
               <p className="mt-2 text-xs font-semibold leading-snug">{from.name}</p>
               <p className="mt-1 text-[11px] text-muted-foreground">{from.sub}</p>
-            </div>
+            </button>
 
             <button
               aria-label="Swap accounts"
-              onClick={() => setSwapped((s) => !s)}
+              onClick={swap}
               className="mt-10 grid size-8 place-items-center rounded-full active:opacity-60"
             >
               <ArrowLeftRight className="size-4 text-muted-foreground" />
             </button>
 
-            <div className="text-center">
+            <button onClick={() => setPicking("To")} className="text-center active:opacity-60">
               <p className="text-[11px] font-semibold text-muted-foreground">To</p>
-              <span className="mx-auto mt-2 grid size-8 place-items-center rounded-full bg-primary text-primary-foreground">
-                {to === CHIME ? (
-                  <span className="text-xs font-bold">C</span>
-                ) : (
-                  <CreditCard className="size-4" />
-                )}
+              <span className="mx-auto mt-2 block w-fit">
+                <AccountIcon kind={to.kind} />
               </span>
               <p className="mt-2 text-xs font-semibold leading-snug">{to.name}</p>
               <p className="mt-1 text-[11px] text-muted-foreground">{to.sub}</p>
-            </div>
+            </button>
           </div>
 
           <div className="mt-8 px-6">
@@ -158,6 +286,52 @@ function TransferScreen() {
           </div>
         </div>
       </div>
+
+      {picking && (
+        <div className="absolute inset-0 z-20 flex flex-col justify-end">
+          <button
+            aria-label="Close"
+            onClick={() => setPicking(null)}
+            className="absolute inset-0 bg-black/60"
+          />
+          <div className="relative flex max-h-[88%] flex-col rounded-t-3xl bg-card pb-6">
+            <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-muted-foreground/40" />
+            <h2 className="px-6 pt-5 font-display text-2xl font-bold">{picking}</h2>
+
+            <div className="mt-4 flex-1 overflow-y-auto px-6 pb-2">
+              <p className="text-xs font-semibold text-muted-foreground">Chime accounts</p>
+              <div className="mt-2">
+                {ACCOUNTS.filter((a) => a.group === "chime").map((a) => (
+                  <AccountRow key={a.id} account={a} onSelect={() => choose(a.id)} />
+                ))}
+              </div>
+
+              <p className="mt-5 text-xs font-semibold text-muted-foreground">Linked accounts</p>
+              <div className="mt-2">
+                {ACCOUNTS.filter((a) => a.group === "linked").map((a) => (
+                  <AccountRow key={a.id} account={a} onSelect={() => choose(a.id)} />
+                ))}
+                {ADD_ROWS.map((r) => (
+                  <button
+                    key={r.id}
+                    onClick={() => setPicking(null)}
+                    className="flex w-full items-center gap-3 py-3 text-left active:opacity-60"
+                  >
+                    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-deep text-foreground">
+                      <Landmark className="size-4" />
+                    </span>
+                    <span className="flex-1">
+                      <span className="block text-sm font-semibold">{r.name}</span>
+                      <span className="block text-[11px] text-muted-foreground">{r.sub}</span>
+                    </span>
+                    <ChevronRight className="size-4 text-muted-foreground" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {reviewing && !done && (
         <div className="absolute inset-0 z-20 flex flex-col justify-end">
