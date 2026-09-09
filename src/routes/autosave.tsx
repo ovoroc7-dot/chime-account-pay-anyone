@@ -268,17 +268,20 @@ function SplitSheet({
                   Done
                 </button>
               </div>
-              <div className="grid grid-cols-3 gap-2 px-3 pb-3">
+              <div role="group" aria-label="Number pad" className="grid grid-cols-3 gap-2 px-3 pb-3">
                 {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "del"].map((k, i) =>
                   k === "" ? (
                     <span key={i} />
                   ) : (
                     <button
                       key={i}
+                      type="button"
+                      aria-label={k === "del" ? "Delete last digit" : k}
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => press(k)}
-                      className="rounded-md bg-card py-2.5 text-lg font-medium active:opacity-70"
+                      className="min-h-11 rounded-md bg-card py-2.5 text-lg font-medium active:opacity-70"
                     >
-                      {k === "del" ? "⌫" : k}
+                      <span aria-hidden="true">{k === "del" ? "⌫" : k}</span>
                     </button>
                   ),
                 )}
