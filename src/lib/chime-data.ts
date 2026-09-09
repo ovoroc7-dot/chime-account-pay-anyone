@@ -87,3 +87,50 @@ export function groupByDate(list: Txn[]) {
   }
   return groups;
 }
+
+export type MonthInsight = {
+  key: string;
+  label: string;
+  monthName: string;
+  spent: number;
+  deposited: number;
+  categories: { name: string; amount: number }[];
+  merchants: { name: string; amount: number }[];
+};
+
+export const insights: MonthInsight[] = [
+  {
+    key: "may",
+    label: "May",
+    monthName: "May",
+    spent: 15,
+    deposited: 18.79,
+    categories: [{ name: "Other", amount: 15 }],
+    merchants: [{ name: "One Finance, Inc", amount: 15 }],
+  },
+  { key: "jun", label: "Jun", monthName: "June", spent: 0, deposited: 0, categories: [], merchants: [] },
+  { key: "jul", label: "Jul", monthName: "July", spent: 0, deposited: 0, categories: [], merchants: [] },
+  { key: "aug", label: "Aug", monthName: "August", spent: 0, deposited: 0, categories: [], merchants: [] },
+  {
+    key: "sep",
+    label: "Sep",
+    monthName: "September",
+    spent: 5,
+    deposited: 30,
+    categories: [{ name: "Other", amount: 5 }],
+    merchants: [
+      { name: "One Finance, Inc", amount: 5 },
+      { name: "Qube Money", amount: 4.71 },
+    ],
+  },
+  { key: "oct", label: "Oct", monthName: "October", spent: 0, deposited: 0, categories: [], merchants: [] },
+];
+
+export const usd = (n: number) =>
+  `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+export const CARDHOLDER = "DENIS TRUFIN";
+export const CARD_LAST4 = "4821";
+export const CARD_FULL_NUMBER = "4147 2029 8814 4821";
+export const CARD_EXP = "09/29";
+export const CARD_CVV = "418";
