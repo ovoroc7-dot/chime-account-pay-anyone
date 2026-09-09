@@ -231,7 +231,9 @@ function Picker({
 }) {
   const chime = SOURCES.filter((a) => a.group === "chime" && a.id !== exclude);
   const linked = SOURCES.filter((a) => a.group === "linked" && a.id !== exclude);
-  const goals = GOALS.filter((a) => a.id !== exclude);
+  const goals = useGoals()
+    .map(toAcct)
+    .filter((a) => a.id !== exclude);
 
   return (
     <div className="absolute inset-0 z-30 flex flex-col justify-end bg-black/60" onClick={onClose}>
