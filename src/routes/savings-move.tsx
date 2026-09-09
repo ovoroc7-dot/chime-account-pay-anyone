@@ -99,14 +99,13 @@ function SavingsMoveScreen() {
   const router = useRouter();
   const kbInset = useKeyboardInset();
   const { dir } = Route.useSearch();
+  const goalAccts = useGoals().map(toAcct);
   const [amount, setAmount] = useState("0");
 
-  const [from, setFrom] = useState<Acct>(
-    dir === "out" ? GOALS[0]! : SOURCES.find((a) => a.id === "checking")!,
-  );
-  const [to, setTo] = useState<Acct>(
-    dir === "out" ? SOURCES.find((a) => a.id === "checking")! : GOALS[0]!,
-  );
+  const defaultGoal = goalAccts[0]!;
+  const checking = SOURCES.find((a) => a.id === "checking")!;
+  const [from, setFrom] = useState<Acct>(dir === "out" ? defaultGoal : checking);
+  const [to, setTo] = useState<Acct>(dir === "out" ? checking : defaultGoal);
   const [picker, setPicker] = useState<null | "from" | "to">(null);
   const [done, setDone] = useState(false);
 
