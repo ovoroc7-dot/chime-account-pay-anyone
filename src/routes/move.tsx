@@ -47,7 +47,7 @@ const rows = [
   { icon: Smartphone, label: "Use Cash App®, Venmo®, PayPal®" },
   { icon: Repeat, label: "Manage recurring transfers" },
   { icon: Users, label: "Send or request money" },
-  { icon: Mail, label: "Mail a check" },
+  { icon: Mail, label: "Mail a check", to: "/mail-check" },
   { icon: Landmark, label: "Manage linked accounts", to: "/linked-accounts" },
   { icon: ScrollText, label: "Transfer limits" },
 ] as const;
