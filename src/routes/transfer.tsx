@@ -1,0 +1,216 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronLeft, ArrowLeftRight, Delete, CreditCard, Check } from "lucide-react";
+import { useState } from "react";
+import { PhoneFrame } from "@/components/PhoneFrame";
+import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
+
+export const Route = createFileRoute("/transfer")({
+  head: () => ({
+    meta: [
+      { title: "Transfer Money — Move Funds to Checking" },
+      {
+        name: "description",
+        content:
+          "Transfer money between a linked debit card and your checking account with a keypad amount entry, swap direction, and review step.",
+      },
+      { property: "og:title", content: "Transfer Money — Move Funds to Checking" },
+      {
+        property: "og:description",
+        content:
+          "Transfer money between a linked debit card and your checking account with a keypad amount entry, swap direction, and review step.",
+      },
+    ],
+  }),
+  component: TransferScreen,
+});
+
+const EXTERNAL = {
+  name: "Sofi Bank  N A Debit card",
+  sub: "Ending in 7109",
+};
+const CHIME = {
+  name: "Checking",
+  sub: usd(CHECKING_BALANCE),
+};
+
+const keys = [
+  ["1", ""],
+  ["2", "ABC"],
+  ["3", "DEF"],
+  ["4", "GHI"],
+  ["5", "JKL"],
+  ["6", "MNO"],
+  ["7", "PQRS"],
+  ["8", "TUV"],
+  ["9", "WXYZ"],
+  [".", ""],
+  ["0", ""],
+] as const;
+
+function TransferScreen() {
+  const [amount, setAmount] = useState("0");
+  const [swapped, setSwapped] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const from = swapped ? CHIME : EXTERNAL;
+  const to = swapped ? EXTERNAL : CHIME;
+  const value = parseFloat(amount) || 0;
+
+  const press = (k: string) => {
+    setAmount((a) => {
+      if (k === ".") return a.includes(".") ? a : `${a}.`;
+      if (a === "0") return k;
+      if (a.includes(".") && a.split(".")[1]!.length >= 2) return a;
+      return a.length >= 7 ? a : a + k;
+    });
+  };
+
+  const back = () =>
+    setAmount((a) => {
+      const next = a.slice(0, -1);
+      return next === "" ? "0" : next;
+    });
+
+  return (
+    <PhoneFrame>
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="relative flex items-center justify-center px-5 pt-5">
+          <Link to="/checking" aria-label="Back" className="absolute left-5 active:opacity-60">
+            <ChevronLeft className="size-7" strokeWidth={2} />
+          </Link>
+          <h1 className="text-base font-semibold">Transfer money</h1>
+        </div>
+
+        <div className="flex flex-1 flex-col justify-between overflow-y-auto">
+          <div className="mt-8 flex items-start justify-center">
+            <span className="mt-3 font-display text-2xl font-bold">$</span>
+            <span className="font-display text-6xl font-extrabold tracking-tight">{amount}</span>
+            <span className="ml-0.5 mt-2 h-12 w-0.5 animate-pulse bg-primary" />
+          </div>
+
+          <div className="mt-10 grid grid-cols-[1fr_auto_1fr] items-start gap-3 px-6">
+            <div className="text-center">
+              <p className="text-[11px] font-semibold text-muted-foreground">From</p>
+              <span className="mx-auto mt-2 grid size-8 place-items-center rounded-full bg-surface-deep text-primary">
+                {from === CHIME ? (
+                  <span className="text-xs font-bold">C</span>
+                ) : (
+                  <CreditCard className="size-4" />
+                )}
+              </span>
+              <p className="mt-2 text-xs font-semibold leading-snug">{from.name}</p>
+              <p className="mt-1 text-[11px] text-muted-foreground">{from.sub}</p>
+            </div>
+
+            <button
+              aria-label="Swap accounts"
+              onClick={() => setSwapped((s) => !s)}
+              className="mt-10 grid size-8 place-items-center rounded-full active:opacity-60"
+            >
+              <ArrowLeftRight className="size-4 text-muted-foreground" />
+            </button>
+
+            <div className="text-center">
+              <p className="text-[11px] font-semibold text-muted-foreground">To</p>
+              <span className="mx-auto mt-2 grid size-8 place-items-center rounded-full bg-primary text-primary-foreground">
+                {to === CHIME ? (
+                  <span className="text-xs font-bold">C</span>
+                ) : (
+                  <CreditCard className="size-4" />
+                )}
+              </span>
+              <p className="mt-2 text-xs font-semibold leading-snug">{to.name}</p>
+              <p className="mt-1 text-[11px] text-muted-foreground">{to.sub}</p>
+            </div>
+          </div>
+
+          <div className="mt-8 px-6">
+            <button
+              disabled={value <= 0}
+              onClick={() => setReviewing(true)}
+              className={`w-full rounded-full py-3.5 text-sm font-semibold transition-colors ${
+                value > 0
+                  ? "bg-primary text-primary-foreground active:opacity-80"
+                  : "bg-primary/25 text-foreground/50"
+              }`}
+            >
+              Review
+            </button>
+          </div>
+
+          <div className="mt-6 grid grid-cols-3 gap-2 bg-surface-deep/40 px-2 pb-6 pt-3">
+            {keys.map(([k, sub]) => (
+              <button
+                key={k}
+                onClick={() => press(k)}
+                className="rounded-lg bg-secondary py-2.5 active:opacity-60"
+              >
+                <span className="block font-display text-2xl font-medium">{k}</span>
+                {sub && (
+                  <span className="block text-[9px] tracking-widest text-muted-foreground">{sub}</span>
+                )}
+              </button>
+            ))}
+            <button onClick={back} aria-label="Delete" className="grid place-items-center active:opacity-60">
+              <Delete className="size-6" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {reviewing && !done && (
+        <div className="absolute inset-0 z-20 flex flex-col justify-end">
+          <button aria-label="Close" onClick={() => setReviewing(false)} className="absolute inset-0 bg-black/60" />
+          <div className="relative rounded-t-3xl bg-card px-6 pb-10 pt-6">
+            <h2 className="font-display text-2xl font-bold">Review transfer</h2>
+            <div className="mt-5 space-y-3 border-t border-border pt-5 text-sm">
+              {[
+                ["Amount", usd(value)],
+                ["From", from.name],
+                ["To", to.name],
+                ["Arrives", "In up to 5 business days"],
+                ["Fee", "$0.00"],
+              ].map(([k, v]) => (
+                <div key={k} className="flex justify-between gap-4">
+                  <span className="text-muted-foreground">{k}</span>
+                  <span className="text-right font-medium">{v}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => setDone(true)}
+              className="mt-7 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground active:opacity-80"
+            >
+              Transfer {usd(value)}
+            </button>
+            <button
+              onClick={() => setReviewing(false)}
+              className="mt-3 w-full py-2 text-sm font-semibold text-muted-foreground active:opacity-60"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {done && (
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-background px-8 text-center">
+          <span className="grid size-16 place-items-center rounded-full bg-primary text-primary-foreground">
+            <Check className="size-8" strokeWidth={3} />
+          </span>
+          <h2 className="mt-6 font-display text-3xl font-extrabold">Transfer started</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {usd(value)} from {from.name} to {to.name}.
+          </p>
+          <Link
+            to="/checking"
+            className="mt-8 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground active:opacity-80"
+          >
+            Done
+          </Link>
+        </div>
+      )}
+    </PhoneFrame>
+  );
+}

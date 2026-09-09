@@ -43,7 +43,7 @@ export const Route = createFileRoute("/checking")({
 });
 
 const actions = [
-  { icon: ArrowLeftRight, label: "Transfer", to: null },
+  { icon: ArrowLeftRight, label: "Transfer", to: "/transfer" as const },
   { icon: CreditCard, label: "Cards", to: "/cards" as const },
   { icon: BarChart3, label: "Insights", to: "/insights" as const },
 ];
@@ -115,14 +115,10 @@ function CheckingScreen() {
                 </>
               );
               const cls = "flex flex-1 flex-col items-center gap-2 active:opacity-70";
-              return a.to ? (
+              return (
                 <Link key={a.label} to={a.to} className={cls}>
                   {inner}
                 </Link>
-              ) : (
-                <button key={a.label} className={cls}>
-                  {inner}
-                </button>
               );
             })}
           </div>
