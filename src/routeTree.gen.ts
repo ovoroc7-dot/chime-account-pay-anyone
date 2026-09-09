@@ -14,6 +14,7 @@ import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
+import { Route as TransferRouteImport } from './routes/transfer'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const PhysicalCardRoute = PhysicalCardRouteImport.update({
   path: '/physical-card',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TransferRoute = TransferRouteImport.update({
+  id: '/transfer',
+  path: '/transfer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/checking': typeof CheckingRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/transfer': typeof TransferRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/checking': typeof CheckingRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/transfer': typeof TransferRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,23 @@ export interface FileRoutesById {
   '/checking': typeof CheckingRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/transfer': typeof TransferRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cards' | '/checking' | '/insights' | '/physical-card'
+  fullPaths:
+    '/' | '/cards' | '/checking' | '/insights' | '/physical-card' | '/transfer'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cards' | '/checking' | '/insights' | '/physical-card'
-  id: '__root__' | '/' | '/cards' | '/checking' | '/insights' | '/physical-card'
+  to:
+    '/' | '/cards' | '/checking' | '/insights' | '/physical-card' | '/transfer'
+  id:
+    | '__root__'
+    | '/'
+    | '/cards'
+    | '/checking'
+    | '/insights'
+    | '/physical-card'
+    | '/transfer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +95,7 @@ export interface RootRouteChildren {
   CheckingRoute: typeof CheckingRoute
   InsightsRoute: typeof InsightsRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
+  TransferRoute: typeof TransferRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PhysicalCardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/transfer': {
+      id: '/transfer'
+      path: '/transfer'
+      fullPath: '/transfer'
+      preLoaderRoute: typeof TransferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +151,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckingRoute: CheckingRoute,
   InsightsRoute: InsightsRoute,
   PhysicalCardRoute: PhysicalCardRoute,
+  TransferRoute: TransferRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
