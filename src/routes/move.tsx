@@ -175,14 +175,10 @@ export function MoveTabBar({ active = "Move" }: { active?: string }) {
             {t.label}
           </>
         );
-        return "to" in t && t.to ? (
+        return (
           <Link key={t.label} to={t.to} className={cls}>
             {inner}
           </Link>
-        ) : (
-          <button key={t.label} type="button" className={cls}>
-            {inner}
-          </button>
         );
       })}
     </nav>
