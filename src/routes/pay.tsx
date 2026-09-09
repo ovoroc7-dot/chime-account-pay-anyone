@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell, Search, QrCode, Plus, X, ChevronLeft, Check, Cloud } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { MoveTabBar } from "@/routes/move";
 import { AmountField } from "@/components/AmountField";
@@ -29,6 +29,8 @@ export const Route = createFileRoute("/pay")({
   component: PayScreen,
 });
 
+const SEARCH_HINTS = ["name", "phone number", "email", "$ChimeSign"] as const;
+
 const CONTACTS = [
   { name: "Kristan Davis", tag: "$kinsleywhedbee", initials: "KD" },
   { name: "Marcus Lee", tag: "$marcus-lee", initials: "ML" },
@@ -54,6 +56,17 @@ function PayScreen() {
   const [note, setNote] = useState("💰");
   const [method, setMethod] = useState(METHODS[0]!);
   const [query, setQuery] = useState("");
+  const [hintIndex, setHintIndex] = useState(0);
+
+  useEffect(() => {
+    if (sheet !== "contacts" || query !== "") return;
+    const id = window.setInterval(
+      () => setHintIndex((i) => (i + 1) % SEARCH_HINTS.length),
+      1800,
+    );
+    return () => window.clearInterval(id);
+  }, [sheet, query]);
+
 
   const value = Number(amount) || 0;
   const shown = value > 0 ? usd(value).replace(/\.00$/, "") : "$0";
@@ -203,17 +216,28 @@ function PayScreen() {
 
       {sheet === "contacts" && (
         <SheetShell onClose={() => setSheet(null)}>
-          <label className="flex items-center gap-3 rounded-xl border border-border px-4 py-3">
-            <Search className="size-5 text-muted-foreground" />
+          <label className="relative flex items-center gap-3 rounded-xl border border-border px-4 py-3">
+            <Search className="size-5 shrink-0 text-muted-foreground" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               inputMode="text"
-              placeholder="Search by phone number"
-              aria-label="Search contacts by phone number"
-              className="w-full bg-transparent text-[15px] outline-none placeholder:text-muted-foreground"
+              aria-label="Search contacts by name, phone number, email or $ChimeSign"
+              className="w-full bg-transparent text-[15px] outline-none"
             />
+            {query === "" && (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute left-12 text-[15px] text-muted-foreground"
+              >
+                Search{" "}
+                <span key={hintIndex} className="animate-hint-swap inline-block">
+                  {SEARCH_HINTS[hintIndex]}
+                </span>
+              </span>
+            )}
           </label>
+
 
           <p className="mt-5 text-[12px] text-muted-foreground">Recents</p>
           <ul className="mt-3 space-y-1">
