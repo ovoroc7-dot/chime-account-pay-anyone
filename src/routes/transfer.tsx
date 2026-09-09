@@ -265,7 +265,10 @@ function TransferScreen() {
             </button>
           </div>
 
-          <div className="mt-8 px-6">
+          <div
+            className="sticky bottom-0 mt-8 bg-background px-6 pb-4 pt-3"
+            style={{ paddingBottom: `calc(1rem + ${kbInset}px)` }}
+          >
             <button
               disabled={!canReview}
               onClick={() => setReviewing(true)}
@@ -278,6 +281,7 @@ function TransferScreen() {
               Review
             </button>
           </div>
+
         </div>
       </div>
 
