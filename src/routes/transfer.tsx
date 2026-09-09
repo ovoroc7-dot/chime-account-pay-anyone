@@ -391,9 +391,12 @@ function TransferScreen() {
           <span className="grid size-16 place-items-center rounded-full bg-primary text-primary-foreground">
             <Check className="size-8" strokeWidth={3} />
           </span>
-          <h2 className="mt-6 font-display text-3xl font-extrabold">Transfer started</h2>
+          <h2 className="mt-6 font-display text-3xl font-extrabold">
+            {instantOut ? "Transfer sent" : "Transfer started"}
+          </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            {usd(value)} from {from.name} to {to.name}.
+            {usd(value)} from {from.name} to {to.name}
+            {instantOut ? ` · ${usd(fee)} fee` : ""}.
           </p>
           <Link
             to="/checking"
