@@ -80,11 +80,35 @@ function PayScreen() {
     setSheet("contacts");
   };
 
+  const q = query.trim();
   const filtered = CONTACTS.filter(
     (c) =>
-      c.name.toLowerCase().includes(query.toLowerCase()) ||
-      c.tag.toLowerCase().includes(query.toLowerCase()),
+      c.name.toLowerCase().includes(q.toLowerCase()) ||
+      c.tag.toLowerCase().includes(q.toLowerCase()),
   );
+
+  const digits = q.replace(/[^\d]/g, "");
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(q);
+  const isPhone = digits.length >= 10 && /^[\d\s()+-]+$/.test(q);
+  const isTag = q.startsWith("$") && q.length > 1;
+
+  const typedRecipient =
+    q.length === 0
+      ? null
+      : {
+          name: isEmail || isPhone || isTag ? q : titleCase(q),
+          tag: isEmail
+            ? "Email"
+            : isPhone
+              ? formatPhone(digits)
+              : isTag
+                ? "$ChimeSign"
+                : "Name",
+          initials: initialsOf(q),
+        };
+
+  const canSendTyped = Boolean(typedRecipient) && (isEmail || isPhone || isTag || q.length >= 2);
+
 
   return (
     <PhoneFrame>
