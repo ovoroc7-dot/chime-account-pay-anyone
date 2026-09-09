@@ -133,9 +133,13 @@ function CardsScreen() {
           </div>
         </div>
 
-        <button className="mt-6 w-full rounded-full border border-border py-3.5 text-sm font-semibold active:opacity-70">
+        <Link
+          to="/physical-card"
+          className="mt-6 block w-full rounded-full border border-border py-3.5 text-center text-sm font-semibold active:opacity-70"
+        >
           Manage physical card
-        </button>
+        </Link>
+
       </div>
     </PhoneFrame>
   );
