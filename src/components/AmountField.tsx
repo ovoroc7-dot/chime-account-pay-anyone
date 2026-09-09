@@ -57,7 +57,9 @@ export function AmountField({
         aria-label={label}
         value={value}
         onChange={(e) => onChange(sanitizeAmount(e.target.value))}
-        onFocus={(e) => e.currentTarget.setSelectionRange(value.length, value.length)}
+        onFocus={toEnd}
+        onSelect={toEnd}
+        onClick={toEnd}
         style={{ width: `${Math.max(1, value.length)}ch` }}
         className={`${className} bg-transparent p-0 text-left caret-primary outline-none focus:outline-none focus-visible:outline-none`}
       />
