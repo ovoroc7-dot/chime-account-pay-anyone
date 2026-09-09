@@ -203,17 +203,28 @@ function PayScreen() {
 
       {sheet === "contacts" && (
         <SheetShell onClose={() => setSheet(null)}>
-          <label className="flex items-center gap-3 rounded-xl border border-border px-4 py-3">
-            <Search className="size-5 text-muted-foreground" />
+          <label className="relative flex items-center gap-3 rounded-xl border border-border px-4 py-3">
+            <Search className="size-5 shrink-0 text-muted-foreground" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               inputMode="text"
-              placeholder="Search by phone number"
-              aria-label="Search contacts by phone number"
-              className="w-full bg-transparent text-[15px] outline-none placeholder:text-muted-foreground"
+              aria-label="Search contacts by name, phone number, email or $ChimeSign"
+              className="w-full bg-transparent text-[15px] outline-none"
             />
+            {query === "" && (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute left-12 text-[15px] text-muted-foreground"
+              >
+                Search{" "}
+                <span key={hintIndex} className="animate-hint-swap inline-block">
+                  {SEARCH_HINTS[hintIndex]}
+                </span>
+              </span>
+            )}
           </label>
+
 
           <p className="mt-5 text-[12px] text-muted-foreground">Recents</p>
           <ul className="mt-3 space-y-1">
