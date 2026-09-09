@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, X, Trash2, Menu } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+import { useGoals } from "@/lib/goals-store";
 
 
 export const Route = createFileRoute("/autosave")({
@@ -30,10 +31,6 @@ export const Route = createFileRoute("/autosave")({
 type Split = { id: string; name: string; emoji: string; pct: number; fixed?: boolean };
 
 const BASE: Split[] = [{ id: "checking", name: "Chime Checking", emoji: "🟢", pct: 100, fixed: true }];
-const AVAILABLE: Split[] = [
-  { id: "my-savings", name: "My Savings", emoji: "💰", pct: 0 },
-  { id: "emergency", name: "Emergency fund", emoji: "🎉", pct: 0 },
-];
 
 function AutoSaveScreen() {
   const router = useRouter();
@@ -126,13 +123,20 @@ function SplitSheet({
   onDelete: () => void;
 }) {
   const kbInset = useKeyboardInset();
+  const goals = useGoals();
   const [mode, setMode] = useState<"%" | "$">("%");
 
   const [rows, setRows] = useState<Split[]>(initial ?? BASE);
   const [editing, setEditing] = useState(!initial);
   const [active, setActive] = useState<string | null>(null);
 
-  const pool = AVAILABLE.filter((a) => !rows.some((r) => r.id === a.id));
+  const available: Split[] = goals.map((g) => ({
+    id: g.id,
+    name: g.name,
+    emoji: g.emoji,
+    pct: 0,
+  }));
+  const pool = available.filter((a) => !rows.some((r) => r.id === a.id));
   const total = rows.reduce((s, r) => s + r.pct, 0);
 
   const addRow = (a: Split) => {

@@ -53,7 +53,9 @@ function HomeScreen() {
       <div className="flex-1 overflow-y-auto pb-24">
         <div className="bg-surface-deep px-6 pt-5 pb-8">
           <div className="flex items-center justify-between">
-            <Bell className="size-6 text-foreground" strokeWidth={1.75} />
+            <Link to="/inbox" aria-label="Inbox" className="active:opacity-60">
+              <Bell className="size-6 text-foreground" strokeWidth={1.75} />
+            </Link>
             <span className="rounded-full border border-primary px-4 py-1.5 text-xs font-semibold text-primary">
               Get $200
             </span>

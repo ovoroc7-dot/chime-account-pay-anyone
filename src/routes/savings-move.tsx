@@ -6,7 +6,8 @@ import { ChimeLogo } from "@/components/ChimeLogo";
 import { AmountField } from "@/components/AmountField";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
-import { CHECKING_BALANCE, savingsGoals, usd } from "@/lib/chime-data";
+import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
+import { useGoals } from "@/lib/goals-store";
 
 type Search = { dir?: "in" | "out" };
 
@@ -85,27 +86,26 @@ const SOURCES: Acct[] = [
   },
 ];
 
-const GOALS: Acct[] = savingsGoals.map((g) => ({
+const toAcct = (g: { id: string; name: string; emoji: string; amount: number }): Acct => ({
   id: g.id,
   name: g.name,
   sub: usd(g.amount),
   emoji: g.emoji,
   group: "goal",
   instant: true,
-}));
+});
 
 function SavingsMoveScreen() {
   const router = useRouter();
   const kbInset = useKeyboardInset();
   const { dir } = Route.useSearch();
+  const goalAccts = useGoals().map(toAcct);
   const [amount, setAmount] = useState("0");
 
-  const [from, setFrom] = useState<Acct>(
-    dir === "out" ? GOALS[0]! : SOURCES.find((a) => a.id === "checking")!,
-  );
-  const [to, setTo] = useState<Acct>(
-    dir === "out" ? SOURCES.find((a) => a.id === "checking")! : GOALS[0]!,
-  );
+  const defaultGoal = goalAccts[0]!;
+  const checking = SOURCES.find((a) => a.id === "checking")!;
+  const [from, setFrom] = useState<Acct>(dir === "out" ? defaultGoal : checking);
+  const [to, setTo] = useState<Acct>(dir === "out" ? checking : defaultGoal);
   const [picker, setPicker] = useState<null | "from" | "to">(null);
   const [done, setDone] = useState(false);
 
@@ -231,7 +231,9 @@ function Picker({
 }) {
   const chime = SOURCES.filter((a) => a.group === "chime" && a.id !== exclude);
   const linked = SOURCES.filter((a) => a.group === "linked" && a.id !== exclude);
-  const goals = GOALS.filter((a) => a.id !== exclude);
+  const goals = useGoals()
+    .map(toAcct)
+    .filter((a) => a.id !== exclude);
 
   return (
     <div className="absolute inset-0 z-30 flex flex-col justify-end bg-black/60" onClick={onClose}>

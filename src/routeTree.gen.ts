@@ -14,12 +14,15 @@ import { Route as AutosaveRouteImport } from './routes/autosave'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
+import { Route as GoalNewRouteImport } from './routes/goal-new'
+import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
 import { Route as SavingsRouteImport } from './routes/savings'
 import { Route as SavingsMoveRouteImport } from './routes/savings-move'
 import { Route as SpotmeRouteImport } from './routes/spotme'
 import { Route as TransferRouteImport } from './routes/transfer'
+import { Route as GoalIdRouteImport } from './routes/goal.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,6 +47,16 @@ const CheckingRoute = CheckingRouteImport.update({
 const CreditBuilderRoute = CreditBuilderRouteImport.update({
   id: '/credit-builder',
   path: '/credit-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoalNewRoute = GoalNewRouteImport.update({
+  id: '/goal-new',
+  path: '/goal-new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -76,6 +89,11 @@ const TransferRoute = TransferRouteImport.update({
   path: '/transfer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GoalIdRoute = GoalIdRouteImport.update({
+  id: '/goal/$id',
+  path: '/goal/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -83,12 +101,15 @@ export interface FileRoutesByFullPath {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/goal-new': typeof GoalNewRoute
+  '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
+  '/goal/$id': typeof GoalIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -96,12 +117,15 @@ export interface FileRoutesByTo {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/goal-new': typeof GoalNewRoute
+  '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
+  '/goal/$id': typeof GoalIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,12 +134,15 @@ export interface FileRoutesById {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/goal-new': typeof GoalNewRoute
+  '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
+  '/goal/$id': typeof GoalIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -125,12 +152,15 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/goal-new'
+    | '/inbox'
     | '/insights'
     | '/physical-card'
     | '/savings'
     | '/savings-move'
     | '/spotme'
     | '/transfer'
+    | '/goal/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -138,12 +168,15 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/goal-new'
+    | '/inbox'
     | '/insights'
     | '/physical-card'
     | '/savings'
     | '/savings-move'
     | '/spotme'
     | '/transfer'
+    | '/goal/$id'
   id:
     | '__root__'
     | '/'
@@ -151,12 +184,15 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/goal-new'
+    | '/inbox'
     | '/insights'
     | '/physical-card'
     | '/savings'
     | '/savings-move'
     | '/spotme'
     | '/transfer'
+    | '/goal/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -165,12 +201,15 @@ export interface RootRouteChildren {
   CardsRoute: typeof CardsRoute
   CheckingRoute: typeof CheckingRoute
   CreditBuilderRoute: typeof CreditBuilderRoute
+  GoalNewRoute: typeof GoalNewRoute
+  InboxRoute: typeof InboxRoute
   InsightsRoute: typeof InsightsRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
   SavingsRoute: typeof SavingsRoute
   SavingsMoveRoute: typeof SavingsMoveRoute
   SpotmeRoute: typeof SpotmeRoute
   TransferRoute: typeof TransferRoute
+  GoalIdRoute: typeof GoalIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -208,6 +247,20 @@ declare module '@tanstack/react-router' {
       path: '/credit-builder'
       fullPath: '/credit-builder'
       preLoaderRoute: typeof CreditBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/goal-new': {
+      id: '/goal-new'
+      path: '/goal-new'
+      fullPath: '/goal-new'
+      preLoaderRoute: typeof GoalNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -252,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TransferRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/goal/$id': {
+      id: '/goal/$id'
+      path: '/goal/$id'
+      fullPath: '/goal/$id'
+      preLoaderRoute: typeof GoalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -261,12 +321,15 @@ const rootRouteChildren: RootRouteChildren = {
   CardsRoute: CardsRoute,
   CheckingRoute: CheckingRoute,
   CreditBuilderRoute: CreditBuilderRoute,
+  GoalNewRoute: GoalNewRoute,
+  InboxRoute: InboxRoute,
   InsightsRoute: InsightsRoute,
   PhysicalCardRoute: PhysicalCardRoute,
   SavingsRoute: SavingsRoute,
   SavingsMoveRoute: SavingsMoveRoute,
   SpotmeRoute: SpotmeRoute,
   TransferRoute: TransferRoute,
+  GoalIdRoute: GoalIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
