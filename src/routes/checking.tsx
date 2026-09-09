@@ -77,7 +77,10 @@ function CheckingScreen() {
             <ChevronLeft className="size-7" strokeWidth={2} />
           </Link>
 
-          <h1 className="mt-5 font-display text-3xl font-extrabold tracking-tight">Checking</h1>
+          <h1 className="mt-5 flex items-center gap-2.5 font-display text-3xl font-extrabold tracking-tight">
+            <ChimeLogo className="size-8" />
+            Checking
+          </h1>
           <p className="font-display text-4xl font-extrabold tracking-tight">
             ${CHECKING_BALANCE.toFixed(2)}
           </p>

@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, X, Trash2, Menu } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { ChimeLogo } from "@/components/ChimeLogo";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { useGoals } from "@/lib/goals-store";
 
