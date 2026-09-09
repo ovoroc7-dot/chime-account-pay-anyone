@@ -237,6 +237,11 @@ function TransferScreen() {
             <span className="ml-0.5 mt-2 h-12 w-0.5 animate-pulse bg-primary" />
           </div>
 
+          {helper && (
+            <p className="mt-3 px-8 text-center text-xs text-muted-foreground">{helper}</p>
+          )}
+
+
           <div className="mt-10 grid grid-cols-[1fr_auto_1fr] items-start gap-3 px-6">
             <button onClick={() => setPicking("From")} className="text-center active:opacity-60">
               <p className="text-[11px] font-semibold text-muted-foreground">From</p>
