@@ -38,6 +38,18 @@ export function AmountField({
 }: Props) {
   const ref = useRef<HTMLInputElement>(null);
 
+  // The amount always builds from the right, like a calculator.
+  const toEnd = () => {
+    const el = ref.current;
+    if (!el) return;
+    const end = el.value.length;
+    if (el.selectionStart !== end || el.selectionEnd !== end) {
+      el.setSelectionRange(end, end);
+    }
+  };
+
+
+
   return (
     <div
       className="flex items-start justify-center"
