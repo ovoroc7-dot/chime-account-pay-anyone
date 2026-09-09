@@ -14,9 +14,12 @@ import { Route as AutosaveRouteImport } from './routes/autosave'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
+import { Route as DepositCheckRouteImport } from './routes/deposit-check'
 import { Route as GoalNewRouteImport } from './routes/goal-new'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as LinkedAccountsRouteImport } from './routes/linked-accounts'
+import { Route as MoveRouteImport } from './routes/move'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
 import { Route as SavingsRouteImport } from './routes/savings'
 import { Route as SavingsMoveRouteImport } from './routes/savings-move'
@@ -49,6 +52,11 @@ const CreditBuilderRoute = CreditBuilderRouteImport.update({
   path: '/credit-builder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DepositCheckRoute = DepositCheckRouteImport.update({
+  id: '/deposit-check',
+  path: '/deposit-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GoalNewRoute = GoalNewRouteImport.update({
   id: '/goal-new',
   path: '/goal-new',
@@ -62,6 +70,16 @@ const InboxRoute = InboxRouteImport.update({
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinkedAccountsRoute = LinkedAccountsRouteImport.update({
+  id: '/linked-accounts',
+  path: '/linked-accounts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MoveRoute = MoveRouteImport.update({
+  id: '/move',
+  path: '/move',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PhysicalCardRoute = PhysicalCardRouteImport.update({
@@ -101,9 +119,12 @@ export interface FileRoutesByFullPath {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/deposit-check': typeof DepositCheckRoute
   '/goal-new': typeof GoalNewRoute
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
+  '/linked-accounts': typeof LinkedAccountsRoute
+  '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
@@ -117,9 +138,12 @@ export interface FileRoutesByTo {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/deposit-check': typeof DepositCheckRoute
   '/goal-new': typeof GoalNewRoute
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
+  '/linked-accounts': typeof LinkedAccountsRoute
+  '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
@@ -134,9 +158,12 @@ export interface FileRoutesById {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/deposit-check': typeof DepositCheckRoute
   '/goal-new': typeof GoalNewRoute
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
+  '/linked-accounts': typeof LinkedAccountsRoute
+  '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
@@ -152,9 +179,12 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/deposit-check'
     | '/goal-new'
     | '/inbox'
     | '/insights'
+    | '/linked-accounts'
+    | '/move'
     | '/physical-card'
     | '/savings'
     | '/savings-move'
@@ -168,9 +198,12 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/deposit-check'
     | '/goal-new'
     | '/inbox'
     | '/insights'
+    | '/linked-accounts'
+    | '/move'
     | '/physical-card'
     | '/savings'
     | '/savings-move'
@@ -184,9 +217,12 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/deposit-check'
     | '/goal-new'
     | '/inbox'
     | '/insights'
+    | '/linked-accounts'
+    | '/move'
     | '/physical-card'
     | '/savings'
     | '/savings-move'
@@ -201,9 +237,12 @@ export interface RootRouteChildren {
   CardsRoute: typeof CardsRoute
   CheckingRoute: typeof CheckingRoute
   CreditBuilderRoute: typeof CreditBuilderRoute
+  DepositCheckRoute: typeof DepositCheckRoute
   GoalNewRoute: typeof GoalNewRoute
   InboxRoute: typeof InboxRoute
   InsightsRoute: typeof InsightsRoute
+  LinkedAccountsRoute: typeof LinkedAccountsRoute
+  MoveRoute: typeof MoveRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
   SavingsRoute: typeof SavingsRoute
   SavingsMoveRoute: typeof SavingsMoveRoute
@@ -249,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreditBuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/deposit-check': {
+      id: '/deposit-check'
+      path: '/deposit-check'
+      fullPath: '/deposit-check'
+      preLoaderRoute: typeof DepositCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/goal-new': {
       id: '/goal-new'
       path: '/goal-new'
@@ -268,6 +314,20 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights'
       preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/linked-accounts': {
+      id: '/linked-accounts'
+      path: '/linked-accounts'
+      fullPath: '/linked-accounts'
+      preLoaderRoute: typeof LinkedAccountsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/move': {
+      id: '/move'
+      path: '/move'
+      fullPath: '/move'
+      preLoaderRoute: typeof MoveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/physical-card': {
@@ -321,9 +381,12 @@ const rootRouteChildren: RootRouteChildren = {
   CardsRoute: CardsRoute,
   CheckingRoute: CheckingRoute,
   CreditBuilderRoute: CreditBuilderRoute,
+  DepositCheckRoute: DepositCheckRoute,
   GoalNewRoute: GoalNewRoute,
   InboxRoute: InboxRoute,
   InsightsRoute: InsightsRoute,
+  LinkedAccountsRoute: LinkedAccountsRoute,
+  MoveRoute: MoveRoute,
   PhysicalCardRoute: PhysicalCardRoute,
   SavingsRoute: SavingsRoute,
   SavingsMoveRoute: SavingsMoveRoute,
