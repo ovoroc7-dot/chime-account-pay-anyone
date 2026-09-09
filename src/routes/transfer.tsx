@@ -272,10 +272,10 @@ function TransferScreen() {
 
           <div className="mt-8 px-6">
             <button
-              disabled={value <= 0}
+              disabled={!canReview}
               onClick={() => setReviewing(true)}
               className={`w-full rounded-full py-3.5 text-sm font-semibold transition-colors ${
-                value > 0
+                canReview
                   ? "bg-primary text-primary-foreground active:opacity-80"
                   : "bg-primary/25 text-foreground/50"
               }`}
