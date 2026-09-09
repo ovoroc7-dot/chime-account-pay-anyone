@@ -181,8 +181,8 @@ const keys = [
 
 function TransferScreen() {
   const [amount, setAmount] = useState("0");
-  const [fromId, setFromId] = useState("sofi-debit");
-  const [toId, setToId] = useState("checking");
+  const [fromId, setFromId] = useState("checking");
+  const [toId, setToId] = useState("sofi-debit");
   const [picking, setPicking] = useState<null | "From" | "To">(null);
   const [reviewing, setReviewing] = useState(false);
   const [done, setDone] = useState(false);
@@ -194,14 +194,25 @@ function TransferScreen() {
   // Instant transfers out to a debit card / wallet: $25 minimum, 1.75% fee
   const instantOut = from.kind === "chime" && (to.kind === "card" || to.kind === "wallet");
   const fee = instantOut ? Math.round(value * 0.0175 * 100) / 100 : 0;
-  const belowMin = instantOut && value > 0 && value < 25;
-  const canReview = value > 0 && !belowMin;
+  const total = value + fee;
+  const fromChime = from.kind === "chime";
+  const balance = fromChime ? CHECKING_BALANCE : Infinity;
 
-  const helper = instantOut
-    ? value >= 25
-      ? `1.75% fee updated to ${usd(fee)}`
-      : "Transfers to debit cards have a $25 minimum"
-    : null;
+  const belowMin = instantOut && value > 0 && value < 25;
+  const overBalance = value > balance;
+  const feeOverBalance = !overBalance && total > balance;
+  const canReview = value > 0 && !belowMin && !overBalance && !feeOverBalance;
+
+  const error = overBalance
+    ? "There isn't enough money in your account"
+    : feeOverBalance
+      ? `Not enough money to cover the ${usd(fee)} fee`
+      : belowMin
+        ? "Transfers to debit cards have a $25 minimum"
+        : null;
+
+  const helper = !error && instantOut && value > 0 ? `1.75% fee updated to ${usd(fee)}` : null;
+
 
   const swap = () => {
     setFromId(toId);
