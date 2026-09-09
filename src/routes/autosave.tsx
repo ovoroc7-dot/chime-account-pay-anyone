@@ -191,20 +191,24 @@ function SplitSheet({
               <span className="text-base">{r.emoji}</span>
               <span className="flex-1 text-sm font-medium">{r.name}</span>
               {editing && !r.fixed ? (
-                <button
-                  onClick={() => setActive(r.id)}
-                  className={`min-w-14 rounded-md border px-2 py-1 text-right text-xs font-semibold ${
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  enterKeyHint="done"
+                  aria-label={`${r.name} allocation ${mode === "%" ? "percent" : "dollars"}`}
+                  value={mode === "%" ? `${r.pct}%` : `$${r.pct}`}
+                  onFocus={() => setActive(r.id)}
+                  onChange={(e) => setPct(r.id, e.target.value)}
+                  className={`min-w-14 rounded-md border bg-transparent px-2 py-1 text-right text-xs font-semibold outline-none ${
                     active === r.id ? "border-foreground" : "border-border"
                   }`}
-                >
-                  {mode === "%" ? `${r.pct}%` : `$${r.pct}`}
-                </button>
+                />
               ) : (
                 <span className="min-w-14 text-right text-xs font-semibold">
                   {mode === "%" ? `${r.pct}%` : `$${r.pct}`}
                 </span>
               )}
-              {editing && <Menu className="size-4 text-muted-foreground" />}
+              {editing && <Menu className="size-4 text-muted-foreground" aria-hidden="true" />}
             </div>
           ))}
         </div>
