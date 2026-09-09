@@ -2,11 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Bell,
   ChevronRight,
-  Home,
-  ArrowLeftRight,
-  Users,
-  Star,
-  CircleUserRound,
   Plus,
   X,
   Rocket,
@@ -19,6 +14,7 @@ import {
 import { useRef, useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
+import { MoveTabBar } from "@/routes/move";
 import { CHECKING_BALANCE } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/")({
@@ -365,26 +361,5 @@ function PromoArt({ art }: { art: Promo["art"] }) {
 }
 
 function TabBar() {
-  const tabs = [
-    { icon: Home, label: "Home", active: true },
-    { icon: ArrowLeftRight, label: "Move" },
-    { icon: Users, label: "Pay" },
-    { icon: Star, label: "Deals" },
-    { icon: CircleUserRound, label: "Profile" },
-  ];
-  return (
-    <nav className="absolute inset-x-0 bottom-0 flex items-center justify-around border-t border-border bg-background/95 px-2 pb-5 pt-3 backdrop-blur">
-      {tabs.map((t) => (
-        <button
-          key={t.label}
-          className={`flex flex-col items-center gap-1 text-[11px] ${
-            t.active ? "text-foreground" : "text-muted-foreground"
-          }`}
-        >
-          <t.icon className="size-6" strokeWidth={t.active ? 2.4 : 1.8} />
-          {t.label}
-        </button>
-      ))}
-    </nav>
-  );
+  return <MoveTabBar active="Home" />;
 }
