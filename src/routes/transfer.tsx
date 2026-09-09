@@ -252,15 +252,15 @@ function TransferScreen() {
             <AmountField value={amount} onChange={setAmount} symbolClassName="mt-3 font-display text-2xl font-bold" />
           </div>
 
-          {(error || helper) && (
-            <p
-              className={`mt-3 px-8 text-center text-xs ${
-                error ? "text-destructive" : "text-muted-foreground"
-              }`}
-            >
-              {error ?? helper}
-            </p>
-          )}
+          <p
+            role="status"
+            aria-live="polite"
+            className={`mt-3 px-8 text-center text-xs ${
+              error ? "text-destructive" : "text-muted-foreground"
+            }`}
+          >
+            {error ?? helper}
+          </p>
 
 
 
