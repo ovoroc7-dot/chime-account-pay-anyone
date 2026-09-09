@@ -101,15 +101,17 @@ function SavingsScreen() {
 
         <div className="mt-8 flex items-center justify-between">
           <h2 className="font-display text-xl font-bold">Goals</h2>
-          <button aria-label="Add goal" className="active:opacity-60">
+          <Link to="/goal-new" aria-label="Add goal" className="active:opacity-60">
             <Plus className="size-5" strokeWidth={2.2} />
-          </button>
+          </Link>
         </div>
 
         <div className="mt-4 space-y-5">
-          {savingsGoals.map((g) => (
-            <button
+          {goals.map((g) => (
+            <Link
               key={g.id}
+              to="/goal/$id"
+              params={{ id: g.id }}
               className="flex w-full items-center gap-3 text-left active:opacity-70"
             >
               <span className="grid size-10 place-items-center rounded-full bg-card text-lg">
