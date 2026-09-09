@@ -64,8 +64,7 @@ const ACCOUNTS: Account[] = [
     sub: "$716.06 as of 12 minutes ago",
     kind: "bank",
     group: "linked",
-    disabled: true,
-    detail: "Details",
+    detail: "1-3 business days",
   },
   {
     id: "capital-one",
@@ -73,8 +72,7 @@ const ACCOUNTS: Account[] = [
     sub: "$1,038.82 as of over 3 years ago",
     kind: "bank",
     group: "linked",
-    disabled: true,
-    detail: "Details",
+    detail: "1-3 business days",
   },
   {
     id: "apple-pay",
@@ -123,7 +121,15 @@ function AccountIcon({ kind, active }: { kind: Account["kind"]; active?: boolean
   );
 }
 
-function AccountRow({ account, onSelect }: { account: Account; onSelect: () => void }) {
+function AccountRow({
+  account,
+  feeLabel,
+  onSelect,
+}: {
+  account: Account;
+  feeLabel?: string;
+  onSelect: () => void;
+}) {
   return (
     <button
       disabled={account.disabled}
@@ -138,18 +144,26 @@ function AccountRow({ account, onSelect }: { account: Account; onSelect: () => v
         <span className="block text-[11px] text-muted-foreground">{account.sub}</span>
       </span>
       {account.instant && (
-        <span className="flex items-center gap-1 text-[11px] font-semibold text-foreground">
-          <Zap className="size-3 fill-primary text-primary" />
-          Instant
+        <span className="text-right">
+          <span className="flex items-center justify-end gap-1 text-[11px] font-semibold text-foreground">
+            <Zap className="size-3 fill-primary text-primary" />
+            Instant
+          </span>
+          {feeLabel && (
+            <span className="mt-1 block rounded bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+              {feeLabel}
+            </span>
+          )}
         </span>
       )}
       {account.detail && (
-        <span className="text-[11px] font-semibold text-primary">{account.detail}</span>
+        <span className="text-[11px] font-medium text-muted-foreground">{account.detail}</span>
       )}
       {account.chevron && <ChevronRight className="size-4 text-muted-foreground" />}
     </button>
   );
 }
+
 
 const keys = [
   ["1", ""],
