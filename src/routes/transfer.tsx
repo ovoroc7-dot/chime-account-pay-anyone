@@ -139,13 +139,31 @@ const keys = [
 
 function TransferScreen() {
   const [amount, setAmount] = useState("0");
-  const [swapped, setSwapped] = useState(false);
+  const [fromId, setFromId] = useState("sofi-debit");
+  const [toId, setToId] = useState("checking");
+  const [picking, setPicking] = useState<null | "From" | "To">(null);
   const [reviewing, setReviewing] = useState(false);
   const [done, setDone] = useState(false);
 
-  const from = swapped ? CHIME : EXTERNAL;
-  const to = swapped ? EXTERNAL : CHIME;
+  const from = acct(fromId);
+  const to = acct(toId);
   const value = parseFloat(amount) || 0;
+
+  const swap = () => {
+    setFromId(toId);
+    setToId(fromId);
+  };
+
+  const choose = (id: string) => {
+    if (picking === "From") {
+      if (id === toId) setToId(fromId);
+      setFromId(id);
+    } else {
+      if (id === fromId) setFromId(toId);
+      setToId(id);
+    }
+    setPicking(null);
+  };
 
   const press = (k: string) => {
     setAmount((a) => {
