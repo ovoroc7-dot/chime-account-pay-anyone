@@ -137,23 +137,26 @@ function SplitSheet({
     setActive(a.id);
   };
 
+  const applyPct = (id: string, raw: string) => {
+    const digits = raw.replace(/[^0-9]/g, "");
+    const n = Math.min(100, Number(digits === "" ? "0" : digits));
+    setRows((rs) => {
+      const updated = rs.map((r) =>
+        r.id === id ? { ...r, pct: Number.isNaN(n) ? r.pct : n } : r,
+      );
+      // keep checking as the remainder
+      const others = updated.filter((r) => !r.fixed).reduce((s, r) => s + r.pct, 0);
+      return updated.map((r) => (r.fixed ? { ...r, pct: Math.max(0, 100 - others) } : r));
+    });
+  };
+
+  const setPct = (id: string, raw: string) => applyPct(id, raw);
+
   const press = (key: string) => {
     if (!active) return;
-    setRows((rs) =>
-      rs.map((r) => {
-        if (r.id !== active) return r;
-        const cur = String(r.pct);
-        let next = key === "del" ? cur.slice(0, -1) : cur === "0" ? key : cur + key;
-        if (next === "") next = "0";
-        const n = Math.min(100, Number(next));
-        return { ...r, pct: Number.isNaN(n) ? r.pct : n };
-      }),
-    );
-    // keep checking as the remainder
-    setRows((rs) => {
-      const others = rs.filter((r) => !r.fixed).reduce((s, r) => s + r.pct, 0);
-      return rs.map((r) => (r.fixed ? { ...r, pct: Math.max(0, 100 - others) } : r));
-    });
+    const cur = String(rows.find((r) => r.id === active)?.pct ?? 0);
+    const next = key === "del" ? cur.slice(0, -1) : cur === "0" ? key : cur + key;
+    applyPct(active, next);
   };
 
   return (
