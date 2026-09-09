@@ -31,6 +31,25 @@ export const Route = createFileRoute("/pay")({
 
 const SEARCH_HINTS = ["name", "phone number", "email", "$ChimeSign"] as const;
 
+function titleCase(s: string) {
+  return s
+    .split(/\s+/)
+    .map((w) => (w ? w[0]!.toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
+function formatPhone(digits: string) {
+  const d = digits.slice(-10);
+  return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : digits;
+}
+
+function initialsOf(s: string) {
+  const letters = s.replace(/[^a-zA-Z ]/g, " ").trim().split(/\s+/).filter(Boolean);
+  if (letters.length === 0) return "#";
+  return (letters[0]![0]! + (letters[1]?.[0] ?? "")).toUpperCase();
+}
+
+
 const CONTACTS = [
   { name: "Kristan Davis", tag: "$kinsleywhedbee", initials: "KD" },
   { name: "Marcus Lee", tag: "$marcus-lee", initials: "ML" },
