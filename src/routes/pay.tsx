@@ -31,6 +31,25 @@ export const Route = createFileRoute("/pay")({
 
 const SEARCH_HINTS = ["name", "phone number", "email", "$ChimeSign"] as const;
 
+function titleCase(s: string) {
+  return s
+    .split(/\s+/)
+    .map((w) => (w ? w[0]!.toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
+function formatPhone(digits: string) {
+  const d = digits.slice(-10);
+  return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : digits;
+}
+
+function initialsOf(s: string) {
+  const letters = s.replace(/[^a-zA-Z ]/g, " ").trim().split(/\s+/).filter(Boolean);
+  if (letters.length === 0) return "#";
+  return (letters[0]![0]! + (letters[1]?.[0] ?? "")).toUpperCase();
+}
+
+
 const CONTACTS = [
   { name: "Kristan Davis", tag: "$kinsleywhedbee", initials: "KD" },
   { name: "Marcus Lee", tag: "$marcus-lee", initials: "ML" },
@@ -80,11 +99,35 @@ function PayScreen() {
     setSheet("contacts");
   };
 
+  const q = query.trim();
   const filtered = CONTACTS.filter(
     (c) =>
-      c.name.toLowerCase().includes(query.toLowerCase()) ||
-      c.tag.toLowerCase().includes(query.toLowerCase()),
+      c.name.toLowerCase().includes(q.toLowerCase()) ||
+      c.tag.toLowerCase().includes(q.toLowerCase()),
   );
+
+  const digits = q.replace(/[^\d]/g, "");
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(q);
+  const isPhone = digits.length >= 10 && /^[\d\s()+-]+$/.test(q);
+  const isTag = q.startsWith("$") && q.length > 1;
+
+  const typedRecipient =
+    q.length === 0
+      ? null
+      : {
+          name: isEmail || isPhone || isTag ? q : titleCase(q),
+          tag: isEmail
+            ? "Email"
+            : isPhone
+              ? formatPhone(digits)
+              : isTag
+                ? "$ChimeSign"
+                : "Name",
+          initials: initialsOf(q),
+        };
+
+  const canSendTyped = Boolean(typedRecipient) && (isEmail || isPhone || isTag || q.length >= 2);
+
 
   return (
     <PhoneFrame>
@@ -238,9 +281,37 @@ function PayScreen() {
             )}
           </label>
 
+          {typedRecipient && canSendTyped && (
+            <>
+              <p className="mt-5 text-[12px] text-muted-foreground">Send to</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setContact(typedRecipient);
+                  setSheet("note");
+                }}
+                className="mt-3 flex w-full items-center gap-3 rounded-xl bg-card px-3 py-3 text-left active:opacity-70"
+              >
+                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-[13px] font-bold text-primary-foreground">
+                  {typedRecipient.initials}
+                </span>
+                <span className="min-w-0">
+                  <span className="block truncate text-[15px] font-semibold">
+                    {typedRecipient.name}
+                  </span>
+                  <span className="block text-[12px] text-muted-foreground">
+                    {typedRecipient.tag} · {mode === "Pay" ? "Pay" : "Request"} {shown}
+                  </span>
+                </span>
+              </button>
+            </>
+          )}
 
-          <p className="mt-5 text-[12px] text-muted-foreground">Recents</p>
+          <p className="mt-5 text-[12px] text-muted-foreground">
+            {q ? "Contacts" : "Recents"}
+          </p>
           <ul className="mt-3 space-y-1">
+
             {filtered.map((c) => (
               <li key={c.tag}>
                 <button
