@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as PhysicalCardRouteImport } from './routes/physical-card'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const InsightsRoute = InsightsRouteImport.update({
   path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PhysicalCardRoute = PhysicalCardRouteImport.update({
+  id: '/physical-card',
+  path: '/physical-card',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/insights': typeof InsightsRoute
+  '/physical-card': typeof PhysicalCardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/insights': typeof InsightsRoute
+  '/physical-card': typeof PhysicalCardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/insights': typeof InsightsRoute
+  '/physical-card': typeof PhysicalCardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cards' | '/checking' | '/insights'
+  fullPaths: '/' | '/cards' | '/checking' | '/insights' | '/physical-card'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cards' | '/checking' | '/insights'
-  id: '__root__' | '/' | '/cards' | '/checking' | '/insights'
+  to: '/' | '/cards' | '/checking' | '/insights' | '/physical-card'
+  id: '__root__' | '/' | '/cards' | '/checking' | '/insights' | '/physical-card'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   CardsRoute: typeof CardsRoute
   CheckingRoute: typeof CheckingRoute
   InsightsRoute: typeof InsightsRoute
+  PhysicalCardRoute: typeof PhysicalCardRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/physical-card': {
+      id: '/physical-card'
+      path: '/physical-card'
+      fullPath: '/physical-card'
+      preLoaderRoute: typeof PhysicalCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   CardsRoute: CardsRoute,
   CheckingRoute: CheckingRoute,
   InsightsRoute: InsightsRoute,
+  PhysicalCardRoute: PhysicalCardRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
