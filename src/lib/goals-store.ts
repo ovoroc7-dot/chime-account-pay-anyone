@@ -30,7 +30,7 @@ export function useGoal(id: string) {
 export function addGoal(g: Omit<Goal, "id"> & { id?: string }) {
   const id =
     g.id ?? `${g.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${goals.length + 1}`;
-  goals = [...goals, { amount: 0, ...g, id }];
+  goals = [...goals, { ...g, id }];
   emit();
   return id;
 }
