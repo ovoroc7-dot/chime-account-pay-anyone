@@ -2,11 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Bell,
   ChevronRight,
-  Home,
-  ArrowLeftRight,
-  Users,
-  Star,
-  CircleUserRound,
   Plus,
   X,
   Rocket,
@@ -19,6 +14,7 @@ import {
 import { useRef, useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
+import { MoveTabBar } from "@/routes/move";
 import { CHECKING_BALANCE } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/")({
