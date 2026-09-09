@@ -4,6 +4,8 @@ import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
 import { AmountField } from "@/components/AmountField";
+import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+
 import { CHECKING_BALANCE, savingsGoals, usd } from "@/lib/chime-data";
 
 type Search = { dir?: "in" | "out" };
@@ -94,8 +96,10 @@ const GOALS: Acct[] = savingsGoals.map((g) => ({
 
 function SavingsMoveScreen() {
   const router = useRouter();
+  const kbInset = useKeyboardInset();
   const { dir } = Route.useSearch();
   const [amount, setAmount] = useState("0");
+
   const [from, setFrom] = useState<Acct>(
     dir === "out" ? GOALS[0]! : SOURCES.find((a) => a.id === "checking")!,
   );
@@ -190,10 +194,12 @@ function SavingsMoveScreen() {
         <button
           disabled={value <= 0}
           onClick={() => setDone(true)}
-          className="mb-4 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:bg-secondary disabled:text-muted-foreground"
+          style={{ marginBottom: `calc(1rem + ${kbInset}px)` }}
+          className="sticky bottom-0 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:bg-secondary disabled:text-muted-foreground"
         >
           Review
         </button>
+
       </div>
 
       {picker && (
