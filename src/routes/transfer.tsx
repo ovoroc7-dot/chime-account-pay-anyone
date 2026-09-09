@@ -177,6 +177,18 @@ function TransferScreen() {
   const to = acct(toId);
   const value = parseFloat(amount) || 0;
 
+  // Instant transfers out to a debit card / wallet: $25 minimum, 1.75% fee
+  const instantOut = from.kind === "chime" && (to.kind === "card" || to.kind === "wallet");
+  const fee = instantOut ? Math.round(value * 0.0175 * 100) / 100 : 0;
+  const belowMin = instantOut && value > 0 && value < 25;
+  const canReview = value > 0 && !belowMin;
+
+  const helper = instantOut
+    ? value >= 25
+      ? `1.75% fee updated to ${usd(fee)}`
+      : "Transfers to debit cards have a $25 minimum"
+    : null;
+
   const swap = () => {
     setFromId(toId);
     setToId(fromId);
@@ -225,6 +237,11 @@ function TransferScreen() {
             <span className="ml-0.5 mt-2 h-12 w-0.5 animate-pulse bg-primary" />
           </div>
 
+          {helper && (
+            <p className="mt-3 px-8 text-center text-xs text-muted-foreground">{helper}</p>
+          )}
+
+
           <div className="mt-10 grid grid-cols-[1fr_auto_1fr] items-start gap-3 px-6">
             <button onClick={() => setPicking("From")} className="text-center active:opacity-60">
               <p className="text-[11px] font-semibold text-muted-foreground">From</p>
@@ -255,10 +272,10 @@ function TransferScreen() {
 
           <div className="mt-8 px-6">
             <button
-              disabled={value <= 0}
+              disabled={!canReview}
               onClick={() => setReviewing(true)}
               className={`w-full rounded-full py-3.5 text-sm font-semibold transition-colors ${
-                value > 0
+                canReview
                   ? "bg-primary text-primary-foreground active:opacity-80"
                   : "bg-primary/25 text-foreground/50"
               }`}
@@ -343,8 +360,9 @@ function TransferScreen() {
                 ["Amount", usd(value)],
                 ["From", from.name],
                 ["To", to.name],
-                ["Arrives", "In up to 5 business days"],
-                ["Fee", "$0.00"],
+                ["Arrives", instantOut ? "Instantly" : "In up to 5 business days"],
+                ["Fee", usd(fee)],
+                ["Total", usd(value + fee)],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between gap-4">
                   <span className="text-muted-foreground">{k}</span>
@@ -373,9 +391,12 @@ function TransferScreen() {
           <span className="grid size-16 place-items-center rounded-full bg-primary text-primary-foreground">
             <Check className="size-8" strokeWidth={3} />
           </span>
-          <h2 className="mt-6 font-display text-3xl font-extrabold">Transfer started</h2>
+          <h2 className="mt-6 font-display text-3xl font-extrabold">
+            {instantOut ? "Transfer sent" : "Transfer started"}
+          </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            {usd(value)} from {from.name} to {to.name}.
+            {usd(value)} from {from.name} to {to.name}
+            {instantOut ? ` · ${usd(fee)} fee` : ""}.
           </p>
           <Link
             to="/checking"
