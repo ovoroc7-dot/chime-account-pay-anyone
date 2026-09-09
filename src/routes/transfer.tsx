@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ChevronLeft,
   ArrowLeftRight,
-  Delete,
+  
   CreditCard,
   Check,
   Zap,
@@ -158,20 +158,6 @@ function AccountRow({
 }
 
 
-const keys = [
-  ["1", ""],
-  ["2", "ABC"],
-  ["3", "DEF"],
-  ["4", "GHI"],
-  ["5", "JKL"],
-  ["6", "MNO"],
-  ["7", "PQRS"],
-  ["8", "TUV"],
-  ["9", "WXYZ"],
-  [".", ""],
-  ["0", ""],
-] as const;
-
 function TransferScreen() {
   const [amount, setAmount] = useState("0");
   const [fromId, setFromId] = useState("checking");
@@ -223,20 +209,6 @@ function TransferScreen() {
     setPicking(null);
   };
 
-  const press = (k: string) => {
-    setAmount((a) => {
-      if (k === ".") return a.includes(".") ? a : `${a}.`;
-      if (a === "0") return k;
-      if (a.includes(".") && a.split(".")[1]!.length >= 2) return a;
-      return a.length >= 7 ? a : a + k;
-    });
-  };
-
-  const back = () =>
-    setAmount((a) => {
-      const next = a.slice(0, -1);
-      return next === "" ? "0" : next;
-    });
 
   return (
     <PhoneFrame>
@@ -304,41 +276,6 @@ function TransferScreen() {
               }`}
             >
               Review
-            </button>
-          </div>
-
-          <div
-            role="group"
-            aria-label="Number pad"
-            className="mt-6 grid grid-cols-3 gap-2 bg-surface-deep/40 px-2 pb-6 pt-3"
-          >
-            {keys.map(([k, sub]) => (
-              <button
-                key={k}
-                type="button"
-                aria-label={k === "." ? "Decimal point" : k}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => press(k)}
-                className="min-h-11 rounded-lg bg-secondary py-2.5 active:opacity-60"
-              >
-                <span aria-hidden="true" className="block font-display text-2xl font-medium">
-                  {k}
-                </span>
-                {sub && (
-                  <span aria-hidden="true" className="block text-[9px] tracking-widest text-muted-foreground">
-                    {sub}
-                  </span>
-                )}
-              </button>
-            ))}
-            <button
-              type="button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={back}
-              aria-label="Delete last digit"
-              className="grid min-h-11 place-items-center active:opacity-60"
-            >
-              <Delete className="size-6" aria-hidden="true" />
             </button>
           </div>
         </div>

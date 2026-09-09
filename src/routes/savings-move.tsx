@@ -106,15 +106,6 @@ function SavingsMoveScreen() {
   const [done, setDone] = useState(false);
 
   const value = Number(amount) || 0;
-  const press = (k: string) => {
-    setAmount((a) => {
-      if (k === "del") return a.length <= 1 ? "0" : a.slice(0, -1);
-      if (k === "." ) return a.includes(".") ? a : a + ".";
-      if (a === "0") return k;
-      if (a.includes(".") && a.split(".")[1]!.length >= 2) return a;
-      return a + k;
-    });
-  };
 
   if (done) {
     return (
@@ -203,21 +194,6 @@ function SavingsMoveScreen() {
         >
           Review
         </button>
-
-        <div role="group" aria-label="Number pad" className="grid grid-cols-3 gap-2 pb-6">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "del"].map((k) => (
-            <button
-              key={k}
-              type="button"
-              aria-label={k === "del" ? "Delete last digit" : k === "." ? "Decimal point" : k}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => press(k)}
-              className="min-h-11 rounded-lg bg-card py-3 text-xl font-medium active:opacity-70"
-            >
-              <span aria-hidden="true">{k === "del" ? "⌫" : k}</span>
-            </button>
-          ))}
-        </div>
       </div>
 
       {picker && (

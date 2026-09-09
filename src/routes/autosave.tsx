@@ -152,12 +152,6 @@ function SplitSheet({
 
   const setPct = (id: string, raw: string) => applyPct(id, raw);
 
-  const press = (key: string) => {
-    if (!active) return;
-    const cur = String(rows.find((r) => r.id === active)?.pct ?? 0);
-    const next = key === "del" ? cur.slice(0, -1) : cur === "0" ? key : cur + key;
-    applyPct(active, next);
-  };
 
   return (
     <div className="absolute inset-0 z-30 flex flex-col bg-background">
@@ -267,24 +261,6 @@ function SplitSheet({
                 >
                   Done
                 </button>
-              </div>
-              <div role="group" aria-label="Number pad" className="grid grid-cols-3 gap-2 px-3 pb-3">
-                {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "del"].map((k, i) =>
-                  k === "" ? (
-                    <span key={i} />
-                  ) : (
-                    <button
-                      key={i}
-                      type="button"
-                      aria-label={k === "del" ? "Delete last digit" : k}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => press(k)}
-                      className="min-h-11 rounded-md bg-card py-2.5 text-lg font-medium active:opacity-70"
-                    >
-                      <span aria-hidden="true">{k === "del" ? "⌫" : k}</span>
-                    </button>
-                  ),
-                )}
               </div>
             </div>
           )}
