@@ -177,6 +177,18 @@ function TransferScreen() {
   const to = acct(toId);
   const value = parseFloat(amount) || 0;
 
+  // Instant transfers out to a debit card / wallet: $25 minimum, 1.75% fee
+  const instantOut = from.kind === "chime" && (to.kind === "card" || to.kind === "wallet");
+  const fee = instantOut ? Math.round(value * 0.0175 * 100) / 100 : 0;
+  const belowMin = instantOut && value > 0 && value < 25;
+  const canReview = value > 0 && !belowMin;
+
+  const helper = instantOut
+    ? value >= 25
+      ? `1.75% fee updated to ${usd(fee)}`
+      : "Transfers to debit cards have a $25 minimum"
+    : null;
+
   const swap = () => {
     setFromId(toId);
     setToId(fromId);
