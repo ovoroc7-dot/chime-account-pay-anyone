@@ -350,16 +350,26 @@ function TransferScreen() {
             <div className="mt-4 flex-1 overflow-y-auto px-6 pb-2">
               <p className="text-xs font-semibold text-muted-foreground">Chime accounts</p>
               <div className="mt-2">
-                {ACCOUNTS.filter((a) => a.group === "chime").map((a) => (
+                {ACCOUNTS.filter(
+                  (a) => a.group === "chime" && a.id !== (picking === "From" ? toId : fromId),
+                ).map((a) => (
                   <AccountRow key={a.id} account={a} onSelect={() => choose(a.id)} />
                 ))}
               </div>
 
               <p className="mt-5 text-xs font-semibold text-muted-foreground">Linked accounts</p>
               <div className="mt-2">
-                {ACCOUNTS.filter((a) => a.group === "linked").map((a) => (
-                  <AccountRow key={a.id} account={a} onSelect={() => choose(a.id)} />
+                {ACCOUNTS.filter(
+                  (a) => a.group === "linked" && a.id !== (picking === "From" ? toId : fromId),
+                ).map((a) => (
+                  <AccountRow
+                    key={a.id}
+                    account={a}
+                    feeLabel={a.instant && value >= 25 ? `${usd(fee || value * 0.0175)} fee` : undefined}
+                    onSelect={() => choose(a.id)}
+                  />
                 ))}
+
                 {ADD_ROWS.map((r) => (
                   <button
                     key={r.id}
