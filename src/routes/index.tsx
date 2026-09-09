@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { ChimeLogo } from "@/components/ChimeLogo";
 import { CHECKING_BALANCE } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/")({
