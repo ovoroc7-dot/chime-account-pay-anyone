@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, X, Trash2, Menu } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { ChimeLogo } from "@/components/ChimeLogo";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { useGoals } from "@/lib/goals-store";
 
@@ -193,7 +194,11 @@ function SplitSheet({
         <div className="mt-3 space-y-3">
           {rows.map((r) => (
             <div key={r.id} className="flex items-center gap-3">
-              <span className="text-base">{r.emoji}</span>
+              {r.id === "checking" ? (
+                <ChimeLogo className="size-5" />
+              ) : (
+                <span className="text-base">{r.emoji}</span>
+              )}
               <span className="flex-1 text-sm font-medium">{r.name}</span>
               {editing && !r.fixed ? (
                 <input

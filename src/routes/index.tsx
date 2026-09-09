@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { ChimeLogo } from "@/components/ChimeLogo";
 import { CHECKING_BALANCE } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/")({
@@ -67,7 +68,10 @@ function HomeScreen() {
             to="/checking"
             className="mt-7 flex items-center justify-between transition-opacity active:opacity-60"
           >
-            <span className="text-xl font-semibold">Checking</span>
+            <span className="flex items-center gap-2.5 text-xl font-semibold">
+              <ChimeLogo className="size-6" />
+              Checking
+            </span>
             <span className="flex items-center gap-1 text-xl font-semibold">
               ${CHECKING_BALANCE.toFixed(2)}
               <ChevronRight className="size-5" strokeWidth={2.5} />
