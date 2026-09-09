@@ -1,5 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronLeft, ArrowLeftRight, Delete, CreditCard, Check } from "lucide-react";
+import {
+  ChevronLeft,
+  ArrowLeftRight,
+  Delete,
+  CreditCard,
+  Check,
+  Zap,
+  ChevronRight,
+  Building2,
+  Wallet,
+  Landmark,
+} from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
