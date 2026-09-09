@@ -198,39 +198,31 @@ function TransferScreen() {
           </div>
 
           <div className="mt-10 grid grid-cols-[1fr_auto_1fr] items-start gap-3 px-6">
-            <div className="text-center">
+            <button onClick={() => setPicking("From")} className="text-center active:opacity-60">
               <p className="text-[11px] font-semibold text-muted-foreground">From</p>
-              <span className="mx-auto mt-2 grid size-8 place-items-center rounded-full bg-surface-deep text-primary">
-                {from === CHIME ? (
-                  <span className="text-xs font-bold">C</span>
-                ) : (
-                  <CreditCard className="size-4" />
-                )}
+              <span className="mx-auto mt-2 block w-fit">
+                <AccountIcon kind={from.kind} />
               </span>
               <p className="mt-2 text-xs font-semibold leading-snug">{from.name}</p>
               <p className="mt-1 text-[11px] text-muted-foreground">{from.sub}</p>
-            </div>
+            </button>
 
             <button
               aria-label="Swap accounts"
-              onClick={() => setSwapped((s) => !s)}
+              onClick={swap}
               className="mt-10 grid size-8 place-items-center rounded-full active:opacity-60"
             >
               <ArrowLeftRight className="size-4 text-muted-foreground" />
             </button>
 
-            <div className="text-center">
+            <button onClick={() => setPicking("To")} className="text-center active:opacity-60">
               <p className="text-[11px] font-semibold text-muted-foreground">To</p>
-              <span className="mx-auto mt-2 grid size-8 place-items-center rounded-full bg-primary text-primary-foreground">
-                {to === CHIME ? (
-                  <span className="text-xs font-bold">C</span>
-                ) : (
-                  <CreditCard className="size-4" />
-                )}
+              <span className="mx-auto mt-2 block w-fit">
+                <AccountIcon kind={to.kind} />
               </span>
               <p className="mt-2 text-xs font-semibold leading-snug">{to.name}</p>
               <p className="mt-1 text-[11px] text-muted-foreground">{to.sub}</p>
-            </div>
+            </button>
           </div>
 
           <div className="mt-8 px-6">
