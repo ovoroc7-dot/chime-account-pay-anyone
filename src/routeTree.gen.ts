@@ -10,17 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AutosaveRouteImport } from './routes/autosave'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
+import { Route as SavingsRouteImport } from './routes/savings'
 import { Route as SpotmeRouteImport } from './routes/spotme'
 import { Route as TransferRouteImport } from './routes/transfer'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutosaveRoute = AutosaveRouteImport.update({
+  id: '/autosave',
+  path: '/autosave',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CardsRoute = CardsRouteImport.update({
@@ -48,6 +55,11 @@ const PhysicalCardRoute = PhysicalCardRouteImport.update({
   path: '/physical-card',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SavingsRoute = SavingsRouteImport.update({
+  id: '/savings',
+  path: '/savings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpotmeRoute = SpotmeRouteImport.update({
   id: '/spotme',
   path: '/spotme',
@@ -61,32 +73,38 @@ const TransferRoute = TransferRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/autosave': typeof AutosaveRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/savings': typeof SavingsRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/autosave': typeof AutosaveRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/savings': typeof SavingsRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/autosave': typeof AutosaveRoute
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/savings': typeof SavingsRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
 }
@@ -94,42 +112,50 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/autosave'
     | '/cards'
     | '/checking'
     | '/credit-builder'
     | '/insights'
     | '/physical-card'
+    | '/savings'
     | '/spotme'
     | '/transfer'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/autosave'
     | '/cards'
     | '/checking'
     | '/credit-builder'
     | '/insights'
     | '/physical-card'
+    | '/savings'
     | '/spotme'
     | '/transfer'
   id:
     | '__root__'
     | '/'
+    | '/autosave'
     | '/cards'
     | '/checking'
     | '/credit-builder'
     | '/insights'
     | '/physical-card'
+    | '/savings'
     | '/spotme'
     | '/transfer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AutosaveRoute: typeof AutosaveRoute
   CardsRoute: typeof CardsRoute
   CheckingRoute: typeof CheckingRoute
   CreditBuilderRoute: typeof CreditBuilderRoute
   InsightsRoute: typeof InsightsRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
+  SavingsRoute: typeof SavingsRoute
   SpotmeRoute: typeof SpotmeRoute
   TransferRoute: typeof TransferRoute
 }
@@ -141,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/autosave': {
+      id: '/autosave'
+      path: '/autosave'
+      fullPath: '/autosave'
+      preLoaderRoute: typeof AutosaveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cards': {
@@ -178,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PhysicalCardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/savings': {
+      id: '/savings'
+      path: '/savings'
+      fullPath: '/savings'
+      preLoaderRoute: typeof SavingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/spotme': {
       id: '/spotme'
       path: '/spotme'
@@ -197,11 +237,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AutosaveRoute: AutosaveRoute,
   CardsRoute: CardsRoute,
   CheckingRoute: CheckingRoute,
   CreditBuilderRoute: CreditBuilderRoute,
   InsightsRoute: InsightsRoute,
   PhysicalCardRoute: PhysicalCardRoute,
+  SavingsRoute: SavingsRoute,
   SpotmeRoute: SpotmeRoute,
   TransferRoute: TransferRoute,
 }

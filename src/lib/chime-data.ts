@@ -129,6 +129,22 @@ export const insights: MonthInsight[] = [
 export const usd = (n: number) =>
   `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
+export const SAVINGS_BALANCE = 0;
+export const SAVINGS_APY = 1.0;
+
+export type SavingsGoal = {
+  id: string;
+  name: string;
+  emoji: string;
+  amount: number;
+  isDefault?: boolean;
+};
+
+export const savingsGoals: SavingsGoal[] = [
+  { id: "my-savings", name: "My Savings", emoji: "💰", amount: 0, isDefault: true },
+  { id: "emergency", name: "Emergency fund", emoji: "🎉", amount: 0 },
+];
+
 export const CARDHOLDER = "DENIS TRUFIN";
 export const CARD_LAST4 = "4821";
 export const CARD_FULL_NUMBER = "4147 2029 8814 4821";
