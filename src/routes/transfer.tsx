@@ -259,6 +259,52 @@ function TransferScreen() {
         </div>
       </div>
 
+      {picking && (
+        <div className="absolute inset-0 z-20 flex flex-col justify-end">
+          <button
+            aria-label="Close"
+            onClick={() => setPicking(null)}
+            className="absolute inset-0 bg-black/60"
+          />
+          <div className="relative flex max-h-[88%] flex-col rounded-t-3xl bg-card pb-6">
+            <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-muted-foreground/40" />
+            <h2 className="px-6 pt-5 font-display text-2xl font-bold">{picking}</h2>
+
+            <div className="mt-4 flex-1 overflow-y-auto px-6 pb-2">
+              <p className="text-xs font-semibold text-muted-foreground">Chime accounts</p>
+              <div className="mt-2">
+                {ACCOUNTS.filter((a) => a.group === "chime").map((a) => (
+                  <AccountRow key={a.id} account={a} onSelect={() => choose(a.id)} />
+                ))}
+              </div>
+
+              <p className="mt-5 text-xs font-semibold text-muted-foreground">Linked accounts</p>
+              <div className="mt-2">
+                {ACCOUNTS.filter((a) => a.group === "linked").map((a) => (
+                  <AccountRow key={a.id} account={a} onSelect={() => choose(a.id)} />
+                ))}
+                {ADD_ROWS.map((r) => (
+                  <button
+                    key={r.id}
+                    onClick={() => setPicking(null)}
+                    className="flex w-full items-center gap-3 py-3 text-left active:opacity-60"
+                  >
+                    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-deep text-foreground">
+                      <Landmark className="size-4" />
+                    </span>
+                    <span className="flex-1">
+                      <span className="block text-sm font-semibold">{r.name}</span>
+                      <span className="block text-[11px] text-muted-foreground">{r.sub}</span>
+                    </span>
+                    <ChevronRight className="size-4 text-muted-foreground" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {reviewing && !done && (
         <div className="absolute inset-0 z-20 flex flex-col justify-end">
           <button aria-label="Close" onClick={() => setReviewing(false)} className="absolute inset-0 bg-black/60" />
