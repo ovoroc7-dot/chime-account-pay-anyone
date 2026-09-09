@@ -127,7 +127,7 @@ function AccountRow({
   onSelect,
 }: {
   account: Account;
-  feeLabel?: string;
+  feeLabel?: string | undefined;
   onSelect: () => void;
 }) {
   return (
