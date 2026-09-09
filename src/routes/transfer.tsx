@@ -123,6 +123,34 @@ function AccountIcon({ kind, active }: { kind: Account["kind"]; active?: boolean
   );
 }
 
+function AccountRow({ account, onSelect }: { account: Account; onSelect: () => void }) {
+  return (
+    <button
+      disabled={account.disabled}
+      onClick={onSelect}
+      className={`flex w-full items-center gap-3 py-3 text-left ${
+        account.disabled ? "opacity-45" : "active:opacity-60"
+      }`}
+    >
+      <AccountIcon kind={account.kind} />
+      <span className="flex-1">
+        <span className="block text-sm font-semibold">{account.name}</span>
+        <span className="block text-[11px] text-muted-foreground">{account.sub}</span>
+      </span>
+      {account.instant && (
+        <span className="flex items-center gap-1 text-[11px] font-semibold text-foreground">
+          <Zap className="size-3 fill-primary text-primary" />
+          Instant
+        </span>
+      )}
+      {account.detail && (
+        <span className="text-[11px] font-semibold text-primary">{account.detail}</span>
+      )}
+      {account.chevron && <ChevronRight className="size-4 text-muted-foreground" />}
+    </button>
+  );
+}
+
 const keys = [
   ["1", ""],
   ["2", "ABC"],
