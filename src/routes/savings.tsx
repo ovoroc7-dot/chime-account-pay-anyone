@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
-import { SAVINGS_BALANCE, SAVINGS_APY, savingsGoals, usd } from "@/lib/chime-data";
+import { SAVINGS_BALANCE, SAVINGS_APY, usd } from "@/lib/chime-data";
+import { useGoals } from "@/lib/goals-store";
 
 export const Route = createFileRoute("/savings")({
   head: () => ({

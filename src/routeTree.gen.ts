@@ -15,6 +15,7 @@ import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
 import { Route as GoalNewRouteImport } from './routes/goal-new'
+import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
 import { Route as SavingsRouteImport } from './routes/savings'
@@ -51,6 +52,11 @@ const CreditBuilderRoute = CreditBuilderRouteImport.update({
 const GoalNewRoute = GoalNewRouteImport.update({
   id: '/goal-new',
   path: '/goal-new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/goal-new': typeof GoalNewRoute
+  '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/goal-new': typeof GoalNewRoute
+  '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/goal-new': typeof GoalNewRoute
+  '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/checking'
     | '/credit-builder'
     | '/goal-new'
+    | '/inbox'
     | '/insights'
     | '/physical-card'
     | '/savings'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/checking'
     | '/credit-builder'
     | '/goal-new'
+    | '/inbox'
     | '/insights'
     | '/physical-card'
     | '/savings'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/checking'
     | '/credit-builder'
     | '/goal-new'
+    | '/inbox'
     | '/insights'
     | '/physical-card'
     | '/savings'
@@ -190,6 +202,7 @@ export interface RootRouteChildren {
   CheckingRoute: typeof CheckingRoute
   CreditBuilderRoute: typeof CreditBuilderRoute
   GoalNewRoute: typeof GoalNewRoute
+  InboxRoute: typeof InboxRoute
   InsightsRoute: typeof InsightsRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
   SavingsRoute: typeof SavingsRoute
@@ -241,6 +254,13 @@ declare module '@tanstack/react-router' {
       path: '/goal-new'
       fullPath: '/goal-new'
       preLoaderRoute: typeof GoalNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -302,6 +322,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckingRoute: CheckingRoute,
   CreditBuilderRoute: CreditBuilderRoute,
   GoalNewRoute: GoalNewRoute,
+  InboxRoute: InboxRoute,
   InsightsRoute: InsightsRoute,
   PhysicalCardRoute: PhysicalCardRoute,
   SavingsRoute: SavingsRoute,
