@@ -360,8 +360,9 @@ function TransferScreen() {
                 ["Amount", usd(value)],
                 ["From", from.name],
                 ["To", to.name],
-                ["Arrives", "In up to 5 business days"],
-                ["Fee", "$0.00"],
+                ["Arrives", instantOut ? "Instantly" : "In up to 5 business days"],
+                ["Fee", usd(fee)],
+                ["Total", usd(value + fee)],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between gap-4">
                   <span className="text-muted-foreground">{k}</span>
