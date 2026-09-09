@@ -30,10 +30,6 @@ export const Route = createFileRoute("/autosave")({
 type Split = { id: string; name: string; emoji: string; pct: number; fixed?: boolean };
 
 const BASE: Split[] = [{ id: "checking", name: "Chime Checking", emoji: "🟢", pct: 100, fixed: true }];
-const AVAILABLE: Split[] = [
-  { id: "my-savings", name: "My Savings", emoji: "💰", pct: 0 },
-  { id: "emergency", name: "Emergency fund", emoji: "🎉", pct: 0 },
-];
 
 function AutoSaveScreen() {
   const router = useRouter();
