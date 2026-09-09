@@ -15,6 +15,7 @@ import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
 import { Route as DepositCheckRouteImport } from './routes/deposit-check'
+import { Route as DirectDepositRouteImport } from './routes/direct-deposit'
 import { Route as GoalNewRouteImport } from './routes/goal-new'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as InsightsRouteImport } from './routes/insights'
@@ -22,6 +23,7 @@ import { Route as LinkedAccountsRouteImport } from './routes/linked-accounts'
 import { Route as MailCheckRouteImport } from './routes/mail-check'
 import { Route as MoveRouteImport } from './routes/move'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
+import { Route as RecurringRouteImport } from './routes/recurring'
 import { Route as SavingsRouteImport } from './routes/savings'
 import { Route as SavingsMoveRouteImport } from './routes/savings-move'
 import { Route as SpotmeRouteImport } from './routes/spotme'
@@ -56,6 +58,11 @@ const CreditBuilderRoute = CreditBuilderRouteImport.update({
 const DepositCheckRoute = DepositCheckRouteImport.update({
   id: '/deposit-check',
   path: '/deposit-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DirectDepositRoute = DirectDepositRouteImport.update({
+  id: '/direct-deposit',
+  path: '/direct-deposit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoalNewRoute = GoalNewRouteImport.update({
@@ -93,6 +100,11 @@ const PhysicalCardRoute = PhysicalCardRouteImport.update({
   path: '/physical-card',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecurringRoute = RecurringRouteImport.update({
+  id: '/recurring',
+  path: '/recurring',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SavingsRoute = SavingsRouteImport.update({
   id: '/savings',
   path: '/savings',
@@ -126,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/deposit-check': typeof DepositCheckRoute
+  '/direct-deposit': typeof DirectDepositRoute
   '/goal-new': typeof GoalNewRoute
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
@@ -133,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
@@ -146,6 +160,7 @@ export interface FileRoutesByTo {
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/deposit-check': typeof DepositCheckRoute
+  '/direct-deposit': typeof DirectDepositRoute
   '/goal-new': typeof GoalNewRoute
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
@@ -153,6 +168,7 @@ export interface FileRoutesByTo {
   '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
@@ -167,6 +183,7 @@ export interface FileRoutesById {
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
   '/deposit-check': typeof DepositCheckRoute
+  '/direct-deposit': typeof DirectDepositRoute
   '/goal-new': typeof GoalNewRoute
   '/inbox': typeof InboxRoute
   '/insights': typeof InsightsRoute
@@ -174,6 +191,7 @@ export interface FileRoutesById {
   '/mail-check': typeof MailCheckRoute
   '/move': typeof MoveRoute
   '/physical-card': typeof PhysicalCardRoute
+  '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
   '/spotme': typeof SpotmeRoute
@@ -189,6 +207,7 @@ export interface FileRouteTypes {
     | '/checking'
     | '/credit-builder'
     | '/deposit-check'
+    | '/direct-deposit'
     | '/goal-new'
     | '/inbox'
     | '/insights'
@@ -196,6 +215,7 @@ export interface FileRouteTypes {
     | '/mail-check'
     | '/move'
     | '/physical-card'
+    | '/recurring'
     | '/savings'
     | '/savings-move'
     | '/spotme'
@@ -209,6 +229,7 @@ export interface FileRouteTypes {
     | '/checking'
     | '/credit-builder'
     | '/deposit-check'
+    | '/direct-deposit'
     | '/goal-new'
     | '/inbox'
     | '/insights'
@@ -216,6 +237,7 @@ export interface FileRouteTypes {
     | '/mail-check'
     | '/move'
     | '/physical-card'
+    | '/recurring'
     | '/savings'
     | '/savings-move'
     | '/spotme'
@@ -229,6 +251,7 @@ export interface FileRouteTypes {
     | '/checking'
     | '/credit-builder'
     | '/deposit-check'
+    | '/direct-deposit'
     | '/goal-new'
     | '/inbox'
     | '/insights'
@@ -236,6 +259,7 @@ export interface FileRouteTypes {
     | '/mail-check'
     | '/move'
     | '/physical-card'
+    | '/recurring'
     | '/savings'
     | '/savings-move'
     | '/spotme'
@@ -250,6 +274,7 @@ export interface RootRouteChildren {
   CheckingRoute: typeof CheckingRoute
   CreditBuilderRoute: typeof CreditBuilderRoute
   DepositCheckRoute: typeof DepositCheckRoute
+  DirectDepositRoute: typeof DirectDepositRoute
   GoalNewRoute: typeof GoalNewRoute
   InboxRoute: typeof InboxRoute
   InsightsRoute: typeof InsightsRoute
@@ -257,6 +282,7 @@ export interface RootRouteChildren {
   MailCheckRoute: typeof MailCheckRoute
   MoveRoute: typeof MoveRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
+  RecurringRoute: typeof RecurringRoute
   SavingsRoute: typeof SavingsRoute
   SavingsMoveRoute: typeof SavingsMoveRoute
   SpotmeRoute: typeof SpotmeRoute
@@ -308,6 +334,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DepositCheckRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/direct-deposit': {
+      id: '/direct-deposit'
+      path: '/direct-deposit'
+      fullPath: '/direct-deposit'
+      preLoaderRoute: typeof DirectDepositRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/goal-new': {
       id: '/goal-new'
       path: '/goal-new'
@@ -357,6 +390,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PhysicalCardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recurring': {
+      id: '/recurring'
+      path: '/recurring'
+      fullPath: '/recurring'
+      preLoaderRoute: typeof RecurringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/savings': {
       id: '/savings'
       path: '/savings'
@@ -402,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckingRoute: CheckingRoute,
   CreditBuilderRoute: CreditBuilderRoute,
   DepositCheckRoute: DepositCheckRoute,
+  DirectDepositRoute: DirectDepositRoute,
   GoalNewRoute: GoalNewRoute,
   InboxRoute: InboxRoute,
   InsightsRoute: InsightsRoute,
@@ -409,6 +450,7 @@ const rootRouteChildren: RootRouteChildren = {
   MailCheckRoute: MailCheckRoute,
   MoveRoute: MoveRoute,
   PhysicalCardRoute: PhysicalCardRoute,
+  RecurringRoute: RecurringRoute,
   SavingsRoute: SavingsRoute,
   SavingsMoveRoute: SavingsMoveRoute,
   SpotmeRoute: SpotmeRoute,

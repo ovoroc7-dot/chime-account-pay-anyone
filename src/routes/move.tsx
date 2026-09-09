@@ -43,9 +43,9 @@ export const Route = createFileRoute("/move")({
 });
 
 const rows = [
-  { icon: Download, label: "Set up direct deposit" },
+  { icon: Download, label: "Set up direct deposit", to: "/direct-deposit" },
   { icon: Smartphone, label: "Use Cash App®, Venmo®, PayPal®" },
-  { icon: Repeat, label: "Manage recurring transfers" },
+  { icon: Repeat, label: "Manage recurring transfers", to: "/recurring" },
   { icon: Users, label: "Send or request money" },
   { icon: Mail, label: "Mail a check", to: "/mail-check" },
   { icon: Landmark, label: "Manage linked accounts", to: "/linked-accounts" },
