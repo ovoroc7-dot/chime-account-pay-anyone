@@ -137,23 +137,26 @@ function SplitSheet({
     setActive(a.id);
   };
 
+  const applyPct = (id: string, raw: string) => {
+    const digits = raw.replace(/[^0-9]/g, "");
+    const n = Math.min(100, Number(digits === "" ? "0" : digits));
+    setRows((rs) => {
+      const updated = rs.map((r) =>
+        r.id === id ? { ...r, pct: Number.isNaN(n) ? r.pct : n } : r,
+      );
+      // keep checking as the remainder
+      const others = updated.filter((r) => !r.fixed).reduce((s, r) => s + r.pct, 0);
+      return updated.map((r) => (r.fixed ? { ...r, pct: Math.max(0, 100 - others) } : r));
+    });
+  };
+
+  const setPct = (id: string, raw: string) => applyPct(id, raw);
+
   const press = (key: string) => {
     if (!active) return;
-    setRows((rs) =>
-      rs.map((r) => {
-        if (r.id !== active) return r;
-        const cur = String(r.pct);
-        let next = key === "del" ? cur.slice(0, -1) : cur === "0" ? key : cur + key;
-        if (next === "") next = "0";
-        const n = Math.min(100, Number(next));
-        return { ...r, pct: Number.isNaN(n) ? r.pct : n };
-      }),
-    );
-    // keep checking as the remainder
-    setRows((rs) => {
-      const others = rs.filter((r) => !r.fixed).reduce((s, r) => s + r.pct, 0);
-      return rs.map((r) => (r.fixed ? { ...r, pct: Math.max(0, 100 - others) } : r));
-    });
+    const cur = String(rows.find((r) => r.id === active)?.pct ?? 0);
+    const next = key === "del" ? cur.slice(0, -1) : cur === "0" ? key : cur + key;
+    applyPct(active, next);
   };
 
   return (
@@ -191,20 +194,24 @@ function SplitSheet({
               <span className="text-base">{r.emoji}</span>
               <span className="flex-1 text-sm font-medium">{r.name}</span>
               {editing && !r.fixed ? (
-                <button
-                  onClick={() => setActive(r.id)}
-                  className={`min-w-14 rounded-md border px-2 py-1 text-right text-xs font-semibold ${
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  enterKeyHint="done"
+                  aria-label={`${r.name} allocation ${mode === "%" ? "percent" : "dollars"}`}
+                  value={mode === "%" ? `${r.pct}%` : `$${r.pct}`}
+                  onFocus={() => setActive(r.id)}
+                  onChange={(e) => setPct(r.id, e.target.value)}
+                  className={`min-w-14 rounded-md border bg-transparent px-2 py-1 text-right text-xs font-semibold outline-none ${
                     active === r.id ? "border-foreground" : "border-border"
                   }`}
-                >
-                  {mode === "%" ? `${r.pct}%` : `$${r.pct}`}
-                </button>
+                />
               ) : (
                 <span className="min-w-14 text-right text-xs font-semibold">
                   {mode === "%" ? `${r.pct}%` : `$${r.pct}`}
                 </span>
               )}
-              {editing && <Menu className="size-4 text-muted-foreground" />}
+              {editing && <Menu className="size-4 text-muted-foreground" aria-hidden="true" />}
             </div>
           ))}
         </div>
@@ -261,17 +268,20 @@ function SplitSheet({
                   Done
                 </button>
               </div>
-              <div className="grid grid-cols-3 gap-2 px-3 pb-3">
+              <div role="group" aria-label="Number pad" className="grid grid-cols-3 gap-2 px-3 pb-3">
                 {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "del"].map((k, i) =>
                   k === "" ? (
                     <span key={i} />
                   ) : (
                     <button
                       key={i}
+                      type="button"
+                      aria-label={k === "del" ? "Delete last digit" : k}
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => press(k)}
-                      className="rounded-md bg-card py-2.5 text-lg font-medium active:opacity-70"
+                      className="min-h-11 rounded-md bg-card py-2.5 text-lg font-medium active:opacity-70"
                     >
-                      {k === "del" ? "⌫" : k}
+                      <span aria-hidden="true">{k === "del" ? "⌫" : k}</span>
                     </button>
                   ),
                 )}

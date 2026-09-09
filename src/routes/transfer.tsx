@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
+import { AmountField } from "@/components/AmountField";
 import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/transfer")({
@@ -248,21 +249,19 @@ function TransferScreen() {
         </div>
 
         <div className="flex flex-1 flex-col justify-between overflow-y-auto">
-          <div className="mt-8 flex items-start justify-center">
-            <span className="mt-3 font-display text-2xl font-bold">$</span>
-            <span className="font-display text-6xl font-extrabold tracking-tight">{amount}</span>
-            <span className="ml-0.5 mt-2 h-12 w-0.5 animate-blink bg-primary" />
+          <div className="mt-8">
+            <AmountField value={amount} onChange={setAmount} symbolClassName="mt-3 font-display text-2xl font-bold" />
           </div>
 
-          {(error || helper) && (
-            <p
-              className={`mt-3 px-8 text-center text-xs ${
-                error ? "text-destructive" : "text-muted-foreground"
-              }`}
-            >
-              {error ?? helper}
-            </p>
-          )}
+          <p
+            role="status"
+            aria-live="polite"
+            className={`mt-3 px-8 text-center text-xs ${
+              error ? "text-destructive" : "text-muted-foreground"
+            }`}
+          >
+            {error ?? helper}
+          </p>
 
 
 
@@ -308,21 +307,38 @@ function TransferScreen() {
             </button>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-2 bg-surface-deep/40 px-2 pb-6 pt-3">
+          <div
+            role="group"
+            aria-label="Number pad"
+            className="mt-6 grid grid-cols-3 gap-2 bg-surface-deep/40 px-2 pb-6 pt-3"
+          >
             {keys.map(([k, sub]) => (
               <button
                 key={k}
+                type="button"
+                aria-label={k === "." ? "Decimal point" : k}
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => press(k)}
-                className="rounded-lg bg-secondary py-2.5 active:opacity-60"
+                className="min-h-11 rounded-lg bg-secondary py-2.5 active:opacity-60"
               >
-                <span className="block font-display text-2xl font-medium">{k}</span>
+                <span aria-hidden="true" className="block font-display text-2xl font-medium">
+                  {k}
+                </span>
                 {sub && (
-                  <span className="block text-[9px] tracking-widest text-muted-foreground">{sub}</span>
+                  <span aria-hidden="true" className="block text-[9px] tracking-widest text-muted-foreground">
+                    {sub}
+                  </span>
                 )}
               </button>
             ))}
-            <button onClick={back} aria-label="Delete" className="grid place-items-center active:opacity-60">
-              <Delete className="size-6" />
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={back}
+              aria-label="Delete last digit"
+              className="grid min-h-11 place-items-center active:opacity-60"
+            >
+              <Delete className="size-6" aria-hidden="true" />
             </button>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, ArrowLeftRight, Zap, Check } from "lucide-re
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
+import { AmountField } from "@/components/AmountField";
 import { CHECKING_BALANCE, savingsGoals, usd } from "@/lib/chime-data";
 
 type Search = { dir?: "in" | "out" };
@@ -151,11 +152,11 @@ function SavingsMoveScreen() {
 
       <div className="flex flex-1 flex-col px-5">
         <div className="flex flex-1 flex-col items-center justify-center">
-          <p className="flex items-start font-display text-6xl font-extrabold tracking-tight">
-            <span className="mt-2 text-2xl">$</span>
-            {amount}
-            <span className="ml-0.5 mt-1 h-12 w-0.5 animate-blink bg-primary" />
-          </p>
+          <AmountField
+            value={amount}
+            onChange={setAmount}
+            symbolClassName="mt-2 font-display text-2xl font-extrabold"
+          />
 
           <div className="mt-10 flex w-full items-center justify-around">
             <button onClick={() => setPicker("from")} className="flex flex-col items-center gap-1">
@@ -203,14 +204,17 @@ function SavingsMoveScreen() {
           Review
         </button>
 
-        <div className="grid grid-cols-3 gap-2 pb-6">
+        <div role="group" aria-label="Number pad" className="grid grid-cols-3 gap-2 pb-6">
           {["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "del"].map((k) => (
             <button
               key={k}
+              type="button"
+              aria-label={k === "del" ? "Delete last digit" : k === "." ? "Decimal point" : k}
+              onMouseDown={(e) => e.preventDefault()}
               onClick={() => press(k)}
-              className="rounded-lg bg-card py-3 text-xl font-medium active:opacity-70"
+              className="min-h-11 rounded-lg bg-card py-3 text-xl font-medium active:opacity-70"
             >
-              {k === "del" ? "⌫" : k}
+              <span aria-hidden="true">{k === "del" ? "⌫" : k}</span>
             </button>
           ))}
         </div>
