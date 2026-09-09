@@ -14,6 +14,7 @@ import { Route as AutosaveRouteImport } from './routes/autosave'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CheckingRouteImport } from './routes/checking'
 import { Route as CreditBuilderRouteImport } from './routes/credit-builder'
+import { Route as GoalNewRouteImport } from './routes/goal-new'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PhysicalCardRouteImport } from './routes/physical-card'
 import { Route as SavingsRouteImport } from './routes/savings'
@@ -44,6 +45,11 @@ const CheckingRoute = CheckingRouteImport.update({
 const CreditBuilderRoute = CreditBuilderRouteImport.update({
   id: '/credit-builder',
   path: '/credit-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoalNewRoute = GoalNewRouteImport.update({
+  id: '/goal-new',
+  path: '/goal-new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/goal-new': typeof GoalNewRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/goal-new': typeof GoalNewRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/cards': typeof CardsRoute
   '/checking': typeof CheckingRoute
   '/credit-builder': typeof CreditBuilderRoute
+  '/goal-new': typeof GoalNewRoute
   '/insights': typeof InsightsRoute
   '/physical-card': typeof PhysicalCardRoute
   '/savings': typeof SavingsRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/goal-new'
     | '/insights'
     | '/physical-card'
     | '/savings'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/goal-new'
     | '/insights'
     | '/physical-card'
     | '/savings'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/cards'
     | '/checking'
     | '/credit-builder'
+    | '/goal-new'
     | '/insights'
     | '/physical-card'
     | '/savings'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   CardsRoute: typeof CardsRoute
   CheckingRoute: typeof CheckingRoute
   CreditBuilderRoute: typeof CreditBuilderRoute
+  GoalNewRoute: typeof GoalNewRoute
   InsightsRoute: typeof InsightsRoute
   PhysicalCardRoute: typeof PhysicalCardRoute
   SavingsRoute: typeof SavingsRoute
@@ -208,6 +221,13 @@ declare module '@tanstack/react-router' {
       path: '/credit-builder'
       fullPath: '/credit-builder'
       preLoaderRoute: typeof CreditBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/goal-new': {
+      id: '/goal-new'
+      path: '/goal-new'
+      fullPath: '/goal-new'
+      preLoaderRoute: typeof GoalNewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -261,6 +281,7 @@ const rootRouteChildren: RootRouteChildren = {
   CardsRoute: CardsRoute,
   CheckingRoute: CheckingRoute,
   CreditBuilderRoute: CreditBuilderRoute,
+  GoalNewRoute: GoalNewRoute,
   InsightsRoute: InsightsRoute,
   PhysicalCardRoute: PhysicalCardRoute,
   SavingsRoute: SavingsRoute,
