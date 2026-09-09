@@ -29,6 +29,8 @@ export const Route = createFileRoute("/pay")({
   component: PayScreen,
 });
 
+const SEARCH_HINTS = ["name", "phone number", "email", "$ChimeSign"] as const;
+
 const CONTACTS = [
   { name: "Kristan Davis", tag: "$kinsleywhedbee", initials: "KD" },
   { name: "Marcus Lee", tag: "$marcus-lee", initials: "ML" },
