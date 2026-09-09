@@ -159,9 +159,13 @@ function SavingsMoveScreen() {
 
           <div className="mt-10 flex w-full items-center justify-around">
             <button onClick={() => setPicker("from")} className="flex flex-col items-center gap-1">
-              <span className="grid size-9 place-items-center rounded-full bg-card text-base">
-                {from.emoji || "💠"}
-              </span>
+              {from.group === "chime" ? (
+                <ChimeLogo className="size-9" />
+              ) : (
+                <span className="grid size-9 place-items-center rounded-full bg-card text-base">
+                  {from.emoji || "💠"}
+                </span>
+              )}
               <span className="text-[11px] text-muted-foreground">From</span>
               <span className="text-xs font-semibold">{from.name}</span>
               <span className="text-[11px] text-muted-foreground">{from.sub}</span>
@@ -177,9 +181,13 @@ function SavingsMoveScreen() {
               <ArrowLeftRight className="size-5 text-muted-foreground" />
             </button>
             <button onClick={() => setPicker("to")} className="flex flex-col items-center gap-1">
-              <span className="grid size-9 place-items-center rounded-full bg-card text-base">
-                {to.emoji || "💠"}
-              </span>
+              {to.group === "chime" ? (
+                <ChimeLogo className="size-9" />
+              ) : (
+                <span className="grid size-9 place-items-center rounded-full bg-card text-base">
+                  {to.emoji || "💠"}
+                </span>
+              )}
               <span className="text-[11px] text-muted-foreground">To</span>
               <span className="text-xs font-semibold">{to.name}</span>
               <span className="text-[11px] text-muted-foreground">{to.sub}</span>
@@ -281,9 +289,13 @@ function Group({
             onClick={() => onPick(a)}
             className="flex w-full items-center gap-3 text-left active:opacity-70"
           >
-            <span className="grid size-8 place-items-center rounded-full bg-card text-sm">
-              {a.emoji || "💠"}
-            </span>
+            {a.group === "chime" ? (
+              <ChimeLogo className="size-8" />
+            ) : (
+              <span className="grid size-8 place-items-center rounded-full bg-card text-sm">
+                {a.emoji || "💠"}
+              </span>
+            )}
             <span className="flex-1">
               <span className="block text-sm font-semibold">{a.name}</span>
               <span className="block text-[11px] text-muted-foreground">{a.sub}</span>
