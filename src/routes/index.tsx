@@ -74,14 +74,20 @@ function HomeScreen() {
 
           <div className="mt-5 flex items-center justify-between">
             <span className="text-xl font-semibold">Credit Builder</span>
-            <button className="rounded-full bg-white/15 px-5 py-2 text-sm font-semibold">
+            <Link
+              to="/credit-builder"
+              className="rounded-full bg-white/15 px-5 py-2 text-sm font-semibold active:opacity-70"
+            >
               Set up
-            </button>
+            </Link>
           </div>
 
-          <button className="mt-6 flex items-center gap-1 text-base font-semibold text-primary">
+          <Link
+            to="/spotme"
+            className="mt-6 flex items-center gap-1 text-base font-semibold text-primary active:opacity-70"
+          >
             Unlock SpotMe <ChevronRight className="size-4" strokeWidth={2.5} />
-          </button>
+          </Link>
 
           <div className="mt-7 grid grid-cols-2 gap-3">
             <div className="rounded-2xl bg-black/25 p-4">
