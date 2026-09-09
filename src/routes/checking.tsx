@@ -43,9 +43,9 @@ export const Route = createFileRoute("/checking")({
 });
 
 const actions = [
-  { icon: ArrowLeftRight, label: "Transfer" },
-  { icon: CreditCard, label: "Cards" },
-  { icon: BarChart3, label: "Insights" },
+  { icon: ArrowLeftRight, label: "Transfer", to: null },
+  { icon: CreditCard, label: "Cards", to: "/cards" as const },
+  { icon: BarChart3, label: "Insights", to: "/insights" as const },
 ];
 
 function CheckingScreen() {
@@ -105,14 +105,26 @@ function CheckingScreen() {
           </div>
 
           <div className="mt-6 flex justify-between gap-3">
-            {actions.map((a) => (
-              <button key={a.label} className="flex flex-1 flex-col items-center gap-2 active:opacity-70">
-                <span className="grid h-16 w-full place-items-center rounded-2xl bg-surface-deep">
-                  <a.icon className="size-6" strokeWidth={2} />
-                </span>
-                <span className="text-xs font-semibold">{a.label}</span>
-              </button>
-            ))}
+            {actions.map((a) => {
+              const inner = (
+                <>
+                  <span className="grid h-16 w-full place-items-center rounded-2xl bg-surface-deep">
+                    <a.icon className="size-6" strokeWidth={2} />
+                  </span>
+                  <span className="text-xs font-semibold">{a.label}</span>
+                </>
+              );
+              const cls = "flex flex-1 flex-col items-center gap-2 active:opacity-70";
+              return a.to ? (
+                <Link key={a.label} to={a.to} className={cls}>
+                  {inner}
+                </Link>
+              ) : (
+                <button key={a.label} className={cls}>
+                  {inner}
+                </button>
+              );
+            })}
           </div>
         </div>
 
