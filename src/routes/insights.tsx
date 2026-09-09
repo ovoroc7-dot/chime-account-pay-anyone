@@ -27,7 +27,7 @@ export const Route = createFileRoute("/insights")({
 function InsightsScreen() {
   const [index, setIndex] = useState(insights.length - 1);
   const [tab, setTab] = useState<"categories" | "top">("categories");
-  const month = insights[index];
+  const month = insights[index] ?? insights[0]!;
   const max = Math.max(...insights.map((m) => m.spent), 1);
   const rows = tab === "categories" ? month.categories : month.merchants;
   const rowMax = Math.max(...rows.map((r) => r.amount), 1);
