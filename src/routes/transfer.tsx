@@ -15,6 +15,8 @@ import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
 import { AmountField } from "@/components/AmountField";
+import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+
 import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/transfer")({
@@ -159,7 +161,9 @@ function AccountRow({
 
 
 function TransferScreen() {
+  const kbInset = useKeyboardInset();
   const [amount, setAmount] = useState("0");
+
   const [fromId, setFromId] = useState("checking");
   const [toId, setToId] = useState("sofi-debit");
   const [picking, setPicking] = useState<null | "From" | "To">(null);

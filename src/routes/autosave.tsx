@@ -2,6 +2,8 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, X, Trash2, Menu } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+
 
 export const Route = createFileRoute("/autosave")({
   head: () => ({
@@ -123,7 +125,9 @@ function SplitSheet({
   onSave: (rows: Split[]) => void;
   onDelete: () => void;
 }) {
+  const kbInset = useKeyboardInset();
   const [mode, setMode] = useState<"%" | "$">("%");
+
   const [rows, setRows] = useState<Split[]>(initial ?? BASE);
   const [editing, setEditing] = useState(!initial);
   const [active, setActive] = useState<string | null>(null);
@@ -264,7 +268,11 @@ function SplitSheet({
               </div>
             </div>
           )}
-          <div className="space-y-2 px-5 pb-6 pt-3">
+          <div
+            className="space-y-2 px-5 pb-6 pt-3"
+            style={{ paddingBottom: `calc(1.5rem + ${kbInset}px)` }}
+          >
+
             <button
               disabled={total !== 100}
               onClick={() => onSave(rows)}
