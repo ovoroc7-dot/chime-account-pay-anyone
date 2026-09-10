@@ -119,6 +119,41 @@ function SavingsMoveScreen() {
 
   const value = Number(amount) || 0;
 
+  const goals = useGoals();
+  const goalId = (a: Acct) => (a.id === "savings" ? defaultGoalId() : a.id);
+  const side = (a: Acct): "checking" | "goal" | "external" =>
+    a.id === "checking" ? "checking" : a.group === "goal" || a.id === "savings" ? "goal" : "external";
+
+  const availableFrom =
+    side(from) === "checking"
+      ? ledger.checking
+      : side(from) === "goal"
+        ? (goals.find((g) => g.id === goalId(from))?.amount ?? 0)
+        : Infinity;
+
+  const tooMuch = value > availableFrom;
+
+  const submit = () => {
+    const f = side(from);
+    const t = side(to);
+
+    if (f === "goal" && t === "goal") {
+      // Inside savings: e.g. My Savings -> Emergency fund. Total savings is unchanged.
+      moveBetweenGoals(goalId(from), goalId(to), value);
+    } else {
+      applyTransfer({
+        amount: value,
+        fromChime: f === "checking" ? "checking" : f === "goal" ? "savings" : null,
+        toChime: t === "checking" ? "checking" : t === "goal" ? "savings" : null,
+        externalName: f === "external" ? from.name : to.name,
+        instant: true,
+      });
+      if (f === "goal") adjustGoal(goalId(from), -value);
+      if (t === "goal") adjustGoal(goalId(to), value);
+    }
+    setDone(true);
+  };
+
   if (done) {
     return (
       <PhoneFrame>
