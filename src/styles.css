@@ -22,6 +22,7 @@
   --font-sans:
     "Bricolage Grotesque", "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-brand: "Nunito", ui-rounded, "Bricolage Grotesque", system-ui, sans-serif;
   --color-surface-deep: var(--surface-deep);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
