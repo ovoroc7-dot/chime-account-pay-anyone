@@ -8,7 +8,13 @@ import { AmountField } from "@/components/AmountField";
 import { ChimeLogo } from "@/components/ChimeLogo";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { usd, CARDHOLDER } from "@/lib/chime-data";
-import { useLedger } from "@/lib/ledger-store";
+import { useLedger, payOut } from "@/lib/ledger-store";
+import {
+  addPayActivity,
+  dayLabel,
+  usePayActivity,
+  type PayActivity,
+} from "@/lib/pay-activity-store";
 
 export const Route = createFileRoute("/pay")({
   head: () => ({
