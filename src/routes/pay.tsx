@@ -476,7 +476,19 @@ function PayScreen() {
 
           <button
             type="button"
-            onClick={() => setSheet("done")}
+            onClick={() => {
+              addPayActivity({
+                mode,
+                name: contact?.name ?? "",
+                tag: contact?.tag ?? "",
+                amount: value,
+                note,
+                method: method.chime ? "Checking" : method.name,
+                methodSub: method.chime ? "4821" : method.sub,
+              });
+              if (mode === "Pay" && method.chime) payOut(value, contact?.name ?? "");
+              setSheet("done");
+            }}
             className="mt-8 w-full rounded-full bg-primary py-4 text-[15px] font-bold text-primary-foreground"
           >
             {mode} {usd(value).replace(/\.00$/, "")}
