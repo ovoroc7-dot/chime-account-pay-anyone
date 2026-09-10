@@ -17,7 +17,8 @@ import { ChimeLogo } from "@/components/ChimeLogo";
 import { AmountField } from "@/components/AmountField";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
-import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
+import { usd } from "@/lib/chime-data";
+import { applyTransfer, useLedger } from "@/lib/ledger-store";
 
 export const Route = createFileRoute("/transfer")({
   head: () => ({
@@ -52,8 +53,8 @@ type Account = {
 };
 
 const ACCOUNTS: Account[] = [
-  { id: "checking", name: "Checking", sub: usd(CHECKING_BALANCE), kind: "chime", group: "chime" },
-  { id: "savings", name: "Savings", sub: "$0.00", kind: "chime", group: "chime", chevron: true },
+  { id: "checking", name: "Checking", sub: "", kind: "chime", group: "chime" },
+  { id: "savings", name: "Savings", sub: "", kind: "chime", group: "chime", chevron: true },
   {
     id: "sofi-debit",
     name: "Sofi Bank  N A Debit card",
@@ -93,7 +94,6 @@ const ADD_ROWS = [
   { id: "add-card", name: "Add a debit card", sub: "Transfer instantly" },
 ];
 
-const acct = (id: string) => ACCOUNTS.find((a) => a.id === id)!;
 
 function AccountIcon({ kind, active }: { kind: Account["kind"]; active?: boolean }) {
   if (kind === "chime") return <ChimeLogo className="size-8 shrink-0" />;
@@ -162,7 +162,17 @@ function AccountRow({
 
 function TransferScreen() {
   const kbInset = useKeyboardInset();
+  const ledger = useLedger();
   const [amount, setAmount] = useState("0");
+
+  const accounts = ACCOUNTS.map((a) =>
+    a.id === "checking"
+      ? { ...a, sub: usd(ledger.checking) }
+      : a.id === "savings"
+        ? { ...a, sub: usd(ledger.savings) }
+        : a,
+  );
+  const acct = (id: string) => accounts.find((a) => a.id === id)!;
 
   const [fromId, setFromId] = useState("checking");
   const [toId, setToId] = useState("sofi-debit");
@@ -179,7 +189,7 @@ function TransferScreen() {
   const fee = instantOut ? Math.round(value * 0.0175 * 100) / 100 : 0;
   const total = value + fee;
   const fromChime = from.kind === "chime";
-  const balance = fromChime ? CHECKING_BALANCE : Infinity;
+  const balance = fromChime ? (from.id === "savings" ? ledger.savings : ledger.checking) : Infinity;
 
   const belowMin = instantOut && value > 0 && value < 25;
   const overBalance = value > balance;
@@ -196,6 +206,19 @@ function TransferScreen() {
 
   const helper = !error && instantOut && value > 0 ? `1.75% fee updated to ${usd(fee)}` : null;
 
+
+  const confirm = () => {
+    if (done) return;
+    applyTransfer({
+      amount: value,
+      fee,
+      fromChime: fromChime ? (from.id as "checking" | "savings") : null,
+      toChime: to.kind === "chime" ? (to.id as "checking" | "savings") : null,
+      externalName: fromChime ? to.name : from.name,
+      instant: instantOut || to.kind === "chime",
+    });
+    setDone(true);
+  };
 
   const swap = () => {
     setFromId(toId);
@@ -303,7 +326,7 @@ function TransferScreen() {
             <div className="mt-4 flex-1 overflow-y-auto px-6 pb-2">
               <p className="text-xs font-semibold text-muted-foreground">Chime accounts</p>
               <div className="mt-2">
-                {ACCOUNTS.filter(
+                {accounts.filter(
                   (a) => a.group === "chime" && a.id !== (picking === "From" ? toId : fromId),
                 ).map((a) => (
                   <AccountRow key={a.id} account={a} onSelect={() => choose(a.id)} />
@@ -312,7 +335,7 @@ function TransferScreen() {
 
               <p className="mt-5 text-xs font-semibold text-muted-foreground">Linked accounts</p>
               <div className="mt-2">
-                {ACCOUNTS.filter(
+                {accounts.filter(
                   (a) => a.group === "linked" && a.id !== (picking === "From" ? toId : fromId),
                 ).map((a) => (
                   <AccountRow
@@ -422,7 +445,7 @@ function TransferScreen() {
               </p>
             )}
             <button
-              onClick={() => setDone(true)}
+              onClick={confirm}
               className="mt-4 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground active:opacity-80"
             >
               {instantOut ? `Transfer ${usd(value)}` : "Schedule"}
