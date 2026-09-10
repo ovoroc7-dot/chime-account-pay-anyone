@@ -132,7 +132,7 @@ const discover = [
 ] as const;
 
 function HomeScreen() {
-  const { checking } = useLedger();
+  const { checking, savings } = useLedger();
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [active, setActive] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
