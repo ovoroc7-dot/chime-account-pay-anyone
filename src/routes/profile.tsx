@@ -45,9 +45,7 @@ function ProfileScreen() {
     <PhoneFrame>
       <div className="flex-1 overflow-y-auto px-6 pb-28 pt-5">
         <div className="flex items-center justify-between">
-          <button type="button" aria-label="Notifications" className="active:opacity-60">
-            <Bell className="size-6" />
-          </button>
+          <InboxBell className="-ml-3" />
           <button type="button" aria-label="Your QR code" className="active:opacity-60">
             <QrCode className="size-6" />
           </button>
