@@ -17,6 +17,7 @@ import { InboxBell } from "@/components/InboxBell";
 import { MoveTabBar } from "@/routes/move";
 import { useLedger } from "@/lib/ledger-store";
 import { usd } from "@/lib/chime-data";
+import { useRequireSession } from "@/lib/session-store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -132,6 +133,7 @@ const discover = [
 ] as const;
 
 function HomeScreen() {
+  useRequireSession();
   const { checking, savings } = useLedger();
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [active, setActive] = useState(0);

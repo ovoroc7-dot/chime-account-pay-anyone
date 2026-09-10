@@ -44,6 +44,8 @@ export const Route = createFileRoute("/profile")({
 });
 
 function ProfileScreen() {
+  useRequireSession();
+  const navigate = useNavigate();
   const unread = useUnreadCount();
   const notificationSub = unread > 0 ? `${unread} unread` : "All caught up";
 
