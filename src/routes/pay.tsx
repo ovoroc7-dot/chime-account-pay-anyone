@@ -133,9 +133,7 @@ function PayScreen() {
     <PhoneFrame>
       <div className="flex-1 overflow-y-auto px-6 pb-28 pt-5">
         <div className="flex items-center justify-between">
-          <button type="button" aria-label="Notifications" className="active:opacity-60">
-            <Bell className="size-6" />
-          </button>
+          <InboxBell className="-ml-3" />
           <div className="flex items-center gap-5">
             <button type="button" aria-label="Search" className="active:opacity-60">
               <Search className="size-6" />
