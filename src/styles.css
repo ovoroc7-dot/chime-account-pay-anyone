@@ -184,3 +184,23 @@
   animation: hint-swap 1.8s ease-in-out both;
 }
 
+/* Hide Lovable "Edit with Lovable" badge/branding on published previews */
+iframe#lovable-badge,
+.lovable-badge,
+.lovable-badge-container,
+[data-lovable-badge],
+[data-testid="lovable-badge"],
+a[href*="lovable.dev"][target="_blank"][style*="position: fixed"],
+iframe[src*="lovable"][style*="position: fixed"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
