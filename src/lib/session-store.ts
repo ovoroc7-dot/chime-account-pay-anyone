@@ -34,6 +34,20 @@ export function getSession(): Session {
   return read();
 }
 
+/** The account credentials this demo app accepts at log in. */
+export const ACCOUNT = {
+  email: "denistruffin123@gmail.com",
+  password: "Denis123$",
+  name: "Denis Truffin",
+};
+
+/** Case-insensitive email match, exact password match. */
+export function verifyCredentials(identifier: string, password: string) {
+  return (
+    identifier.trim().toLowerCase() === ACCOUNT.email && password === ACCOUNT.password
+  );
+}
+
 export function signIn(identifier: string, name = "Lekan Taiwo") {
   write({ signedIn: true, identifier, name });
 }
