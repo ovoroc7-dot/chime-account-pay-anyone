@@ -8,7 +8,7 @@ import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
 import { usd } from "@/lib/chime-data";
 import { applyTransfer, useLedger } from "@/lib/ledger-store";
-import { useGoals } from "@/lib/goals-store";
+import { useGoals, adjustGoal, moveBetweenGoals, defaultGoalId } from "@/lib/goals-store";
 
 type Search = { dir?: "in" | "out" };
 
@@ -119,6 +119,41 @@ function SavingsMoveScreen() {
 
   const value = Number(amount) || 0;
 
+  const goals = useGoals();
+  const goalId = (a: Acct) => (a.id === "savings" ? defaultGoalId() : a.id);
+  const side = (a: Acct): "checking" | "goal" | "external" =>
+    a.id === "checking" ? "checking" : a.group === "goal" || a.id === "savings" ? "goal" : "external";
+
+  const availableFrom =
+    side(from) === "checking"
+      ? ledger.checking
+      : side(from) === "goal"
+        ? (goals.find((g) => g.id === goalId(from))?.amount ?? 0)
+        : Infinity;
+
+  const tooMuch = value > availableFrom;
+
+  const submit = () => {
+    const f = side(from);
+    const t = side(to);
+
+    if (f === "goal" && t === "goal") {
+      // Inside savings: e.g. My Savings -> Emergency fund. Total savings is unchanged.
+      moveBetweenGoals(goalId(from), goalId(to), value);
+    } else {
+      applyTransfer({
+        amount: value,
+        fromChime: f === "checking" ? "checking" : f === "goal" ? "savings" : null,
+        toChime: t === "checking" ? "checking" : t === "goal" ? "savings" : null,
+        externalName: t === "checking" ? from.name : to.name,
+        instant: true,
+      });
+      if (f === "goal") adjustGoal(goalId(from), -value);
+      if (t === "goal") adjustGoal(goalId(to), value);
+    }
+    setDone(true);
+  };
+
   if (done) {
     return (
       <PhoneFrame>
@@ -199,22 +234,15 @@ function SavingsMoveScreen() {
           </div>
         </div>
 
+        {tooMuch && (
+          <p role="status" className="pb-2 text-center text-xs text-destructive">
+            You only have {usd(availableFrom)} in {from.name}.
+          </p>
+        )}
+
         <button
-          disabled={value <= 0}
-          onClick={() => {
-            const chimeId = (a: Acct) =>
-              a.id === "checking" || a.id === "savings" || a.group === "goal"
-                ? ((a.id === "checking" ? "checking" : "savings") as "checking" | "savings")
-                : null;
-            applyTransfer({
-              amount: value,
-              fromChime: chimeId(from),
-              toChime: chimeId(to),
-              externalName: chimeId(from) ? to.name : from.name,
-              instant: true,
-            });
-            setDone(true);
-          }}
+          disabled={value <= 0 || tooMuch}
+          onClick={submit}
           style={{ marginBottom: `calc(1rem + ${kbInset}px)` }}
           className="sticky bottom-0 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:bg-secondary disabled:text-muted-foreground"
         >
