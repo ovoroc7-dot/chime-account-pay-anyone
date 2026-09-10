@@ -204,7 +204,7 @@ function HomeScreen() {
             </div>
             <Link to="/savings" className="rounded-2xl bg-black/25 p-4 active:opacity-70">
               <span className="text-sm font-semibold">Savings</span>
-              <p className="mt-6 text-2xl font-semibold">$0.00</p>
+              <p className="mt-6 text-2xl font-semibold">{usd(savings)}</p>
               <p className="mt-1 text-xs text-muted-foreground">1.00% APY</p>
             </Link>
           </div>
