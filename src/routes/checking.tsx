@@ -15,13 +15,12 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 
 import {
   ACCOUNT_NUMBER,
-  CHECKING_BALANCE,
   ROUTING_NUMBER,
   groupByDate,
   money,
-  transactions,
   type Txn,
 } from "@/lib/chime-data";
+import { useLedger } from "@/lib/ledger-store";
 
 export const Route = createFileRoute("/checking")({
   head: () => ({
@@ -54,11 +53,12 @@ function CheckingScreen() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Txn | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const { checking, txns } = useLedger();
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return groupByDate(q ? transactions.filter((t) => t.title.toLowerCase().includes(q)) : transactions);
-  }, [query]);
+    return groupByDate(q ? txns.filter((t) => t.title.toLowerCase().includes(q)) : txns);
+  }, [query, txns]);
 
   const copy = async (label: string, value: string) => {
     try {
@@ -82,7 +82,7 @@ function CheckingScreen() {
             Checking
           </h1>
           <p className="font-display text-4xl font-extrabold tracking-tight">
-            ${CHECKING_BALANCE.toFixed(2)}
+            ${checking.toFixed(2)}
           </p>
 
           <div className="mt-5 rounded-2xl bg-card p-4">

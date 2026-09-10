@@ -6,7 +6,8 @@ import { ChimeLogo } from "@/components/ChimeLogo";
 import { AmountField } from "@/components/AmountField";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
-import { CHECKING_BALANCE, usd } from "@/lib/chime-data";
+import { usd } from "@/lib/chime-data";
+import { applyTransfer, useLedger } from "@/lib/ledger-store";
 import { useGoals } from "@/lib/goals-store";
 
 type Search = { dir?: "in" | "out" };
@@ -49,8 +50,8 @@ type Acct = {
 };
 
 const SOURCES: Acct[] = [
-  { id: "checking", name: "Checking", sub: usd(CHECKING_BALANCE), emoji: "🟢", group: "chime" },
-  { id: "savings", name: "Savings", sub: "$0.00", emoji: "🟢", group: "chime" },
+  { id: "checking", name: "Checking", sub: "", emoji: "🟢", group: "chime" },
+  { id: "savings", name: "Savings", sub: "", emoji: "🟢", group: "chime" },
   {
     id: "sofi-debit",
     name: "Sofi Bank  N A Debit card",
@@ -99,11 +100,18 @@ function SavingsMoveScreen() {
   const router = useRouter();
   const kbInset = useKeyboardInset();
   const { dir } = Route.useSearch();
+  const ledger = useLedger();
   const goalAccts = useGoals().map(toAcct);
+  const withBalance = (a: Acct): Acct =>
+    a.id === "checking"
+      ? { ...a, sub: usd(ledger.checking) }
+      : a.id === "savings"
+        ? { ...a, sub: usd(ledger.savings) }
+        : a;
   const [amount, setAmount] = useState("0");
 
   const defaultGoal = goalAccts[0]!;
-  const checking = SOURCES.find((a) => a.id === "checking")!;
+  const checking = withBalance(SOURCES.find((a) => a.id === "checking")!);
   const [from, setFrom] = useState<Acct>(dir === "out" ? defaultGoal : checking);
   const [to, setTo] = useState<Acct>(dir === "out" ? checking : defaultGoal);
   const [picker, setPicker] = useState<null | "from" | "to">(null);
@@ -193,7 +201,20 @@ function SavingsMoveScreen() {
 
         <button
           disabled={value <= 0}
-          onClick={() => setDone(true)}
+          onClick={() => {
+            const chimeId = (a: Acct) =>
+              a.id === "checking" || a.id === "savings" || a.group === "goal"
+                ? ((a.id === "checking" ? "checking" : "savings") as "checking" | "savings")
+                : null;
+            applyTransfer({
+              amount: value,
+              fromChime: chimeId(from),
+              toChime: chimeId(to),
+              externalName: chimeId(from) ? to.name : from.name,
+              instant: true,
+            });
+            setDone(true);
+          }}
           style={{ marginBottom: `calc(1rem + ${kbInset}px)` }}
           className="sticky bottom-0 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:bg-secondary disabled:text-muted-foreground"
         >
@@ -229,7 +250,11 @@ function Picker({
   onPick: (a: Acct) => void;
   onClose: () => void;
 }) {
-  const chime = SOURCES.filter((a) => a.group === "chime" && a.id !== exclude);
+  const ledger = useLedger();
+  const chime = SOURCES.filter((a) => a.group === "chime" && a.id !== exclude).map((a) => ({
+    ...a,
+    sub: usd(a.id === "checking" ? ledger.checking : ledger.savings),
+  }));
   const linked = SOURCES.filter((a) => a.group === "linked" && a.id !== exclude);
   const goals = useGoals()
     .map(toAcct)

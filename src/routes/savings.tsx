@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
-import { SAVINGS_BALANCE, SAVINGS_APY, usd } from "@/lib/chime-data";
+import { SAVINGS_APY, usd } from "@/lib/chime-data";
+import { useLedger } from "@/lib/ledger-store";
 import { useGoals } from "@/lib/goals-store";
 
 export const Route = createFileRoute("/savings")({
@@ -40,6 +41,7 @@ export const Route = createFileRoute("/savings")({
 function SavingsScreen() {
   const router = useRouter();
   const goals = useGoals();
+  const { savings } = useLedger();
   const [banner, setBanner] = useState(true);
   const [apyInfo, setApyInfo] = useState(false);
 
@@ -58,7 +60,7 @@ function SavingsScreen() {
       <div className="flex-1 overflow-y-auto px-5 pb-10 pt-3">
         <h1 className="font-display text-3xl font-extrabold tracking-tight">Savings</h1>
         <p className="mt-1 font-display text-5xl font-extrabold tracking-tight">
-          ${SAVINGS_BALANCE.toFixed(0)}
+          {usd(savings)}
         </p>
         <button
           onClick={() => setApyInfo((v) => !v)}

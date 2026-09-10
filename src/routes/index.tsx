@@ -15,7 +15,7 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 
 import { InboxBell } from "@/components/InboxBell";
 import { MoveTabBar } from "@/routes/move";
-import { CHECKING_BALANCE } from "@/lib/chime-data";
+import { useLedger } from "@/lib/ledger-store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -131,6 +131,7 @@ const discover = [
 ] as const;
 
 function HomeScreen() {
+  const { checking } = useLedger();
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [active, setActive] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -165,7 +166,7 @@ function HomeScreen() {
               Checking
             </span>
             <span className="flex items-center gap-1 text-xl font-semibold">
-              ${CHECKING_BALANCE.toFixed(2)}
+              ${checking.toFixed(2)}
               <ChevronRight className="size-5" strokeWidth={2.5} />
             </span>
           </Link>
