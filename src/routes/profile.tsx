@@ -17,6 +17,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { InboxBell } from "@/components/InboxBell";
+import { useUnreadCount } from "@/lib/inbox-store";
 import { MoveTabBar } from "@/routes/move";
 
 export const Route = createFileRoute("/profile")({
