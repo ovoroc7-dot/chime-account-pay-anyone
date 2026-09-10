@@ -7,7 +7,8 @@ import { MoveTabBar } from "@/routes/move";
 import { AmountField } from "@/components/AmountField";
 import { ChimeLogo } from "@/components/ChimeLogo";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
-import { usd, CHECKING_BALANCE, CARDHOLDER } from "@/lib/chime-data";
+import { usd, CARDHOLDER } from "@/lib/chime-data";
+import { useLedger } from "@/lib/ledger-store";
 
 export const Route = createFileRoute("/pay")({
   head: () => ({
@@ -57,10 +58,7 @@ const CONTACTS = [
   { name: "Ana Ruiz", tag: "$ana-ruiz", initials: "AR" },
 ];
 
-const METHODS = [
-  { id: "checking", name: "Checking", sub: usd(CHECKING_BALANCE), chime: true },
-  { id: "sofi", name: "SoFi Bank N.A. Debit card", sub: "7109", chime: false },
-];
+type Method = { id: string; name: string; sub: string; chime: boolean };
 
 const EMOJIS = ["❤️", "🍔", "🪙", "🎁", "🔥", "💰", "🍷", "🎉"];
 
@@ -68,13 +66,19 @@ type Sheet = null | "qr" | "contacts" | "note" | "review" | "method" | "done";
 
 function PayScreen() {
   const kb = useKeyboardInset();
+  const { checking } = useLedger();
   const [sheet, setSheet] = useState<Sheet>(null);
   const [mode, setMode] = useState<"Pay" | "Request">("Pay");
   const [amount, setAmount] = useState("0");
   const [editingAmount, setEditingAmount] = useState(false);
   const [contact, setContact] = useState<(typeof CONTACTS)[number] | null>(null);
   const [note, setNote] = useState("💰");
-  const [method, setMethod] = useState(METHODS[0]!);
+  const methods: Method[] = [
+    { id: "checking", name: "Checking", sub: usd(checking), chime: true },
+    { id: "sofi", name: "SoFi Bank N.A. Debit card", sub: "7109", chime: false },
+  ];
+  const [methodId, setMethodId] = useState("checking");
+  const method = methods.find((m) => m.id === methodId) ?? methods[0]!;
   const [query, setQuery] = useState("");
   const [hintIndex, setHintIndex] = useState(0);
 
@@ -445,12 +449,12 @@ function PayScreen() {
       {sheet === "method" && (
         <SheetShell onClose={() => setSheet("review")}>
           <ul className="space-y-2">
-            {METHODS.map((m) => (
+            {methods.map((m) => (
               <li key={m.id}>
                 <button
                   type="button"
                   onClick={() => {
-                    setMethod(m);
+                    setMethodId(m.id);
                     setSheet("review");
                   }}
                   className="flex w-full items-center gap-3 py-3 text-left active:opacity-70"
