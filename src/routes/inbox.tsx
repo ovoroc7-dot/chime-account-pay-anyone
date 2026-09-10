@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { markAllRead, markRead, undoLast, useNotes } from "@/lib/inbox-store";
 
 export const Route = createFileRoute("/inbox")({
   head: () => ({
