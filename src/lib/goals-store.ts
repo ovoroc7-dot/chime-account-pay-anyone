@@ -86,17 +86,20 @@ export function addGoal(g: Omit<Goal, "id"> & { id?: string }) {
   const id =
     g.id ?? `${g.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${goals.length + 1}`;
   goals = [...goals, { ...g, id }];
+  persist();
   emit();
   return id;
 }
 
 export function updateGoal(id: string, patch: Partial<Goal>) {
   goals = goals.map((g) => (g.id === id ? { ...g, ...patch } : g));
+  persist();
   emit();
 }
 
 export function deleteGoal(id: string) {
   goals = goals.filter((g) => g.id !== id);
+  persist();
   emit();
 }
 
