@@ -86,6 +86,8 @@ function PayScreen() {
   const [methodId, setMethodId] = useState("checking");
   const method = methods.find((m) => m.id === methodId) ?? methods[0]!;
   const [query, setQuery] = useState("");
+  const activity = usePayActivity();
+  const [receipt, setReceipt] = useState<PayActivity | null>(null);
   const [hintIndex, setHintIndex] = useState(0);
 
   useEffect(() => {
