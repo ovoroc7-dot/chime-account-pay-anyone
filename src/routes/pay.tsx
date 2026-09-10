@@ -449,12 +449,12 @@ function PayScreen() {
       {sheet === "method" && (
         <SheetShell onClose={() => setSheet("review")}>
           <ul className="space-y-2">
-            {METHODS.map((m) => (
+            {methods.map((m) => (
               <li key={m.id}>
                 <button
                   type="button"
                   onClick={() => {
-                    setMethod(m);
+                    setMethodId(m.id);
                     setSheet("review");
                   }}
                   className="flex w-full items-center gap-3 py-3 text-left active:opacity-70"
