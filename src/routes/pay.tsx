@@ -415,7 +415,10 @@ function PayScreen() {
           />
           <button
             type="button"
-            onClick={() => setSheet("review")}
+            onClick={() => {
+              setEditedTag(contact?.tag ?? "");
+              setSheet("review");
+            }}
             className="mt-6 w-full rounded-full bg-primary py-4 text-[15px] font-bold text-primary-foreground"
           >
             Next
