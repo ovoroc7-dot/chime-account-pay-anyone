@@ -88,6 +88,7 @@ function PayScreen() {
   const [query, setQuery] = useState("");
   const activity = usePayActivity();
   const [receipt, setReceipt] = useState<PayActivity | null>(null);
+  const [editedTag, setEditedTag] = useState("");
   const [hintIndex, setHintIndex] = useState(0);
 
   useEffect(() => {
