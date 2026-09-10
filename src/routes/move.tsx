@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { InboxBell } from "@/components/InboxBell";
 
 export const Route = createFileRoute("/move")({
   head: () => ({
