@@ -133,6 +133,22 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useTheme();
 
+  // Remove the injected "Edit with Lovable" badge as soon as it appears.
+  useEffect(() => {
+    const removeBadge = () => {
+      document
+        .querySelectorAll(
+          '#lovable-badge, [id^="lovable-badge"], .lovable-badge, [data-lovable-badge]',
+        )
+        .forEach((el) => el.remove());
+    };
+    removeBadge();
+    const observer = new MutationObserver(removeBadge);
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
