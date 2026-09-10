@@ -99,7 +99,7 @@ function ProfileScreen() {
 
         <Section title="Preferences">
           <Row icon={Lock} title="Privacy" />
-          <Row icon={Bell} title="Notifications" />
+          <Row icon={Bell} title="Notifications" sub={notificationSub} to="/inbox" />
           <Row icon={Sun} title="Appearance" to="/appearance" />
         </Section>
 
