@@ -22,7 +22,7 @@ export const Route = createFileRoute("/signup")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: SignUpFlow;
+  component: SignUpFlow,
 });
 
 const GREEN = "#1EC677";
