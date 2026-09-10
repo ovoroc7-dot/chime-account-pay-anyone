@@ -480,30 +480,85 @@ function PayScreen() {
       )}
 
       {sheet === "done" && (
-        <SheetShell onClose={() => setSheet(null)} closeIcon>
-          <div className="py-6 text-center">
-            <span className="mx-auto grid size-16 place-items-center rounded-full bg-primary">
-              <Check className="size-8 text-primary-foreground" />
-            </span>
-            <p className="mt-6 font-display text-2xl font-bold">
-              {mode === "Pay" ? "Money sent" : "Request sent"}
+        <div className="absolute inset-0 z-40 flex flex-col bg-background px-6 pb-8 pt-16">
+          <span className="grid size-14 place-items-center rounded-full border-2 border-primary">
+            <Check className="size-7 text-primary" strokeWidth={2.5} />
+          </span>
+          <h2 className="mt-6 font-display text-3xl font-extrabold">
+            {usd(value)} {mode === "Pay" ? "sent" : "requested"}
+          </h2>
+          <p className="mt-5 text-[16px] font-semibold leading-relaxed">
+            {mode === "Pay" ? "You paid" : "You requested from"} {contact?.name} for:
+            <br />
+            &ldquo;{note}&rdquo;
+          </p>
+
+          <div className="mt-auto space-y-4 text-[13px] text-muted-foreground">
+            <p>
+              We just notified your friend. If they don&apos;t accept the money in 14 days,
+              we&apos;ll refund you.
             </p>
-            <p className="mt-2 text-[13px] text-muted-foreground">
-              {usd(value).replace(/\.00$/, "")} {mode === "Pay" ? "to" : "requested from"}{" "}
-              {contact?.name}
+            <p>
+              If your friend signs up for Chime and receives a qualifying direct deposit of $200+
+              within their first 45 days of enrolling, you&apos;ll both get $100.
             </p>
-            <button
-              type="button"
-              onClick={() => {
-                setSheet(null);
-                setAmount("0");
-              }}
-              className="mt-8 w-full rounded-full bg-card py-4 text-[15px] font-semibold"
-            >
-              Done
-            </button>
           </div>
-        </SheetShell>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSheet(null);
+              setAmount("0");
+              setContact(null);
+              setNote("💰");
+            }}
+            className="mt-6 w-full rounded-full bg-primary py-4 text-[16px] font-bold text-primary-foreground active:opacity-80"
+          >
+            Got it
+          </button>
+        </div>
+      )}
+
+      {receipt && (
+        <div className="absolute inset-0 z-40 flex flex-col overflow-y-auto bg-background px-6 pb-8 pt-5">
+          <button
+            type="button"
+            aria-label="Back"
+            onClick={() => setReceipt(null)}
+            className="-ml-2 w-fit active:opacity-60"
+          >
+            <ChevronLeft className="size-7" />
+          </button>
+
+          <div className="mt-6 text-center">
+            <span className="mx-auto grid size-20 place-items-center rounded-full bg-card text-3xl">
+              {receipt.note}
+            </span>
+            <p className="mt-4 font-display text-5xl font-extrabold tracking-tight">
+              {receipt.mode === "Pay" ? "-" : "+"}
+              {usd(receipt.amount)}
+            </p>
+            <p className="mt-2 text-xl font-bold">{receipt.name}</p>
+            <p className="mt-2 text-[13px] text-muted-foreground">{dayLabel(receipt.at)}</p>
+          </div>
+
+          <dl className="mt-8 text-[15px]">
+            <ReceiptRow label="Account">{receipt.method}</ReceiptRow>
+            <ReceiptRow label="Category">Financial services</ReceiptRow>
+            <ReceiptRow label="Description">
+              <span className="block">{receipt.name}</span>
+              <span className="block">{receipt.tag}</span>
+            </ReceiptRow>
+            <ReceiptRow label="Card">****{receipt.methodSub}</ReceiptRow>
+          </dl>
+
+          <button
+            type="button"
+            className="mt-auto pt-10 text-center text-[15px] font-bold text-primary active:opacity-70"
+          >
+            Problem with this transaction?
+          </button>
+        </div>
       )}
 
       <MoveTabBar active="Pay" />
