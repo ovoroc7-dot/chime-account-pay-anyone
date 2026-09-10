@@ -88,6 +88,7 @@ function PayScreen() {
   const [query, setQuery] = useState("");
   const activity = usePayActivity();
   const [receipt, setReceipt] = useState<PayActivity | null>(null);
+  const [editedTag, setEditedTag] = useState("");
   const [hintIndex, setHintIndex] = useState(0);
 
   useEffect(() => {
@@ -414,7 +415,10 @@ function PayScreen() {
           />
           <button
             type="button"
-            onClick={() => setSheet("review")}
+            onClick={() => {
+              setEditedTag(contact?.tag ?? "");
+              setSheet("review");
+            }}
             className="mt-6 w-full rounded-full bg-primary py-4 text-[15px] font-bold text-primary-foreground"
           >
             Next
@@ -453,7 +457,19 @@ function PayScreen() {
             <Row label="To">
               <span className="text-right">
                 <span className="block font-semibold">{contact?.name}</span>
-                <span className="block text-[12px] text-muted-foreground">{contact?.tag}</span>
+                <input
+                  value={editedTag}
+                  onChange={(e) => {
+                    let v = e.target.value.replace(/\s/g, "").toLowerCase();
+                    if (v && !v.startsWith("$")) v = `$${v}`;
+                    setEditedTag(v);
+                    setContact((c) => (c ? { ...c, tag: v || c.tag } : c));
+                  }}
+                  aria-label="Recipient $ChimeSign"
+                  placeholder="$ChimeSign"
+                  maxLength={30}
+                  className="mt-0.5 block w-40 border-b border-transparent bg-transparent text-right text-[12px] text-muted-foreground outline-none placeholder:text-muted-foreground/60 focus:border-primary focus:text-foreground"
+                />
               </span>
             </Row>
             <Row label="Amount">
