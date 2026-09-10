@@ -18,6 +18,7 @@ import {
   ROUTING_NUMBER,
   groupByDate,
   money,
+  usd,
   type Txn,
 } from "@/lib/chime-data";
 import { useLedger } from "@/lib/ledger-store";

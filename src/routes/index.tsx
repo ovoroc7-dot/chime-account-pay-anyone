@@ -16,6 +16,7 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 import { InboxBell } from "@/components/InboxBell";
 import { MoveTabBar } from "@/routes/move";
 import { useLedger } from "@/lib/ledger-store";
+import { usd } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
