@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   Bell,
   QrCode,
@@ -20,6 +20,7 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 import { InboxBell } from "@/components/InboxBell";
 import { useUnreadCount } from "@/lib/inbox-store";
 import { MoveTabBar } from "@/routes/move";
+import { signOut, useRequireSession } from "@/lib/session-store";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -43,6 +44,8 @@ export const Route = createFileRoute("/profile")({
 });
 
 function ProfileScreen() {
+  useRequireSession();
+  const navigate = useNavigate();
   const unread = useUnreadCount();
   const notificationSub = unread > 0 ? `${unread} unread` : "All caught up";
 
@@ -110,6 +113,10 @@ function ProfileScreen() {
 
         <button
           type="button"
+          onClick={() => {
+            signOut();
+            navigate({ to: "/welcome", replace: true });
+          }}
           className="mt-8 w-full rounded-full bg-card py-4 text-[15px] font-semibold"
         >
           Sign out

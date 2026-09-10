@@ -31,6 +31,8 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RecurringRouteImport } from './routes/recurring'
 import { Route as SavingsRouteImport } from './routes/savings'
 import { Route as SavingsMoveRouteImport } from './routes/savings-move'
+import { Route as SigninRouteImport } from './routes/signin'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SpotmeRouteImport } from './routes/spotme'
 import { Route as TransferRouteImport } from './routes/transfer'
 import { Route as WelcomeRouteImport } from './routes/welcome'
@@ -146,6 +148,16 @@ const SavingsMoveRoute = SavingsMoveRouteImport.update({
   path: '/savings-move',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpotmeRoute = SpotmeRouteImport.update({
   id: '/spotme',
   path: '/spotme',
@@ -190,6 +202,8 @@ export interface FileRoutesByFullPath {
   '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
   '/welcome': typeof WelcomeRoute
@@ -218,6 +232,8 @@ export interface FileRoutesByTo {
   '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
   '/welcome': typeof WelcomeRoute
@@ -247,6 +263,8 @@ export interface FileRoutesById {
   '/recurring': typeof RecurringRoute
   '/savings': typeof SavingsRoute
   '/savings-move': typeof SavingsMoveRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/spotme': typeof SpotmeRoute
   '/transfer': typeof TransferRoute
   '/welcome': typeof WelcomeRoute
@@ -277,6 +295,8 @@ export interface FileRouteTypes {
     | '/recurring'
     | '/savings'
     | '/savings-move'
+    | '/signin'
+    | '/signup'
     | '/spotme'
     | '/transfer'
     | '/welcome'
@@ -305,6 +325,8 @@ export interface FileRouteTypes {
     | '/recurring'
     | '/savings'
     | '/savings-move'
+    | '/signin'
+    | '/signup'
     | '/spotme'
     | '/transfer'
     | '/welcome'
@@ -333,6 +355,8 @@ export interface FileRouteTypes {
     | '/recurring'
     | '/savings'
     | '/savings-move'
+    | '/signin'
+    | '/signup'
     | '/spotme'
     | '/transfer'
     | '/welcome'
@@ -362,6 +386,8 @@ export interface RootRouteChildren {
   RecurringRoute: typeof RecurringRoute
   SavingsRoute: typeof SavingsRoute
   SavingsMoveRoute: typeof SavingsMoveRoute
+  SigninRoute: typeof SigninRoute
+  SignupRoute: typeof SignupRoute
   SpotmeRoute: typeof SpotmeRoute
   TransferRoute: typeof TransferRoute
   WelcomeRoute: typeof WelcomeRoute
@@ -524,6 +550,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SavingsMoveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/spotme': {
       id: '/spotme'
       path: '/spotme'
@@ -578,6 +618,8 @@ const rootRouteChildren: RootRouteChildren = {
   RecurringRoute: RecurringRoute,
   SavingsRoute: SavingsRoute,
   SavingsMoveRoute: SavingsMoveRoute,
+  SigninRoute: SigninRoute,
+  SignupRoute: SignupRoute,
   SpotmeRoute: SpotmeRoute,
   TransferRoute: TransferRoute,
   WelcomeRoute: WelcomeRoute,

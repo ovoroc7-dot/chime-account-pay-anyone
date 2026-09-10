@@ -177,14 +177,14 @@ function Landing() {
 
         <button
           type="button"
-          onClick={() => navigate({ to: "/" })}
+          onClick={() => navigate({ to: "/signup" })}
           className="mt-6 w-full rounded-full bg-[#2eab52] py-3.5 text-base font-semibold text-white active:opacity-80"
         >
           Sign up
         </button>
         <button
           type="button"
-          onClick={() => navigate({ to: "/" })}
+          onClick={() => navigate({ to: "/signin" })}
           className="mt-3 w-full rounded-full bg-[#e6c4e0] py-3.5 text-base font-semibold text-[#1a1420] active:opacity-80"
         >
           Log in
