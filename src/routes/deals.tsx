@@ -46,9 +46,7 @@ function DealsScreen() {
   return (
     <PhoneFrame>
       <div className="flex items-center justify-between px-6 pt-5">
-        <button type="button" aria-label="Notifications" className="active:opacity-60">
-          <Bell className="size-6" />
-        </button>
+        <InboxBell className="-ml-3" />
         <h1 className="font-display text-base font-bold">Deals</h1>
         <button type="button" aria-label="Deal history" className="active:opacity-60">
           <History className="size-6" />
