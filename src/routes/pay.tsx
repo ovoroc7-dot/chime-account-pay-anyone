@@ -66,13 +66,19 @@ type Sheet = null | "qr" | "contacts" | "note" | "review" | "method" | "done";
 
 function PayScreen() {
   const kb = useKeyboardInset();
+  const { checking } = useLedger();
   const [sheet, setSheet] = useState<Sheet>(null);
   const [mode, setMode] = useState<"Pay" | "Request">("Pay");
   const [amount, setAmount] = useState("0");
   const [editingAmount, setEditingAmount] = useState(false);
   const [contact, setContact] = useState<(typeof CONTACTS)[number] | null>(null);
   const [note, setNote] = useState("💰");
-  const [method, setMethod] = useState(METHODS[0]!);
+  const methods: Method[] = [
+    { id: "checking", name: "Checking", sub: usd(checking), chime: true },
+    { id: "sofi", name: "SoFi Bank N.A. Debit card", sub: "7109", chime: false },
+  ];
+  const [methodId, setMethodId] = useState("checking");
+  const method = methods.find((m) => m.id === methodId) ?? methods[0]!;
   const [query, setQuery] = useState("");
   const [hintIndex, setHintIndex] = useState(0);
 
