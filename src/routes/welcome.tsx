@@ -53,10 +53,10 @@ function WelcomeScreen() {
 function Wordmark({ className = "text-3xl" }: { className?: string }) {
   return (
     <span
-      className={`font-display font-bold tracking-tight text-[#3ec25f] ${className}`}
+      className={`font-brand font-black leading-none tracking-[-0.04em] text-[#3ec25f] ${className}`}
     >
       chime
-      <sup className="ml-0.5 align-super text-[0.4em]">®</sup>
+      <sup className="ml-[0.12em] align-super text-[0.32em] font-bold">®</sup>
     </span>
   );
 }
@@ -67,7 +67,7 @@ function Splash() {
       className="flex h-full w-full items-center justify-center"
       style={{ backgroundColor: "#0d4a2a" }}
     >
-      <Wordmark className="text-4xl" />
+      <Wordmark className="text-[44px]" />
     </div>
   );
 }
