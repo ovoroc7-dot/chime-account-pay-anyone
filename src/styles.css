@@ -185,7 +185,12 @@
 }
 
 /* Hide Lovable "Edit with Lovable" badge/branding on published previews */
-iframe#lovable-badge,
+#lovable-badge,
+#lovable-badge-cta,
+#lovable-badge-text,
+#lovable-badge-divider,
+#lovable-badge-close,
+aside[id^="lovable-badge"],
 .lovable-badge,
 .lovable-badge-container,
 [data-lovable-badge],
