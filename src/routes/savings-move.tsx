@@ -250,7 +250,11 @@ function Picker({
   onPick: (a: Acct) => void;
   onClose: () => void;
 }) {
-  const chime = SOURCES.filter((a) => a.group === "chime" && a.id !== exclude);
+  const ledger = useLedger();
+  const chime = SOURCES.filter((a) => a.group === "chime" && a.id !== exclude).map((a) => ({
+    ...a,
+    sub: usd(a.id === "checking" ? ledger.checking : ledger.savings),
+  }));
   const linked = SOURCES.filter((a) => a.group === "linked" && a.id !== exclude);
   const goals = useGoals()
     .map(toAcct)
