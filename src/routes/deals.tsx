@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Bell, History, Plus, Search } from "lucide-react";
+import { History, Plus, Search } from "lucide-react";
+import { InboxBell } from "@/components/InboxBell";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { MoveTabBar } from "@/routes/move";
