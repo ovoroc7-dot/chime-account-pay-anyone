@@ -43,6 +43,9 @@ export const Route = createFileRoute("/profile")({
 });
 
 function ProfileScreen() {
+  const unread = useUnreadCount();
+  const notificationSub = unread > 0 ? `${unread} unread` : "All caught up";
+
   return (
     <PhoneFrame>
       <div className="flex-1 overflow-y-auto px-6 pb-28 pt-5">
