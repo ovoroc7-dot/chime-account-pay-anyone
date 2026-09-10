@@ -210,13 +210,43 @@ function PayScreen() {
         </button>
 
         <h2 className="mt-8 font-display text-xl font-bold">Recent</h2>
-        <div className="mt-10 flex flex-col items-center text-center">
-          <Cloud className="size-16 text-muted-foreground" />
-          <p className="mt-5 text-[15px] font-semibold">Nothing here yet</p>
-          <p className="mt-1 text-[13px] text-muted-foreground">
-            Send money and you&apos;ll see activity here.
-          </p>
-        </div>
+        {activity.length === 0 ? (
+          <div className="mt-10 flex flex-col items-center text-center">
+            <Cloud className="size-16 text-muted-foreground" />
+            <p className="mt-5 text-[15px] font-semibold">Nothing here yet</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">
+              Send money and you&apos;ll see activity here.
+            </p>
+          </div>
+        ) : (
+          <ul className="mt-3">
+            {activity.map((a) => (
+              <li key={a.id} className="border-b border-white/5 last:border-0">
+                <button
+                  type="button"
+                  onClick={() => setReceipt(a)}
+                  className="flex w-full items-center gap-3 py-4 text-left active:opacity-70"
+                >
+                  <span className="grid size-11 place-items-center rounded-full bg-card text-lg">
+                    {a.note}
+                  </span>
+                  <span className="flex-1">
+                    <span className="block text-[15px] font-semibold">
+                      {a.mode === "Pay" ? `You paid ${a.name}` : `You requested from ${a.name}`}
+                    </span>
+                    <span className="block text-[12px] text-muted-foreground">
+                      {dayLabel(a.at)}
+                    </span>
+                  </span>
+                  <span className="text-[15px] font-semibold">
+                    {a.mode === "Pay" ? "-" : ""}
+                    {usd(a.amount)}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {editingAmount && (
