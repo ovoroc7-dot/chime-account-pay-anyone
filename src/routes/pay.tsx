@@ -7,7 +7,8 @@ import { MoveTabBar } from "@/routes/move";
 import { AmountField } from "@/components/AmountField";
 import { ChimeLogo } from "@/components/ChimeLogo";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
-import { usd, CHECKING_BALANCE, CARDHOLDER } from "@/lib/chime-data";
+import { usd, CARDHOLDER } from "@/lib/chime-data";
+import { useLedger } from "@/lib/ledger-store";
 
 export const Route = createFileRoute("/pay")({
   head: () => ({
@@ -57,10 +58,7 @@ const CONTACTS = [
   { name: "Ana Ruiz", tag: "$ana-ruiz", initials: "AR" },
 ];
 
-const METHODS = [
-  { id: "checking", name: "Checking", sub: usd(CHECKING_BALANCE), chime: true },
-  { id: "sofi", name: "SoFi Bank N.A. Debit card", sub: "7109", chime: false },
-];
+type Method = { id: string; name: string; sub: string; chime: boolean };
 
 const EMOJIS = ["❤️", "🍔", "🪙", "🎁", "🔥", "💰", "🍷", "🎉"];
 
