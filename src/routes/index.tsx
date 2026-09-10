@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useRef, useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
-import { ChimeLogo } from "@/components/ChimeLogo";
+
 import { InboxBell } from "@/components/InboxBell";
 import { MoveTabBar } from "@/routes/move";
 import { CHECKING_BALANCE } from "@/lib/chime-data";
@@ -162,7 +162,6 @@ function HomeScreen() {
             className="mt-7 flex items-center justify-between transition-opacity active:opacity-60"
           >
             <span className="flex items-center gap-2.5 text-xl font-semibold">
-              <ChimeLogo className="size-6" />
               Checking
             </span>
             <span className="flex items-center gap-1 text-xl font-semibold">
