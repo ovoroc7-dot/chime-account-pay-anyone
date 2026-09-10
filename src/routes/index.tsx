@@ -132,7 +132,7 @@ const discover = [
 ] as const;
 
 function HomeScreen() {
-  const { checking } = useLedger();
+  const { checking, savings } = useLedger();
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [active, setActive] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -204,7 +204,7 @@ function HomeScreen() {
             </div>
             <Link to="/savings" className="rounded-2xl bg-black/25 p-4 active:opacity-70">
               <span className="text-sm font-semibold">Savings</span>
-              <p className="mt-6 text-2xl font-semibold">$0.00</p>
+              <p className="mt-6 text-2xl font-semibold">{usd(savings)}</p>
               <p className="mt-1 text-xs text-muted-foreground">1.00% APY</p>
             </Link>
           </div>
