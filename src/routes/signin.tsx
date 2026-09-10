@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { PhoneFrame } from "@/components/PhoneFrame";
-import { signIn } from "@/lib/session-store";
+import { ACCOUNT, signIn, verifyCredentials } from "@/lib/session-store";
 
 export const Route = createFileRoute("/signin")({
   head: () => ({
