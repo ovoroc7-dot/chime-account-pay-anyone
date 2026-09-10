@@ -138,16 +138,16 @@ function Landing() {
 
   return (
     <div className="flex h-full w-full flex-col" style={{ backgroundColor: GREEN }}>
-      <div className="flex items-center justify-center pt-4 pb-2">
-        <Wordmark className="text-2xl" />
+      <div className="flex items-center justify-center pt-6 pb-1">
+        <Wordmark className="text-[26px]" />
       </div>
 
-      <div className="flex flex-1 items-center justify-center overflow-hidden px-6">
+      <div className="flex flex-1 items-center justify-center overflow-hidden px-8 py-4">
         {slides[active]?.art === "cards" ? <CardsArt /> : <ScoreArt />}
       </div>
 
       <div
-        className="rounded-t-3xl px-7 pt-8 pb-8"
+        className="rounded-t-[28px] px-6 pt-7 pb-7 shadow-[0_-12px_30px_rgba(0,0,0,0.18)]"
         style={{ backgroundColor: PINK, color: "#1a1420" }}
       >
         <div
@@ -156,21 +156,24 @@ function Landing() {
           className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {slides.map((s) => (
-            <div key={s.id} className="w-full shrink-0 snap-center pr-px">
-              <h1 className="font-display text-[28px] font-bold leading-tight">
+            <div key={s.id} className="min-h-[124px] w-full shrink-0 snap-center pr-px">
+              <h1 className="font-brand text-[27px] font-extrabold leading-[1.15] tracking-[-0.02em]">
                 {s.title}
               </h1>
-              <p className="mt-3 text-sm leading-snug text-[#3a3040]">{s.body}</p>
+              <p className="mt-2.5 text-[13.5px] leading-[1.45] text-[#4a3f50]">{s.body}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-6 flex items-center justify-center gap-2">
-          {[0, 1, 2, 3, 4, 5].map((i) => (
+        <div className="mt-5 flex items-center justify-center gap-1.5">
+          {slides.map((s, i) => (
             <span
-              key={i}
-              className="size-1.5 rounded-full"
-              style={{ backgroundColor: i === active ? "#1a1420" : "#c9a8c3" }}
+              key={s.id}
+              className="h-1.5 rounded-full transition-all"
+              style={{
+                width: i === active ? 18 : 6,
+                backgroundColor: i === active ? "#1a1420" : "#cfa9c9",
+              }}
             />
           ))}
         </div>
@@ -178,14 +181,14 @@ function Landing() {
         <button
           type="button"
           onClick={() => navigate({ to: "/signup" })}
-          className="mt-6 w-full rounded-full bg-[#2eab52] py-3.5 text-base font-semibold text-white active:opacity-80"
+          className="mt-6 w-full rounded-full bg-[#2eab52] py-4 font-brand text-[17px] font-bold text-white active:opacity-80"
         >
           Sign up
         </button>
         <button
           type="button"
           onClick={() => navigate({ to: "/signin" })}
-          className="mt-3 w-full rounded-full bg-[#e6c4e0] py-3.5 text-base font-semibold text-[#1a1420] active:opacity-80"
+          className="mt-3 w-full rounded-full bg-[#e6c4e0] py-4 font-brand text-[17px] font-bold text-[#1a1420] active:opacity-80"
         >
           Log in
         </button>
