@@ -16,6 +16,7 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 import { InboxBell } from "@/components/InboxBell";
 import { MoveTabBar } from "@/routes/move";
 import { useLedger } from "@/lib/ledger-store";
+import { usd } from "@/lib/chime-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -166,7 +167,7 @@ function HomeScreen() {
               Checking
             </span>
             <span className="flex items-center gap-1 text-xl font-semibold">
-              ${checking.toFixed(2)}
+              {usd(checking)}
               <ChevronRight className="size-5" strokeWidth={2.5} />
             </span>
           </Link>
