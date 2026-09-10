@@ -83,7 +83,7 @@ function CheckingScreen() {
             Checking
           </h1>
           <p className="font-display text-4xl font-extrabold tracking-tight">
-            ${checking.toFixed(2)}
+            {usd(checking)}
           </p>
 
           <div className="mt-5 rounded-2xl bg-card p-4">

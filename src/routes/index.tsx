@@ -167,7 +167,7 @@ function HomeScreen() {
               Checking
             </span>
             <span className="flex items-center gap-1 text-xl font-semibold">
-              ${checking.toFixed(2)}
+              {usd(checking)}
               <ChevronRight className="size-5" strokeWidth={2.5} />
             </span>
           </Link>
