@@ -8,7 +8,7 @@ import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
 import { usd } from "@/lib/chime-data";
 import { applyTransfer, useLedger } from "@/lib/ledger-store";
-import { useGoals } from "@/lib/goals-store";
+import { useGoals, adjustGoal, moveBetweenGoals, defaultGoalId } from "@/lib/goals-store";
 
 type Search = { dir?: "in" | "out" };
 
@@ -234,22 +234,15 @@ function SavingsMoveScreen() {
           </div>
         </div>
 
+        {tooMuch && (
+          <p role="status" className="pb-2 text-center text-xs text-destructive">
+            You only have {usd(availableFrom)} in {from.name}.
+          </p>
+        )}
+
         <button
-          disabled={value <= 0}
-          onClick={() => {
-            const chimeId = (a: Acct) =>
-              a.id === "checking" || a.id === "savings" || a.group === "goal"
-                ? ((a.id === "checking" ? "checking" : "savings") as "checking" | "savings")
-                : null;
-            applyTransfer({
-              amount: value,
-              fromChime: chimeId(from),
-              toChime: chimeId(to),
-              externalName: chimeId(from) ? to.name : from.name,
-              instant: true,
-            });
-            setDone(true);
-          }}
+          disabled={value <= 0 || tooMuch}
+          onClick={submit}
           style={{ marginBottom: `calc(1rem + ${kbInset}px)` }}
           className="sticky bottom-0 w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:bg-secondary disabled:text-muted-foreground"
         >
