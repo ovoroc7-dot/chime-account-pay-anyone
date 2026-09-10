@@ -624,6 +624,15 @@ function title(name: string) {
     .join(" ");
 }
 
+function ReceiptRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-start justify-between gap-6 border-b border-white/10 py-5 last:border-0">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="text-right font-semibold">{children}</dd>
+    </div>
+  );
+}
+
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4">
