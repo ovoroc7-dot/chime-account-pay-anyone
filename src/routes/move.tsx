@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Bell,
   ChevronRight,
   Home,
   ArrowLeftRight,
@@ -19,6 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { InboxBell } from "@/components/InboxBell";
 
 export const Route = createFileRoute("/move")({
   head: () => ({
@@ -62,9 +62,7 @@ function MoveScreen() {
         className="flex-1 overflow-y-auto pb-28"
       >
         <div className="sticky top-0 z-10 flex items-center justify-between bg-background/95 px-6 pt-5 pb-3 backdrop-blur">
-          <Link to="/inbox" aria-label="Inbox" className="active:opacity-60">
-            <Bell className="size-6" strokeWidth={1.75} />
-          </Link>
+          <InboxBell className="-ml-3" />
           <span
             className={`font-display text-base font-bold transition-opacity ${
               scrolled ? "opacity-100" : "opacity-0"

@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Bell,
   ChevronRight,
   Plus,
   X,
@@ -14,6 +13,7 @@ import {
 import { useRef, useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
+import { InboxBell } from "@/components/InboxBell";
 import { MoveTabBar } from "@/routes/move";
 import { CHECKING_BALANCE } from "@/lib/chime-data";
 
@@ -149,9 +149,7 @@ function HomeScreen() {
       <div className="flex-1 overflow-y-auto pb-28">
         <div className="bg-surface-deep px-6 pt-5 pb-8">
           <div className="flex items-center justify-between">
-            <Link to="/inbox" aria-label="Inbox" className="active:opacity-60">
-              <Bell className="size-6 text-foreground" strokeWidth={1.75} />
-            </Link>
+            <InboxBell className="-ml-3" />
             <span className="rounded-full border border-primary px-4 py-1.5 text-xs font-semibold text-primary">
               Get $200
             </span>

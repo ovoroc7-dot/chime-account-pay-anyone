@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Bell, Search, QrCode, Plus, X, ChevronLeft, Check, Cloud } from "lucide-react";
+import { Search, QrCode, Plus, X, ChevronLeft, Check, Cloud } from "lucide-react";
+import { InboxBell } from "@/components/InboxBell";
 import { useEffect, useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { MoveTabBar } from "@/routes/move";
@@ -133,9 +134,7 @@ function PayScreen() {
     <PhoneFrame>
       <div className="flex-1 overflow-y-auto px-6 pb-28 pt-5">
         <div className="flex items-center justify-between">
-          <button type="button" aria-label="Notifications" className="active:opacity-60">
-            <Bell className="size-6" />
-          </button>
+          <InboxBell className="-ml-3" />
           <div className="flex items-center gap-5">
             <button type="button" aria-label="Search" className="active:opacity-60">
               <Search className="size-6" />
