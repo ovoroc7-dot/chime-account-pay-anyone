@@ -169,6 +169,19 @@ export function applyTransfer({
   }
 }
 
+/** Money sent out of Checking to a person (Pay Anyone). */
+export function payOut(amount: number, recipient: string) {
+  state = { ...state, checking: Math.round((state.checking - amount) * 100) / 100 };
+  addTransaction({
+    title: `Pay Anyone: ${recipient}`,
+    category: "Financial services",
+    amount: -amount,
+    kind: "debit",
+    status: "Completed",
+    method: "Instant transfer",
+  });
+}
+
 export function resetLedger() {
   state = seed;
   persist();
