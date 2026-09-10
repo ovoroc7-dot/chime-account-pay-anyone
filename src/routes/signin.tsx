@@ -43,7 +43,11 @@ function SignInScreen() {
       setError("Enter your password to continue.");
       return;
     }
-    signIn(identifier.trim());
+    if (!verifyCredentials(identifier, password)) {
+      setError("The email or password you entered is incorrect.");
+      return;
+    }
+    signIn(ACCOUNT.email, ACCOUNT.name);
     navigate({ to: "/", replace: true });
   }
 
