@@ -145,7 +145,7 @@ function SavingsMoveScreen() {
         amount: value,
         fromChime: f === "checking" ? "checking" : f === "goal" ? "savings" : null,
         toChime: t === "checking" ? "checking" : t === "goal" ? "savings" : null,
-        externalName: f === "external" ? from.name : to.name,
+        externalName: t === "checking" ? from.name : to.name,
         instant: true,
       });
       if (f === "goal") adjustGoal(goalId(from), -value);
