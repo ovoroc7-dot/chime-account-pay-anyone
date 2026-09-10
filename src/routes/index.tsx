@@ -13,6 +13,7 @@ import {
 import { useRef, useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { ChimeLogo } from "@/components/ChimeLogo";
+import { InboxBell } from "@/components/InboxBell";
 import { MoveTabBar } from "@/routes/move";
 import { CHECKING_BALANCE } from "@/lib/chime-data";
 
