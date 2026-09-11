@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import chimeWordmark from "@/assets/chime-wordmark.png.asset.json";
 
 export const Route = createFileRoute("/welcome")({
   head: () => ({
@@ -58,13 +59,15 @@ function Wordmark({
   className?: string;
   color?: string;
 }) {
+  const isGreen = color === GREEN;
   return (
-    <span
-      className={`font-brand font-black leading-none tracking-[-0.045em] ${className}`}
-      style={{ color }}
-    >
-      chime
-      <sup className="ml-[0.1em] align-super text-[0.3em] font-bold">®</sup>
+    <span className={`inline-block leading-none ${className}`}>
+      <img
+        src={chimeWordmark.url}
+        alt="Chime"
+        className="h-[1.15em] w-auto object-contain"
+        style={isGreen ? undefined : { filter: "brightness(0) invert(1)" }}
+      />
     </span>
   );
 }
