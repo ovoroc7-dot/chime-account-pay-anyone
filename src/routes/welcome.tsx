@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import chimeWordmark from "@/assets/chime-wordmark.png.asset.json";
 
 export const Route = createFileRoute("/welcome")({
   head: () => ({
