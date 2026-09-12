@@ -165,12 +165,12 @@ function HomeScreen() {
             to="/checking"
             className="mt-7 flex items-center justify-between transition-opacity active:opacity-60"
           >
-            <span className="flex items-center gap-2.5 text-xl font-semibold">
+            <span className="flex shrink-0 items-center gap-2.5 text-xl font-semibold">
               Checking
             </span>
-            <span className="flex items-center gap-1 text-xl font-semibold">
-              {usd(checking)}
-              <ChevronRight className="size-5" strokeWidth={2.5} />
+            <span className="flex min-w-0 items-center gap-1 text-xl font-semibold">
+              <span className="truncate tabular-nums">{usd(checking)}</span>
+              <ChevronRight className="size-5 shrink-0" strokeWidth={2.5} />
             </span>
           </Link>
 
@@ -206,7 +206,7 @@ function HomeScreen() {
             </div>
             <Link to="/savings" className="rounded-2xl bg-black/25 p-4 active:opacity-70">
               <span className="text-sm font-semibold">Savings</span>
-              <p className="mt-6 text-2xl font-semibold">{usd(savings)}</p>
+              <p className="mt-6 truncate text-2xl font-semibold tabular-nums">{usd(savings)}</p>
               <p className="mt-1 text-xs text-muted-foreground">1.00% APY</p>
             </Link>
           </div>

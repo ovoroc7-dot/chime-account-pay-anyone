@@ -82,7 +82,7 @@ function CheckingScreen() {
           <h1 className="mt-5 flex items-center gap-2.5 font-display text-3xl font-extrabold tracking-tight">
             Checking
           </h1>
-          <p className="font-display text-4xl font-extrabold tracking-tight">
+          <p className="max-w-full truncate font-display text-4xl font-extrabold tracking-tight tabular-nums [font-size:clamp(1.75rem,9vw,2.25rem)]">
             {usd(checking)}
           </p>
 
