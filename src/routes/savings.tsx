@@ -59,7 +59,7 @@ function SavingsScreen() {
 
       <div className="flex-1 overflow-y-auto px-5 pb-10 pt-3">
         <h1 className="font-display text-3xl font-extrabold tracking-tight">Savings</h1>
-        <p className="mt-1 font-display text-5xl font-extrabold tracking-tight">
+        <p className="mt-1 max-w-full truncate font-display text-5xl font-extrabold tracking-tight tabular-nums [font-size:clamp(2rem,11vw,3rem)]">
           {usd(savings)}
         </p>
         <button
