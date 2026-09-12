@@ -149,7 +149,7 @@ function HomeScreen() {
   }
 
   return (
-    <PhoneFrame>
+    <PhoneFrame topClass="bg-surface-deep">
       <div className="flex-1 overflow-y-auto pb-28">
         <div className="bg-surface-deep px-6 pt-5 pb-8">
           <div className="flex items-center justify-between">

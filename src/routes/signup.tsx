@@ -84,7 +84,7 @@ function SignUpFlow() {
   const close = () => navigate({ to: "/welcome" });
 
   return (
-    <PhoneFrame>
+    <PhoneFrame topColor="#FBF7F2">
       <div className="flex min-h-full w-full flex-col bg-[#FBF7F2] px-5 pb-6 pt-3 text-[#12261F]">
         <div className="flex items-center justify-between">
           <button
