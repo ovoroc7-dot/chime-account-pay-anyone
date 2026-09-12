@@ -44,7 +44,7 @@ function WelcomeScreen() {
   }, []);
 
   return (
-    <PhoneFrame>
+    <PhoneFrame topColor={stage === "loading" ? "#ffffff" : DEEP}>
       {stage === "splash" && <Splash />}
       {stage === "loading" && <Loading />}
       {stage === "landing" && <Landing />}

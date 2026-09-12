@@ -52,7 +52,7 @@ function SignInScreen() {
   }
 
   return (
-    <PhoneFrame>
+    <PhoneFrame topColor={GREEN}>
       <div
         className="flex h-full w-full flex-col px-6 pb-8 pt-4 text-white"
         style={{ backgroundColor: GREEN }}
