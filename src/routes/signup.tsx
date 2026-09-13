@@ -33,7 +33,16 @@ export const Route = createFileRoute("/signup")({
 const GREEN = "#1EC677";
 const DEEP = "#12261F";
 
-type Step = "security" | "basic" | "dob" | "phone" | "code" | "done";
+type Step =
+  | "security"
+  | "basic"
+  | "dob"
+  | "phone"
+  | "code"
+  | "address"
+  | "ssn"
+  | "password"
+  | "done";
 
 const STAGE: Record<Step, number> = {
   security: 0,
@@ -41,6 +50,9 @@ const STAGE: Record<Step, number> = {
   dob: 0,
   phone: 1,
   code: 1,
+  address: 1,
+  ssn: 1,
+  password: 1,
   done: 2,
 };
 
