@@ -69,11 +69,26 @@ function SignUpFlow() {
   const [dob, setDob] = useState("");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
+  const [street, setStreet] = useState("");
+  const [apt, setApt] = useState("");
+  const [city, setCity] = useState("");
+  const [stateCode, setStateCode] = useState("");
+  const [zip, setZip] = useState("");
+  const [ssn, setSsn] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
 
   const basicValid =
     first.trim().length > 1 && last.trim().length > 1 && /\S+@\S+\.\S+/.test(email.trim());
   const phoneDigits = phone.replace(/\D/g, "");
   const dobValid = isAdult(dob);
+  const addressValid =
+    street.trim().length > 3 &&
+    city.trim().length > 1 &&
+    stateCode.trim().length === 2 &&
+    zip.replace(/\D/g, "").length === 5;
+  const ssnValid = ssn.replace(/\D/g, "").length === 9;
+  const pwValid = password.length >= 8 && /\d/.test(password) && /[A-Za-z]/.test(password);
 
   useEffect(() => {
     if (!checking) return;
