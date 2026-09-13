@@ -149,9 +149,9 @@ function SignUpFlow() {
 
             {step === "security" ? (
               <>
-                <p className="mt-8 text-center font-display text-lg font-bold text-[#1c7a4f]">
-                  chime
-                </p>
+                <div className="mt-8 flex justify-center">
+                  <Wordmark className="h-5" />
+                </div>
                 <h1 className="mt-4 text-center font-display text-[24px] font-bold">
                   One more step
                 </h1>
