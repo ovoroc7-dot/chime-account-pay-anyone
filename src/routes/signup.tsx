@@ -259,9 +259,9 @@ function SignUpFlow() {
 
             {step === "dob" ? (
               <>
-                <p className="mt-6 text-center font-display text-lg font-bold text-[#1c7a4f]">
-                  chime
-                </p>
+                <div className="mt-6 flex justify-center">
+                  <Wordmark className="h-5" />
+                </div>
                 <h1 className="mt-3 font-display text-[26px] font-bold leading-tight">
                   Your date of birth
                 </h1>
