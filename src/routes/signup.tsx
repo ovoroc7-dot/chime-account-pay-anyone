@@ -346,9 +346,136 @@ function SignUpFlow() {
                   Resend code
                 </button>
 
-                <PrimaryButton disabled={code.length !== 6} onClick={() => go("done")}>
+                <PrimaryButton disabled={code.length !== 6} onClick={() => go("address")}>
                   Verify
                 </PrimaryButton>
+              </>
+            ) : null}
+
+            {step === "address" ? (
+              <>
+                <h1 className="mt-6 font-display text-[26px] font-bold leading-tight">
+                  Your home address
+                </h1>
+                <p className="mt-2 text-sm text-[#12261F]/65">
+                  We&apos;ll mail your Chime Visa® Debit Card here. No PO boxes.
+                </p>
+
+                <div className="mt-6 space-y-3">
+                  <Field
+                    id="street"
+                    label="Street address"
+                    value={street}
+                    onChange={setStreet}
+                    autoComplete="address-line1"
+                  />
+                  <Field
+                    id="apt"
+                    label="Apt, suite (optional)"
+                    value={apt}
+                    onChange={setApt}
+                    autoComplete="address-line2"
+                  />
+                  <Field
+                    id="city"
+                    label="City"
+                    value={city}
+                    onChange={setCity}
+                    autoComplete="address-level2"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <Field
+                      id="state"
+                      label="State"
+                      value={stateCode}
+                      onChange={(v) => setStateCode(v.replace(/[^a-zA-Z]/g, "").slice(0, 2).toUpperCase())}
+                      autoComplete="address-level1"
+                    />
+                    <Field
+                      id="zip"
+                      label="ZIP code"
+                      value={zip}
+                      onChange={(v) => setZip(v.replace(/\D/g, "").slice(0, 5))}
+                      inputMode="numeric"
+                      autoComplete="postal-code"
+                    />
+                  </div>
+                </div>
+
+                <PrimaryButton disabled={!addressValid} onClick={() => go("ssn")}>
+                  Next
+                </PrimaryButton>
+              </>
+            ) : null}
+
+            {step === "ssn" ? (
+              <>
+                <h1 className="mt-6 font-display text-[26px] font-bold leading-tight">
+                  Your Social Security number
+                </h1>
+                <p className="mt-2 text-sm text-[#12261F]/65">
+                  Federal law requires us to verify your identity before opening an account. This
+                  won&apos;t affect your credit score.
+                </p>
+
+                <div className="mt-6">
+                  <Field
+                    id="ssn"
+                    label="Social Security number"
+                    value={ssn}
+                    onChange={(v) => setSsn(formatSsn(v))}
+                    inputMode="numeric"
+                    placeholder="000 - 00 - 0000"
+                  />
+                </div>
+
+                <p className="mt-4 text-[11px] leading-relaxed text-[#12261F]/55">
+                  Your information is encrypted and transmitted securely. See our{" "}
+                  <span className="font-semibold underline">Privacy Notice</span>.
+                </p>
+
+                <PrimaryButton disabled={!ssnValid} onClick={() => go("password")}>
+                  Next
+                </PrimaryButton>
+              </>
+            ) : null}
+
+            {step === "password" ? (
+              <>
+                <h1 className="mt-6 font-display text-[26px] font-bold leading-tight">
+                  Create a password
+                </h1>
+                <p className="mt-2 text-sm text-[#12261F]/65">
+                  Use at least 8 characters with a mix of letters and numbers.
+                </p>
+
+                <div className="mt-6">
+                  <Field
+                    id="password"
+                    label="Password"
+                    value={password}
+                    onChange={setPassword}
+                    autoComplete="new-password"
+                    type={showPw ? "text" : "password"}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPw((s) => !s)}
+                  className="mt-3 self-start text-sm font-semibold text-[#1c7a4f]"
+                >
+                  {showPw ? "Hide password" : "Show password"}
+                </button>
+
+                <PrimaryButton disabled={!pwValid} onClick={() => go("done")}>
+                  Create account
+                </PrimaryButton>
+
+                <p className="mt-4 text-center text-[11px] text-[#12261F]/55">
+                  By creating an account, you agree to our{" "}
+                  <span className="font-semibold underline">Terms</span> and{" "}
+                  <span className="font-semibold underline">Privacy Notice</span>.
+                </p>
               </>
             ) : null}
 
