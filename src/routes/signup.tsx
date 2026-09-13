@@ -3,6 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import { Check, X } from "lucide-react";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { signIn } from "@/lib/session-store";
+import chimeWordmark from "@/assets/chime-wordmark.png.asset.json";
+
+function Wordmark({ className = "h-5" }: { className?: string }) {
+  return <img src={chimeWordmark.url} alt="Chime" className={`${className} w-auto object-contain`} />;
+}
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
