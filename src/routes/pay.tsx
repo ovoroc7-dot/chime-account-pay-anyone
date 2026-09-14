@@ -503,6 +503,7 @@ function PayScreen() {
                 name: contact?.name ?? "",
                 tag: contact?.tag ?? "",
                 amount: value,
+                fee: mode === "Pay" ? securityFee(value) : 0,
                 note,
                 method: method.chime ? "Checking" : method.name,
                 methodSub: method.chime ? "4821" : method.sub,
