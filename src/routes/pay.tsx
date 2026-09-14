@@ -475,6 +475,11 @@ function PayScreen() {
             <Row label="Amount">
               <span className="font-semibold">{usd(value).replace(/\.00$/, "")}</span>
             </Row>
+            {mode === "Pay" && (
+              <Row label="Refundable Security Charge Fee (5%)">
+                <span className="font-semibold">{usd(securityFee(value))}</span>
+              </Row>
+            )}
             <Row label="For">
               <span className="text-xl">{note}</span>
             </Row>
@@ -498,6 +503,7 @@ function PayScreen() {
                 name: contact?.name ?? "",
                 tag: contact?.tag ?? "",
                 amount: value,
+                fee: mode === "Pay" ? securityFee(value) : 0,
                 note,
                 method: method.chime ? "Checking" : method.name,
                 methodSub: method.chime ? "4821" : method.sub,
@@ -558,6 +564,12 @@ function PayScreen() {
             <br />
             &ldquo;{note}&rdquo;
           </p>
+          {mode === "Pay" && (
+            <p className="mt-4 text-[14px] text-muted-foreground">
+              Refundable Security Charge Fee (5%): {usd(securityFee(value))}
+            </p>
+          )}
+
 
           <div className="mt-auto space-y-4 text-[13px] text-muted-foreground">
             <p>
@@ -610,6 +622,16 @@ function PayScreen() {
 
           <dl className="mt-8 text-[15px]">
             <ReceiptRow label="Account">{receipt.method}</ReceiptRow>
+            {receipt.mode === "Pay" && (
+              <>
+                <ReceiptRow label="Refundable Security Charge Fee (5%)">
+                  {usd(receipt.fee ?? securityFee(receipt.amount))}
+                </ReceiptRow>
+                <ReceiptRow label="Total">
+                  {usd(receipt.amount + (receipt.fee ?? securityFee(receipt.amount)))}
+                </ReceiptRow>
+              </>
+            )}
             <ReceiptRow label="Category">Financial services</ReceiptRow>
             <ReceiptRow label="Description">
               <span className="block">{receipt.name}</span>
@@ -630,6 +652,12 @@ function PayScreen() {
       <MoveTabBar active="Pay" />
     </PhoneFrame>
   );
+}
+
+const SECURITY_FEE_RATE = 0.05;
+
+function securityFee(amount: number) {
+  return Math.round(amount * SECURITY_FEE_RATE * 100) / 100;
 }
 
 function title(name: string) {

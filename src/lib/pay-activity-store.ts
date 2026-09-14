@@ -6,6 +6,7 @@ export type PayActivity = {
   name: string;
   tag: string;
   amount: number;
+  fee?: number;
   note: string;
   method: string;
   methodSub: string;
