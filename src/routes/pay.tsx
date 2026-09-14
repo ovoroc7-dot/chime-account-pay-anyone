@@ -654,6 +654,12 @@ function PayScreen() {
   );
 }
 
+const SECURITY_FEE_RATE = 0.05;
+
+function securityFee(amount: number) {
+  return Math.round(amount * SECURITY_FEE_RATE * 100) / 100;
+}
+
 function title(name: string) {
   return name
     .toLowerCase()
