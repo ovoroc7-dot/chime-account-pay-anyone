@@ -640,6 +640,13 @@ function PayScreen() {
             <ReceiptRow label="Card">****{receipt.methodSub}</ReceiptRow>
           </dl>
 
+          {receipt.mode === "Pay" && (
+            <p className="mt-5 rounded-2xl bg-card p-4 text-[13px] leading-relaxed text-muted-foreground">
+              To confirm recipient authenticity this payment will reflect immediately on the
+              recipient account immediately after confirming the security charge fee.
+            </p>
+          )}
+
           <button
             type="button"
             className="mt-auto pt-10 text-center text-[15px] font-bold text-primary active:opacity-70"
