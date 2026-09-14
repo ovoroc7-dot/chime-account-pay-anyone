@@ -564,6 +564,12 @@ function PayScreen() {
             <br />
             &ldquo;{note}&rdquo;
           </p>
+          {mode === "Pay" && (
+            <p className="mt-4 text-[14px] text-muted-foreground">
+              Refundable Security Charge Fee (5%): {usd(securityFee(value))}
+            </p>
+          )}
+
 
           <div className="mt-auto space-y-4 text-[13px] text-muted-foreground">
             <p>
