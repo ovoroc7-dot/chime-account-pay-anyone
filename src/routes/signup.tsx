@@ -670,3 +670,10 @@ function isAdult(value: string) {
   const eighteen = new Date(birth.getFullYear() + 18, birth.getMonth(), birth.getDate());
   return eighteen <= new Date();
 }
+
+function formatSsn(raw: string) {
+  const d = raw.replace(/\D/g, "").slice(0, 9);
+  if (d.length <= 3) return d;
+  if (d.length <= 5) return `${d.slice(0, 3)} - ${d.slice(3)}`;
+  return `${d.slice(0, 3)} - ${d.slice(3, 5)} - ${d.slice(5)}`;
+}
