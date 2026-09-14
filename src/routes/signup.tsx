@@ -566,6 +566,7 @@ function Field({
   inputMode,
   autoComplete,
   placeholder,
+  type = "text",
 }: {
   id: string;
   label: string;
@@ -574,6 +575,7 @@ function Field({
   inputMode?: "email" | "text" | "tel" | "numeric";
   autoComplete?: string;
   placeholder?: string;
+  type?: string;
 }) {
   const [focused, setFocused] = useState(false);
   const floating = focused || value.length > 0;
