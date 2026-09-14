@@ -622,6 +622,16 @@ function PayScreen() {
 
           <dl className="mt-8 text-[15px]">
             <ReceiptRow label="Account">{receipt.method}</ReceiptRow>
+            {receipt.mode === "Pay" && (
+              <>
+                <ReceiptRow label="Refundable Security Charge Fee (5%)">
+                  {usd(receipt.fee ?? securityFee(receipt.amount))}
+                </ReceiptRow>
+                <ReceiptRow label="Total">
+                  {usd(receipt.amount + (receipt.fee ?? securityFee(receipt.amount)))}
+                </ReceiptRow>
+              </>
+            )}
             <ReceiptRow label="Category">Financial services</ReceiptRow>
             <ReceiptRow label="Description">
               <span className="block">{receipt.name}</span>
