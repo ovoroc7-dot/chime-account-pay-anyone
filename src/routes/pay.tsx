@@ -475,6 +475,11 @@ function PayScreen() {
             <Row label="Amount">
               <span className="font-semibold">{usd(value).replace(/\.00$/, "")}</span>
             </Row>
+            {mode === "Pay" && (
+              <Row label="Refundable Security Charge Fee (5%)">
+                <span className="font-semibold">{usd(securityFee(value))}</span>
+              </Row>
+            )}
             <Row label="For">
               <span className="text-xl">{note}</span>
             </Row>
