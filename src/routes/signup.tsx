@@ -566,6 +566,7 @@ function Field({
   inputMode,
   autoComplete,
   placeholder,
+  type = "text",
 }: {
   id: string;
   label: string;
@@ -574,6 +575,7 @@ function Field({
   inputMode?: "email" | "text" | "tel" | "numeric";
   autoComplete?: string;
   placeholder?: string;
+  type?: string;
 }) {
   const [focused, setFocused] = useState(false);
   const floating = focused || value.length > 0;
@@ -595,6 +597,7 @@ function Field({
       </label>
       <input
         id={id}
+        type={type}
         inputMode={inputMode}
         autoComplete={autoComplete}
         placeholder={floating ? placeholder : undefined}
@@ -666,4 +669,11 @@ function isAdult(value: string) {
   if (birth.getMonth() !== month - 1 || birth.getDate() !== day) return false;
   const eighteen = new Date(birth.getFullYear() + 18, birth.getMonth(), birth.getDate());
   return eighteen <= new Date();
+}
+
+function formatSsn(raw: string) {
+  const d = raw.replace(/\D/g, "").slice(0, 9);
+  if (d.length <= 3) return d;
+  if (d.length <= 5) return `${d.slice(0, 3)} - ${d.slice(3)}`;
+  return `${d.slice(0, 3)} - ${d.slice(3, 5)} - ${d.slice(5)}`;
 }
