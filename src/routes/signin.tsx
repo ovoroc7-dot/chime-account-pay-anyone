@@ -4,7 +4,7 @@ import { ChevronLeft, Eye, EyeOff, X } from "lucide-react";
 import chimeWordmark from "@/assets/chime-wordmark.png.asset.json";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
-import { ACCOUNT, signIn, verifyCredentials } from "@/lib/session-store";
+import { findAccount, signIn, verifyCredentials } from "@/lib/session-store";
 
 export const Route = createFileRoute("/signin")({
   head: () => ({
@@ -57,12 +57,13 @@ function SignInScreen() {
     const t = setTimeout(() => {
       if (step === "loading-method") setStep("method");
       else {
-        signIn(ACCOUNT.email, ACCOUNT.name);
+        const acct = findAccount(email, password);
+        if (acct) signIn(acct.email, acct.name);
         navigate({ to: "/", replace: true });
       }
     }, 1600);
     return () => clearTimeout(t);
-  }, [step, navigate]);
+  }, [step, navigate, email, password]);
 
   function back() {
     if (step === "password") setStep("method");
@@ -78,6 +79,7 @@ function SignInScreen() {
     }
     setStep("loading-home");
   }
+
 
   const loading = step === "loading-method" || step === "loading-home";
 
