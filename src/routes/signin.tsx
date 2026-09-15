@@ -4,7 +4,7 @@ import { ChevronLeft, Eye, EyeOff, X } from "lucide-react";
 import chimeWordmark from "@/assets/chime-wordmark.png.asset.json";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
-import { ACCOUNT, signIn, verifyCredentials } from "@/lib/session-store";
+import { findAccount, signIn, verifyCredentials } from "@/lib/session-store";
 
 export const Route = createFileRoute("/signin")({
   head: () => ({
