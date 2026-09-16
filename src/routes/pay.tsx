@@ -9,6 +9,8 @@ import { ChimeLogo } from "@/components/ChimeLogo";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { usd, CARDHOLDER } from "@/lib/chime-data";
 import { useLedger, payOut } from "@/lib/ledger-store";
+import { addNote } from "@/lib/inbox-store";
+import { notifyDevice } from "@/lib/notify";
 import {
   addPayActivity,
   dayLabel,
