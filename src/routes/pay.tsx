@@ -509,6 +509,26 @@ function PayScreen() {
                 methodSub: method.chime ? "4821" : method.sub,
               });
               if (mode === "Pay" && method.chime) payOut(value, contact?.name ?? "");
+              {
+                const who = contact?.name ?? "";
+                const title =
+                  mode === "Pay"
+                    ? `${usd(value)} sent to ${who}`
+                    : `${usd(value)} requested from ${who}`;
+                const body =
+                  mode === "Pay"
+                    ? `Your payment to ${who} is on its way.`
+                    : `We let ${who} know about your request.`;
+                addNote({
+                  title,
+                  body,
+                  date: new Date().toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  }),
+                });
+                notifyDevice(title, body);
+              }
               setSheet("done");
             }}
             className="mt-8 w-full rounded-full bg-primary py-4 text-[15px] font-bold text-primary-foreground"
