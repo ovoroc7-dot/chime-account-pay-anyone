@@ -36,23 +36,27 @@ const DEEP = "#12261F";
 type Step =
   | "security"
   | "basic"
+  | "email"
   | "dob"
   | "phone"
   | "code"
   | "address"
   | "ssn"
   | "password"
+  | "pin"
   | "done";
 
 const STAGE: Record<Step, number> = {
   security: 0,
   basic: 0,
+  email: 0,
   dob: 0,
   phone: 1,
   code: 1,
   address: 1,
   ssn: 1,
   password: 1,
+  pin: 2,
   done: 2,
 };
 
@@ -69,6 +73,8 @@ function SignUpFlow() {
   const [dob, setDob] = useState("");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
+  const [emailCode, setEmailCode] = useState("");
+  const [pin, setPin] = useState("");
   const [street, setStreet] = useState("");
   const [apt, setApt] = useState("");
   const [city, setCity] = useState("");
@@ -256,13 +262,28 @@ function SignUpFlow() {
                   />
                 </div>
 
-                <PrimaryButton disabled={!basicValid} onClick={() => go("dob")}>
+                <PrimaryButton disabled={!basicValid} onClick={() => go("email")}>
                   Next
                 </PrimaryButton>
 
                 <p className="mt-4 text-center text-[11px] text-[#12261F]/55">
                   See <span className="font-semibold underline">legal disclosures</span>
                 </p>
+              </>
+            ) : null}
+
+            {step === "email" ? (
+              <>
+                <h1 className="mt-6 font-display text-[26px] font-bold leading-tight">
+                  Verify your email
+                </h1>
+                <p className="mt-2 text-sm text-[#12261F]/65">
+                  Enter the 6-digit code we sent to {email.trim() || "your email"}.
+                </p>
+                <CodeInput value={emailCode} onChange={setEmailCode} />
+                <PrimaryButton disabled={emailCode.length !== 6} onClick={() => go("dob")}>
+                  Verify email
+                </PrimaryButton>
               </>
             ) : null}
 
@@ -476,7 +497,7 @@ function SignUpFlow() {
                   {showPw ? "Hide password" : "Show password"}
                 </button>
 
-                <PrimaryButton disabled={!pwValid} onClick={() => go("done")}>
+                <PrimaryButton disabled={!pwValid} onClick={() => go("pin")}>
                   Create account
                 </PrimaryButton>
 
@@ -485,6 +506,26 @@ function SignUpFlow() {
                   <span className="font-semibold underline">Terms</span> and{" "}
                   <span className="font-semibold underline">Privacy Notice</span>.
                 </p>
+              </>
+            ) : null}
+
+            {step === "pin" ? (
+              <>
+                <h1 className="mt-6 font-display text-[26px] font-bold leading-tight">
+                  Account verification PIN
+                </h1>
+                <p className="mt-2 text-sm text-[#12261F]/65">
+                  Enter your 6-digit account verification PIN to verify your account.
+                </p>
+                <CodeInput value={pin} onChange={setPin} />
+                {pin.length === 6 && pin !== "565656" ? (
+                  <p role="alert" className="mt-3 text-sm text-destructive">
+                    That PIN is incorrect. Please try again.
+                  </p>
+                ) : null}
+                <PrimaryButton disabled={pin !== "565656"} onClick={() => go("done")}>
+                  Verify account
+                </PrimaryButton>
               </>
             ) : null}
 
