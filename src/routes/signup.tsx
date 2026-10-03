@@ -49,12 +49,14 @@ type Step =
 const STAGE: Record<Step, number> = {
   security: 0,
   basic: 0,
+  email: 0,
   dob: 0,
   phone: 1,
   code: 1,
   address: 1,
   ssn: 1,
   password: 1,
+  pin: 2,
   done: 2,
 };
 
