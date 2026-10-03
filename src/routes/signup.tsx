@@ -110,7 +110,13 @@ function SignUpFlow() {
 
   const finish = () => {
     const fullName = `${first.trim()} ${last.trim()}`.trim();
-    const acct = registerAccount(email.trim(), password, fullName);
+    const acct = registerAccount(email.trim(), password, fullName, {
+      phone: phone.trim(),
+      dob: dob.trim(),
+      address: [street.trim(), apt.trim(), city.trim(), `${stateCode.trim()} ${zip.trim()}`.trim()]
+        .filter(Boolean)
+        .join(", "),
+    });
     signIn(acct.email, acct.name);
     navigate({ to: "/", replace: true });
   };

@@ -20,7 +20,7 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 import { InboxBell } from "@/components/InboxBell";
 import { useUnreadCount } from "@/lib/inbox-store";
 import { MoveTabBar } from "@/routes/move";
-import { signOut, useRequireSession } from "@/lib/session-store";
+import { getProfile, signOut, useRequireSession, useSession } from "@/lib/session-store";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -47,6 +47,18 @@ function ProfileScreen() {
   useRequireSession();
   const navigate = useNavigate();
   const unread = useUnreadCount();
+  const session = useSession();
+  const profile = getProfile(session.identifier);
+  const name = profile?.name || session.name || "Chime Member";
+  const sign = "$" + name.trim().split(/\s+/).join("-");
+  const since = profile?.createdAt ? new Date(profile.createdAt).getFullYear() : 2021;
+  const details = [
+    ["Name", name],
+    ["Email", profile?.email || session.identifier],
+    ["Phone", profile?.phone],
+    ["Date of birth", profile?.dob],
+    ["Home address", profile?.address],
+  ].filter(([, v]) => v) as [string, string][];
   const notificationSub = unread > 0 ? `${unread} unread` : "All caught up";
 
   return (
@@ -61,14 +73,23 @@ function ProfileScreen() {
 
         <div className="mt-5 flex items-start justify-between">
           <div>
-            <h1 className="font-display text-3xl font-extrabold">Denis Trufin</h1>
-            <p className="mt-1 text-[14px] text-muted-foreground">$Denis-Trufin</p>
-            <p className="text-[14px] text-muted-foreground">Member since 2021</p>
+            <h1 className="font-display text-3xl font-extrabold">{name}</h1>
+            <p className="mt-1 text-[14px] text-muted-foreground">{sign}</p>
+            <p className="text-[14px] text-muted-foreground">Member since {since}</p>
           </div>
           <span className="grid size-16 shrink-0 place-items-center rounded-full bg-card font-display text-2xl font-bold">
-            D
+            {name.charAt(0).toUpperCase()}
           </span>
         </div>
+
+        <dl className="mt-5 space-y-3 rounded-2xl bg-card p-4 text-[13px]">
+          {details.map(([k, v]) => (
+            <div key={k} className="flex justify-between gap-4">
+              <dt className="text-muted-foreground">{k}</dt>
+              <dd className="min-w-0 break-words text-right font-semibold">{v}</dd>
+            </div>
+          ))}
+        </dl>
 
         <button
           type="button"
