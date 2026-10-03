@@ -43,7 +43,15 @@ export const ACCOUNT = {
 
 const ACCOUNTS_KEY = "chime-accounts-v1";
 
-export type Account = { email: string; password: string; name: string };
+export type Account = {
+  email: string;
+  password: string;
+  name: string;
+  phone?: string;
+  dob?: string;
+  address?: string;
+  createdAt?: string;
+};
 
 function readAccounts(): Account[] {
   if (typeof window === "undefined") return [];
@@ -57,8 +65,19 @@ function readAccounts(): Account[] {
 }
 
 /** Stores the credentials created at sign up so the user can log back in. */
-export function registerAccount(email: string, password: string, name: string) {
-  const clean: Account = { email: email.trim().toLowerCase(), password, name: name.trim() };
+export function registerAccount(
+  email: string,
+  password: string,
+  name: string,
+  extra: Omit<Account, "email" | "password" | "name"> = {},
+) {
+  const clean: Account = {
+    ...extra,
+    email: email.trim().toLowerCase(),
+    password,
+    name: name.trim(),
+    createdAt: extra.createdAt ?? new Date().toISOString(),
+  };
   const next = [...readAccounts().filter((a) => a.email !== clean.email), clean];
   if (typeof window !== "undefined") {
     window.localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(next));
@@ -111,4 +130,17 @@ export function useRequireSession() {
       navigate({ to: "/welcome", replace: true });
     }
   }, [navigate]);
+}
+
+/** Profile details for the signed-in email (without the password). */
+export function getProfile(identifier: string): Omit<Account, "password"> | null {
+  const email = identifier.trim().toLowerCase();
+  if (!email) return null;
+  const found = readAccounts().find((a) => a.email === email);
+  if (found) {
+    const { password: _p, ...rest } = found;
+    return rest;
+  }
+  if (email === ACCOUNT.email) return { email, name: ACCOUNT.name };
+  return null;
 }
