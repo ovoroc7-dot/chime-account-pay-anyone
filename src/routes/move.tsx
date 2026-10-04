@@ -152,16 +152,60 @@ function Tile({
   );
 }
 
+type NavIconProps = { className?: string; strokeWidth?: number };
+function NavHome({ className }: NavIconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <path d="M12 2.6c.4 0 .8.15 1.1.43l6.6 6.1c.4.37.6.88.6 1.42V20a1.5 1.5 0 0 1-1.5 1.5H15V16a3 3 0 0 0-6 0v5.5H5.2A1.5 1.5 0 0 1 3.7 20v-9.45c0-.54.22-1.05.6-1.42l6.6-6.1c.3-.28.7-.43 1.1-.43Z" />
+    </svg>
+  );
+}
+function NavMove({ className }: NavIconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M7.5 4 3 8.5 7.5 13M3 8.5h13M16.5 11l4.5 4.5-4.5 4.5M21 15.5H8" />
+    </svg>
+  );
+}
+function NavPay({ className }: NavIconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={2} strokeLinejoin="round" aria-hidden>
+      <circle cx="7" cy="5.5" r="2.3" />
+      <circle cx="17" cy="5.5" r="2.3" />
+      <path d="M3 21v-6.5a4 4 0 0 1 8 0V21ZM13 21v-6.5a4 4 0 0 1 8 0V21Z" />
+    </svg>
+  );
+}
+function NavDeals({ className }: NavIconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={2} strokeLinejoin="round" aria-hidden>
+      <path d="m12 2.8 2.75 6.1 6.65.6-5.05 4.4 1.5 6.5L12 17l-5.85 3.4 1.5-6.5L2.6 9.5l6.65-.6Z" />
+    </svg>
+  );
+}
+function NavProfile({ className }: NavIconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
+      <circle cx="12" cy="12" r="9.5" />
+      <circle cx="12" cy="10" r="3.2" />
+      <path d="M5.6 19c1.3-2.4 3.6-3.8 6.4-3.8s5.1 1.4 6.4 3.8" />
+    </svg>
+  );
+}
+
 export function MoveTabBar({ active = "Move" }: { active?: string }) {
   const tabs = [
-    { icon: Home, label: "Home", to: "/" },
-    { icon: ArrowLeftRight, label: "Move", to: "/move" },
-    { icon: Users, label: "Pay", to: "/pay" },
-    { icon: Star, label: "Deals", to: "/deals" },
-    { icon: CircleUserRound, label: "Profile", to: "/profile" },
+    { icon: NavHome, label: "Home", to: "/" },
+    { icon: NavMove, label: "Move", to: "/move" },
+    { icon: NavPay, label: "Pay", to: "/pay" },
+    { icon: NavDeals, label: "Deals", to: "/deals" },
+    { icon: NavProfile, label: "Profile", to: "/profile" },
   ] as const;
   return (
-    <nav className="absolute inset-x-0 bottom-0 flex items-center justify-around border-t border-border bg-background/95 px-2 pb-5 pt-3 backdrop-blur">
+    <nav
+      className="absolute inset-x-0 bottom-0 z-40 flex touch-none select-none items-center justify-around overscroll-none border-t border-border bg-background/95 px-2 pt-3 backdrop-blur"
+      style={{ paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}
+    >
       {tabs.map((t) => {
         const isActive = t.label === active;
         const cls = `flex flex-col items-center gap-1 text-[11px] ${
