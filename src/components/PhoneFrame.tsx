@@ -19,7 +19,7 @@ export function PhoneFrame({
   return (
     <div className="flex min-h-dvh w-full items-center justify-center overflow-x-hidden bg-background py-0 sm:bg-neutral-200 sm:py-10 dark:sm:bg-[#050807]">
       <div className="relative w-full sm:max-w-[420px] sm:rounded-[46px] sm:border-[10px] sm:border-neutral-300 sm:shadow-[0_40px_120px_-30px_rgba(0,0,0,0.45)] sm:dark:border-[#161b18] sm:dark:shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
-        <main className="relative flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden bg-background pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] sm:h-[860px] sm:rounded-[36px] sm:pt-0 sm:pb-0">
+        <main className="relative flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden bg-background pt-[env(safe-area-inset-top)] sm:h-[860px] sm:rounded-[36px] sm:pt-0">
           <div
             aria-hidden
             className={`pointer-events-none absolute inset-x-0 top-0 z-50 sm:hidden ${topClass ?? "bg-background"}`}
