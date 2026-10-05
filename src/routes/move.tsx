@@ -204,7 +204,7 @@ export function MoveTabBar({ active = "Move" }: { active?: string }) {
   return (
     <nav
       className="absolute inset-x-0 bottom-0 z-40 flex touch-none select-none items-center justify-around overscroll-none border-t border-border bg-background/95 px-2 pt-2 backdrop-blur"
-      style={{ paddingBottom: "max(0.5rem, calc(env(safe-area-inset-bottom) - 1.25rem))" }}
+      style={{ paddingBottom: "max(0.75rem, calc(env(safe-area-inset-bottom) - 0.5rem))" }}
     >
       {tabs.map((t) => {
         const isActive = t.label === active;
