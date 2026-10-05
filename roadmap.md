@@ -1,0 +1,1 @@
+- [x] Bottom nav sits on phone gesture line; backgrounds fill full screen on all devices
