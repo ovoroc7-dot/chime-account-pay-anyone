@@ -25,13 +25,17 @@ export function PhoneFrame({
     const body = document.body;
     const prevHtml = html.style.backgroundColor;
     const prevBody = body.style.backgroundColor;
-    html.style.backgroundColor = top;
-    body.style.backgroundColor = top;
+    const bottom = getComputedStyle(main).backgroundColor;
+    const paint = `linear-gradient(to bottom, ${top} 0 50%, ${bottom} 50% 100%)`;
+    html.style.backgroundColor = bottom;
+    body.style.backgroundColor = "transparent";
+    html.style.backgroundImage = paint;
     const meta = document.querySelector('meta[name="theme-color"]');
     const prevMeta = meta?.getAttribute("content") ?? null;
     meta?.setAttribute("content", top);
     return () => {
       html.style.backgroundColor = prevHtml;
+      html.style.backgroundImage = "";
       body.style.backgroundColor = prevBody;
       if (meta && prevMeta) meta.setAttribute("content", prevMeta);
     };
@@ -43,7 +47,8 @@ export function PhoneFrame({
   };
 
   return (
-    <div className="fixed inset-0 flex w-full items-stretch justify-center overflow-hidden bg-background sm:static sm:min-h-dvh sm:items-center sm:overflow-x-hidden sm:bg-neutral-200 sm:py-10 dark:sm:bg-[#050807]">
+    <div style={{ height: "max(100%, 100lvh)" }}
+      className="fixed inset-x-0 top-0 flex w-full items-stretch justify-center overflow-hidden bg-background sm:static sm:!h-auto sm:min-h-dvh sm:items-center sm:overflow-x-hidden sm:bg-neutral-200 sm:py-10 dark:sm:bg-[#050807]">
       <div className="relative h-full w-full sm:h-auto sm:max-w-[420px] sm:rounded-[46px] sm:border-[10px] sm:border-neutral-300 sm:shadow-[0_40px_120px_-30px_rgba(0,0,0,0.45)] sm:dark:border-[#161b18] sm:dark:shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
         <main
           ref={mainRef}
