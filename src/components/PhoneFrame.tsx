@@ -41,13 +41,31 @@ export function PhoneFrame({
     };
   }, [topColor, topClass]);
 
+  // Size the app to the real full screen (iOS home-screen apps can report a short
+  // viewport on first open), so the background reaches the very bottom edge.
+  useEffect(() => {
+    const set = () =>
+      document.documentElement.style.setProperty("--app-h", `${window.innerHeight}px`);
+    set();
+    const t = setTimeout(set, 300);
+    window.addEventListener("resize", set);
+    window.addEventListener("orientationchange", set);
+    window.visualViewport?.addEventListener("resize", set);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", set);
+      window.removeEventListener("orientationchange", set);
+      window.visualViewport?.removeEventListener("resize", set);
+    };
+  }, []);
+
   const barStyle: CSSProperties = {
     height: "env(safe-area-inset-top)",
     ...(topColor ? { backgroundColor: topColor } : null),
   };
 
   return (
-    <div style={{ bottom: 0 }}
+    <div style={{ height: "var(--app-h, 100%)" }}
       className="fixed inset-x-0 top-0 flex w-full items-stretch justify-center overflow-hidden bg-background sm:static sm:!h-auto sm:min-h-dvh sm:items-center sm:overflow-x-hidden sm:bg-neutral-200 sm:py-10 dark:sm:bg-[#050807]">
       <div className="relative h-full w-full sm:h-auto sm:max-w-[420px] sm:rounded-[46px] sm:border-[10px] sm:border-neutral-300 sm:shadow-[0_40px_120px_-30px_rgba(0,0,0,0.45)] sm:dark:border-[#161b18] sm:dark:shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
         <main
