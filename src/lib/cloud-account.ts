@@ -89,15 +89,14 @@ export function getCloudProfile(): Omit<Account, "password"> | null {
 type Extra = { phone?: string; dob?: string; address?: string };
 
 async function afterAuth(email: string, meta: Record<string, unknown>) {
-  const name = String(meta.name ?? "") || email;
-  saveProfile({
-    email,
-    name,
-    phone: meta.phone as string | undefined,
-    dob: meta.dob as string | undefined,
-    address: meta.address as string | undefined,
-    createdAt: meta.createdAt as string | undefined,
-  });
+  const m = meta as { name?: string; phone?: string; dob?: string; address?: string; createdAt?: string };
+  const name = String(m.name ?? "") || email;
+  const p: Omit<Account, "password"> = { email, name };
+  if (m.phone) p.phone = m.phone;
+  if (m.dob) p.dob = m.dob;
+  if (m.address) p.address = m.address;
+  if (m.createdAt) p.createdAt = m.createdAt;
+  saveProfile(p);
   clearLocalMoney();
   const had = await pull();
   if (!had) await upload();
