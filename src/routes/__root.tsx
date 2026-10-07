@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { useTheme } from "../lib/theme";
+import { startCloudSync } from "../lib/cloud-account";
 
 const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("chime-theme")||"system";var d=t==="dark"||(t==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);document.documentElement.style.colorScheme=d?"dark":"light";}catch(e){}})();`;
 
@@ -137,6 +138,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useTheme();
+  useEffect(() => startCloudSync(), []);
 
   // Remove the injected "Edit with Lovable" badge as soon as it appears.
   useEffect(() => {
