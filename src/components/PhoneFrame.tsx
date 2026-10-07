@@ -44,8 +44,19 @@ export function PhoneFrame({
   // Size the app to the real full screen (iOS home-screen apps can report a short
   // viewport on first open), so the background reaches the very bottom edge.
   useEffect(() => {
-    const set = () =>
-      document.documentElement.style.setProperty("--app-h", `${window.innerHeight}px`);
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as Navigator & { standalone?: boolean }).standalone === true;
+    const set = () => {
+      // Home-screen apps on iPhone report a viewport that stops above the gesture
+      // bar; use the full physical screen height there instead.
+      const portrait = window.innerHeight >= window.innerWidth;
+      const full = portrait
+        ? Math.max(screen.height, screen.width)
+        : Math.min(screen.height, screen.width);
+      const h = standalone ? Math.max(full, window.innerHeight) : window.innerHeight;
+      document.documentElement.style.setProperty("--app-h", `${h}px`);
+    };
     set();
     const t = setTimeout(set, 300);
     window.addEventListener("resize", set);
