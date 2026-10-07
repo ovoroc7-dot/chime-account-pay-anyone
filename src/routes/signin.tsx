@@ -4,7 +4,7 @@ import { ChevronLeft, Eye, EyeOff, X } from "lucide-react";
 import chimeWordmark from "@/assets/chime-wordmark.png.asset.json";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
-import { findAccount, signIn, verifyCredentials } from "@/lib/session-store";
+import { cloudSignIn } from "@/lib/cloud-account";
 
 export const Route = createFileRoute("/signin")({
   head: () => ({
@@ -57,9 +57,12 @@ function SignInScreen() {
     const t = setTimeout(() => {
       if (step === "loading-method") setStep("method");
       else {
-        const acct = findAccount(email, password);
-        if (acct) signIn(acct.email, acct.name);
-        navigate({ to: "/", replace: true });
+        void cloudSignIn(email, password).then((err) => {
+          if (err) {
+            setError(err);
+            setStep("password");
+          } else navigate({ to: "/", replace: true });
+        });
       }
     }, 1600);
     return () => clearTimeout(t);
@@ -73,10 +76,6 @@ function SignInScreen() {
 
   function submit() {
     if (!pwValid) return;
-    if (!verifyCredentials(email, password)) {
-      setError("The email or password you entered is incorrect.");
-      return;
-    }
     setStep("loading-home");
   }
 

@@ -20,6 +20,7 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 import { InboxBell } from "@/components/InboxBell";
 import { useUnreadCount } from "@/lib/inbox-store";
 import { MoveTabBar } from "@/routes/move";
+import { cloudSignOut, getCloudProfile } from "@/lib/cloud-account";
 import { getProfile, signOut, useRequireSession, useSession } from "@/lib/session-store";
 
 export const Route = createFileRoute("/profile")({
@@ -48,7 +49,7 @@ function ProfileScreen() {
   const navigate = useNavigate();
   const unread = useUnreadCount();
   const session = useSession();
-  const profile = getProfile(session.identifier);
+  const profile = getCloudProfile() ?? getProfile(session.identifier);
   const name = profile?.name || session.name || "Chime Member";
   const sign = "$" + name.trim().split(/\s+/).join("-");
   const since = profile?.createdAt ? new Date(profile.createdAt).getFullYear() : 2021;
@@ -136,6 +137,7 @@ function ProfileScreen() {
           type="button"
           onClick={() => {
             signOut();
+            void cloudSignOut();
             navigate({ to: "/welcome", replace: true });
           }}
           className="mt-8 w-full rounded-full bg-card py-4 text-[15px] font-semibold"

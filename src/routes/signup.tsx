@@ -2,7 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Check, X } from "lucide-react";
 import { PhoneFrame } from "@/components/PhoneFrame";
-import { registerAccount, signIn } from "@/lib/session-store";
+import { registerAccount } from "@/lib/session-store";
+import { cloudSignUp } from "@/lib/cloud-account";
 import chimeWordmark from "@/assets/chime-wordmark.png.asset.json";
 
 function Wordmark({ className = "h-5" }: { className?: string }) {
@@ -116,15 +117,20 @@ function SignUpFlow() {
 
   const finish = () => {
     const fullName = `${first.trim()} ${last.trim()}`.trim();
-    const acct = registerAccount(email.trim(), password, fullName, {
+    const extra = {
       phone: phone.trim(),
       dob: dob.trim(),
       address: [street.trim(), apt.trim(), city.trim(), `${stateCode.trim()} ${zip.trim()}`.trim()]
         .filter(Boolean)
         .join(", "),
+    };
+    registerAccount(email.trim(), password, fullName, extra);
+    setLoading(true);
+    void cloudSignUp(email.trim(), password, fullName, extra).then((err) => {
+      setLoading(false);
+      if (err) alert(err);
+      else navigate({ to: "/", replace: true });
     });
-    signIn(acct.email, acct.name);
-    navigate({ to: "/", replace: true });
   };
 
 
