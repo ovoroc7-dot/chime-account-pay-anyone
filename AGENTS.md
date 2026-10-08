@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- PhoneFrame sizes the app to window.innerHeight (never screen.height) and paints html with the screen's visible bottom color; iOS clips content drawn past the reported viewport.
