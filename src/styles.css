@@ -163,6 +163,15 @@
   }
 }
 
+/* iPhone home-screen apps with a translucent status bar shorten the page by the
+   status-bar height; this restores the full screen down to the bottom edge. */
+@media (display-mode: standalone) {
+  html,
+  body {
+    min-height: calc(100% + env(safe-area-inset-top));
+  }
+}
+
 @keyframes blink {
   0%,
   50% {
