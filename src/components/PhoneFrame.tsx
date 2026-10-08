@@ -20,23 +20,45 @@ export function PhoneFrame({
     const strip = stripRef.current;
     const main = mainRef.current;
     if (!strip || !main) return;
-    const top = topColor || getComputedStyle(strip).backgroundColor;
     const html = document.documentElement;
     const body = document.body;
-    const prevHtml = html.style.backgroundColor;
-    const prevBody = body.style.backgroundColor;
-    const bottom = getComputedStyle(main).backgroundColor;
-    const paint = `linear-gradient(to bottom, ${top} 0 50%, ${bottom} 50% 100%)`;
-    html.style.backgroundColor = bottom;
-    body.style.backgroundColor = "transparent";
-    html.style.backgroundImage = paint;
     const meta = document.querySelector('meta[name="theme-color"]');
     const prevMeta = meta?.getAttribute("content") ?? null;
-    meta?.setAttribute("content", top);
+
+    const solid = (c: string) => c && c !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(c);
+    // Colour actually painted at a point on screen (walks up to the first solid background).
+    const colorAt = (x: number, y: number) => {
+      let el = document.elementFromPoint(x, y) as HTMLElement | null;
+      while (el && main.contains(el)) {
+        const c = getComputedStyle(el).backgroundColor;
+        if (solid(c)) return c;
+        el = el.parentElement;
+      }
+      return getComputedStyle(main).backgroundColor;
+    };
+
+    const paint = () => {
+      const top = topColor || getComputedStyle(strip).backgroundColor;
+      const rect = main.getBoundingClientRect();
+      const bottom = colorAt(rect.left + rect.width / 2, rect.bottom - 2);
+      html.style.backgroundImage = `linear-gradient(to bottom, ${top} 0 50%, ${bottom} 50% 100%)`;
+      html.style.backgroundColor = bottom;
+      body.style.backgroundColor = "transparent";
+      meta?.setAttribute("content", top);
+    };
+
+    paint();
+    const raf = requestAnimationFrame(paint);
+    const timers = [150, 600, 1500].map((ms) => setTimeout(paint, ms));
+    const mo = new MutationObserver(() => requestAnimationFrame(paint));
+    mo.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] });
     return () => {
-      html.style.backgroundColor = prevHtml;
+      cancelAnimationFrame(raf);
+      timers.forEach(clearTimeout);
+      mo.disconnect();
+      html.style.backgroundColor = "";
       html.style.backgroundImage = "";
-      body.style.backgroundColor = prevBody;
+      body.style.backgroundColor = "";
       if (meta && prevMeta) meta.setAttribute("content", prevMeta);
     };
   }, [topColor, topClass]);
