@@ -40,7 +40,9 @@ export function PhoneFrame({
     const paint = () => {
       const top = topColor || getComputedStyle(strip).backgroundColor;
       const rect = main.getBoundingClientRect();
-      const bottom = colorAt(rect.left + rect.width / 2, rect.bottom - 2);
+      // Sample inside the visible area; points past the viewport return nothing.
+      const y = Math.min(rect.bottom, window.innerHeight) - 2;
+      const bottom = colorAt(rect.left + rect.width / 2, y);
       html.style.backgroundImage = `linear-gradient(to bottom, ${top} 0 50%, ${bottom} 50% 100%)`;
       html.style.backgroundColor = bottom;
       body.style.backgroundColor = "transparent";
@@ -66,18 +68,10 @@ export function PhoneFrame({
   // Size the app to the real full screen (iOS home-screen apps can report a short
   // viewport on first open), so the background reaches the very bottom edge.
   useEffect(() => {
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (navigator as Navigator & { standalone?: boolean }).standalone === true;
     const set = () => {
-      // Home-screen apps on iPhone report a viewport that stops above the gesture
-      // bar; use the full physical screen height there instead.
-      const portrait = window.innerHeight >= window.innerWidth;
-      const full = portrait
-        ? Math.max(screen.height, screen.width)
-        : Math.min(screen.height, screen.width);
-      const h = standalone ? Math.max(full, window.innerHeight) : window.innerHeight;
-      document.documentElement.style.setProperty("--app-h", `${h}px`);
+      // Use the area the phone actually draws. Sizing past it (e.g. to the
+      // physical screen height) makes iOS clip the bottom of every screen.
+      document.documentElement.style.setProperty("--app-h", `${window.innerHeight}px`);
     };
     set();
     const t = setTimeout(set, 300);
